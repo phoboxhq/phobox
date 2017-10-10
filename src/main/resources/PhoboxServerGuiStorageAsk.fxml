@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="490.0" style="-fx-background-color: linear-gradient(to bottom right, derive(black, 20%), derive(black, -40%));;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nartis.phobox.gui.StorageAskGui">
+   <top>
+      <ImageView pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_LEFT">
+         <image>
+            <Image url="@/WebContent/img/logo.png" />
+         </image>
+         <BorderPane.margin>
+            <Insets left="20.0" right="20.0" top="20.0" />
+         </BorderPane.margin>
+      </ImageView>
+   </top>
+   <center>
+      <GridPane hgap="10.0" maxWidth="1.7976931348623157E308" prefHeight="270.0" prefWidth="490.0" vgap="10.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="147.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="283.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="storageButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onChangeStoragePath" text="Change storage path" GridPane.columnSpan="2" GridPane.rowIndex="2">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding></Button>
+            <Pane prefHeight="83.0" prefWidth="414.0" style="-fx-background-color: white; -fx-background-radius: 5 5 5 5;" GridPane.columnSpan="2" GridPane.rowSpan="2">
+               <children>
+                  <Label layoutX="89.0" layoutY="19.0" prefHeight="18.0" prefWidth="166.0" text="Welcome to Phobox">
+                     <font>
+                        <Font name="Open Sans Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_LEFT" layoutX="88.0" layoutY="42.0" lineSpacing="2.0" prefHeight="49.0" prefWidth="336.0" text="It's the first run. Please set up the main path to your pictures." textOverrun="WORD_ELLIPSIS" wrapText="true" />
+                  <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="14.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/WebContent/img/info.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Button mnemonicParsing="false" onAction="#onNext" text="Next" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+               <padding>
+                  <Insets bottom="10.0" left="25.0" right="25.0" top="10.0" />
+               </padding>
+            </Button>
+            <Label text="Create thumbnails" textFill="#ffffffd1" GridPane.rowIndex="3" />
+            <CheckBox fx:id="createThumbs" mnemonicParsing="false" text="(for all images in storage)" textFill="#4d4d4d" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         </children>
+         <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </padding>
+      </GridPane>
+   </center>
+</BorderPane>

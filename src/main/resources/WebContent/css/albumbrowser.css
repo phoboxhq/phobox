@@ -1,0 +1,10 @@
+#albumbrowser {
+	padding: 10px;
+}
+
+#albumbrowser #albumselector {
+	margin: -47px 5px 13px 5px;
+    background-color: #191717;
+    padding: 15px;
+    border-radius: 3px;
+}

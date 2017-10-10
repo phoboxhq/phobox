@@ -1,0 +1,39 @@
+package de.milchreis.phobox.core.config;
+
+import java.io.IOException;
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
+
+/**
+ * The ConfigManager is a convince class to access the predefined configurations for the 
+ * this application.
+ */
+public class ConfigManager {
+	private static Logger log = Logger.getLogger(ConfigManager.class);
+
+	public static final String STORAGE_INCOMING = "storage.incomingDirName";
+	public static final String STORAGE_UNSORTED = "storage.unsorted";
+	public static final String STORAGE_THUMBS = "storage.thumbs";
+	public static final String STORAGE_DOUBLES = "storage.doubles";
+	public static final String STORAGE_MOVIES = "storage.movies";
+	public static final String STORAGE_ALBUMS = "storage.albums";
+	
+	private static Properties props;
+	
+	public static String get(String key) {
+		if(props == null) {
+			init();
+		}
+		return props.getProperty(key);
+	}
+
+	private static void init() {
+		props = new Properties();
+		try {
+			props.load(ConfigManager.class.getClassLoader().getResourceAsStream("AppConfig.properties"));
+		} catch (IOException e) {
+			log.error("Error while loading properties file: " + e.getCause());
+		}
+	}
+}

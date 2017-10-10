@@ -1,0 +1,57 @@
+package de.milchreis.phobox.core.model;
+
+import java.io.File;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import org.apache.log4j.Logger;
+
+import de.milchreis.phobox.core.actions.ReThumbFileAction;
+import de.milchreis.phobox.utils.ThumbHelper;
+
+public class ThumbProcessorQueue implements Runnable {
+	private static final Logger log = Logger.getLogger(ThumbProcessorQueue.class);
+	
+	private Queue<File> thumbQueue;
+	
+	public ThumbProcessorQueue() {
+
+		thumbQueue = new LinkedBlockingQueue<>();
+		new Thread(this).start();
+	}
+
+	public void put(File file) {
+		thumbQueue.add(file);
+	}
+
+	@Override
+	public void run() {
+
+		// Start deploy with 5 seconds
+		sleep(5000);
+
+		ReThumbFileAction lowThumbAction = ThumbHelper.createReThumbActionForLow();
+		ReThumbFileAction highThumbAction = ThumbHelper.createReThumbActionForHigh();
+		
+		while(true) {
+		
+			if(thumbQueue.size() == 0) {
+				sleep(500);
+				
+			} else {
+				File file = thumbQueue.poll();
+				lowThumbAction.process(file, null);
+				highThumbAction.process(file, null);
+			}
+		}
+	}
+	
+	private void sleep(int millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			log.warn("Error while sleeping command");
+		}
+	}
+
+}

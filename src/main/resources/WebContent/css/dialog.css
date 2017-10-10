@@ -1,0 +1,29 @@
+.dialog {
+	position: fixed;
+    z-index: 100;
+    top: 10%;
+    max-width: 500px;
+    box-shadow: 0px 0px 15px 0px black;
+    border-radius: 5px;
+    margin: 15px auto;
+    left: 0;
+    right: 0;
+    background-color: #212020;
+}
+
+
+.dialog .head {
+	font-weight: bold;
+    background-color: #151414;
+    padding: 10px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.dialog .content {
+    padding: 10px;
+}
+
+.dialog .footer {
+    padding: 10px;
+    text-align: right;
+}
