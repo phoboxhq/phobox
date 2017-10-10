@@ -41,8 +41,12 @@ public class PhoboxModel {
 		this.storagePath = storagePath;
 		phoboxPath = new File(storagePath, "phobox");
 		incomingPath = new File(phoboxPath, ConfigManager.get(ConfigManager.STORAGE_INCOMING));
+		
 		albumPath = new File(phoboxPath, ConfigManager.get(ConfigManager.STORAGE_ALBUMS));
+		albumPath.mkdirs();
+		
 		thumbPath = new File(phoboxPath, ConfigManager.get(ConfigManager.STORAGE_THUMBS));
+		thumbPath.mkdirs();
 		
 		PreferencesManager.set(PreferencesManager.STORAGE_PATH, storagePath);
 	}
