@@ -1,2 +1,48 @@
-# phobox
-Import, organize and provide your pictures
+# What is phobox?
+Phobox is a small tool to extend your local picture storage with a bunch of connectivity features. 
+It starts a lightweight server process, which you allows to access your pictures over a graphical user interface
+or an advanced REST-API. Moreover your can organize your files and create collections of the best photographs.
+
+**I developed phobox to solve two main problems in my picture workflow:**
+ - organize new pictures from camera to the correct directories
+ - get a simple and fast access to the pictures on my smartphone at home
+
+# Getting started
+## Graphical
+1) Start the program (double click on phobox-<version>.jar or `java -jar phobox-<version>.jar` in terminal
+2) Set up the directory to your local pictures
+3) Open a browser on your local machine or maybe a smartphone in the same wifi to the shown ip address
+4) Enjoy your pictures 
+
+## Commandline interface (maybe for raspberry pi or other headless systems)
+```
+usage: phobox
+ -b,--backupDirectory <arg>   Sets the directory for backups
+ -h,--help                    Prints this help
+ -nw,--noWindow               Hides the application window for headless usage
+ -p,--port <arg>              Sets the port for this application (default 8080)
+ -s,--storage <arg>           Defines the main storage path
+ -w,--watchDirectory <arg>    Scans this directory for new files
+```
+
+## Importing new pictures
+Phobox reads the _phobox/import/_ directory inside your specified picture directory. Each new readable picture will
+be processed. Phobox moves the files to the configured directory (if EXIF data exists) and creates thumbnails for
+a faster display on remote devices.
+
+# Features
+ - Automatic picture organization
+ - Browse your pictures on different devices in the same wifi
+ - Creating albums
+ - Upload pictures from remote devices in the same wifi
+ - Password saved access
+
+# Requirements
+Phobox is build on Java and just requires a JRE 1.8+. The jar file is a standalone application and runs with `java -jar phobox.jar`. 
+The tool runs on the raspberry pi 3 with the Java ARM version great, too.
+
+# Build
+The project can build with maven and the goal `clean compile assembly:single`. For eclipse the run configuration is stored in `phobox.launch`.
+
+# Contribute
+Please try it out and leave issues if something goes wrong or your have a feature request. Pull requests are also welcome :simple_smile:  
