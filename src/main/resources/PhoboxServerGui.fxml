@@ -9,7 +9,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="490.0" style="-fx-background-color: linear-gradient(to bottom right, derive(black, 20%), derive(black, -40%));;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nartis.phobox.gui.ServerGui">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="490.0" style="-fx-background-color: linear-gradient(to bottom right, derive(black, 20%), derive(black, -40%));;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.milchreis.phobox.gui.ServerGui">
    <top>
       <ImageView pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_LEFT">
          <image>
