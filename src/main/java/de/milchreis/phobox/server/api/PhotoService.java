@@ -170,13 +170,15 @@ public class PhotoService {
 			item.setRaw(ops.getWebPath(raw));
 		} 
 
+		String fileExtension = FilenameUtils.getExtension(file.getName()).toLowerCase();
+		
 		if(file.isDirectory()) {
 			List<String> previewFiles = ops.getFiles(file, 1);
 			if(previewFiles.size() >= 1) {
 				item.setPreview(ops.getWebPath(model.getThumbPath()) + "/low/"+previewFiles.get(0));
 			}
 			
-		} else if(file.getName().toLowerCase().endsWith(".jpg")) {
+		} else if(ListHelper.endsWith(fileExtension, PhoboxConfigs.SUPPORTED_VIEW_FORMATS)) {
 
 			item.setThumbLow(ops.getWebPath(model.getThumbPath()) + "/low/" + item.getPath());
 			item.setThumbHigh(ops.getWebPath(model.getThumbPath()) + "/high/" + item.getPath());

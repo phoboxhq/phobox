@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.imgscalr.Scalr;
 import org.imgscalr.Scalr.Rotation;
@@ -45,7 +46,7 @@ public class ServerGui extends Application implements Initializable {
 	
 	public static void scale(File original, File target, int sizeW, int sizeH) throws IOException {
 		Image image = new Image(original.toURI().toString(), sizeW, sizeH, true, false);
-		String format = target.getAbsolutePath().substring(target.getAbsolutePath().length() - 3).toLowerCase();
+		String format = FilenameUtils.getExtension(target.getName()).toLowerCase();
 		ImageIO.write(SwingFXUtils.fromFXImage(image, null), format, target);
 	}
 	
