@@ -44,7 +44,8 @@ For small number of files you can use a upload function in the phobox front-end 
 
 # My local setup
 The following diagram shows the simplified setup of my phobox and raspberry pi. All devices are in the same wifi and get access of the
-phobox by calling the ip address of the rpi.
+phobox by calling the ip address of the RPi.
+
 ![raspberry pi setup](https://github.com/Milchreis/phobox/raw/master/screenshots/RPi-setting.png)
 
 # Requirements
