@@ -7,6 +7,8 @@ or an advanced REST-API. Moreover your can organize your files and create collec
  - organize new pictures from camera to the correct directories
  - get a simple and fast access to the pictures on my smartphone at home
 
+![phobox](https://github.com/Milchreis/phobox/raw/master/screenshots/phobox.gif)
+
 # Getting started
 ## Graphical
 1) Start the program (double click on phobox-<version>.jar or `java -jar phobox-<version>.jar` in terminal
@@ -28,7 +30,9 @@ usage: phobox
 ## Importing new pictures
 Phobox reads the _phobox/import/_ directory inside your specified picture directory. Each new readable picture will
 be processed. Phobox moves the files to the configured directory (if EXIF data exists) and creates thumbnails for
-a faster display on remote devices.
+a faster display on remote devices. Additionally you can define another watch directory to listen for new files (maybe a ssh or remote directory).  
+
+For small number of files you can use a upload function in the phobox front-end or the drag-and-drop area of the phobox window.
 
 # Features
  - Automatic picture organization
@@ -36,6 +40,12 @@ a faster display on remote devices.
  - Creating albums
  - Upload pictures from remote devices in the same wifi
  - Password saved access
+ - Languages: English and German
+
+# My local setup
+The following diagram shows the simplified setup of my phobox and raspberry pi. All devices are in the same wifi and get access of the
+phobox by calling the ip address of the rpi.
+![raspberry pi setup](https://github.com/Milchreis/phobox/raw/master/screenshots/RPi-setting.png)
 
 # Requirements
 Phobox is build on Java and just requires a JRE 1.8+. The jar file is a standalone application and runs with `java -jar phobox.jar`. 
