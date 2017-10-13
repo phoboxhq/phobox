@@ -49,6 +49,19 @@ public class UpdateDatabaseEvent implements IEvent {
 			log.error("Error while deleting file in database", e);
 		}
 	}
+	
+	@Override
+	public void onDeleteDirectory(File directory) {
+		try {
+			String subpath = ops.getWebPath(directory);
+			
+			String sql = "DELETE FROM item WHERE path LIKE '"+subpath+"%'";			
+			DBManager.executeSQL(sql);
+			
+		} catch (Exception e) {
+			log.error("Error while updateing file path in database", e);
+		}
+	}
 
 	@Override
 	public void onRenameFile(File original, File newFile) {

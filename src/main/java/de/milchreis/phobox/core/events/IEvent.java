@@ -9,6 +9,7 @@ public interface IEvent {
 	
 	void onNewFile(File incomingfile);
 	void onDeleteFile(File file);
+	void onDeleteDirectory(File directory);
 	void onRenameFile(File original, File newFile);
 	void onRenameDirectory(File directory, File newDirectory);
 	

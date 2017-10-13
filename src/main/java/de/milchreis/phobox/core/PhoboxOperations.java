@@ -126,6 +126,7 @@ public class PhoboxOperations {
 				File thumb = getThumb(item, s);
 				thumb.delete();
 			}
+			Phobox.getEventRegistry().onDeleteFile(item);
 			
 		} else if(item.isDirectory()) {
 			FileUtils.deleteDirectory(item);
@@ -133,7 +134,9 @@ public class PhoboxOperations {
 				File thumb = getThumb(item, s);
 				FileUtils.deleteDirectory(thumb);
 			}
+			Phobox.getEventRegistry().onDeleteDirectory(item);
 		}
+		
 	}
 	
 	public List<String> getFiles(File directory) {

@@ -21,6 +21,11 @@ public class EventRegistry implements IEvent {
 	public void onDeleteFile(File file) {
 		eventRegistry.stream().forEach(e -> e.onDeleteFile(file));
 	}
+	
+	@Override
+	public void onDeleteDirectory(File directory) {
+		eventRegistry.stream().forEach(e -> e.onDeleteDirectory(directory));
+	}
 
 	@Override
 	public void onRenameFile(File original, File newFile) {
