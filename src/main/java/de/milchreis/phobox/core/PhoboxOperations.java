@@ -35,16 +35,15 @@ public class PhoboxOperations {
 				dir.getAbsolutePath(),
 				targetname));
 		
+		String endingOriginal = FilenameUtils.getExtension(dir.getName());
+		if(!targetname.endsWith(endingOriginal)) {
+			targetname = targetname + "." + endingOriginal;
+		}
+		
+		String path = FilenameUtils.getFullPath(dir.getAbsolutePath());
+		File correctedFile = new File(path, targetname);
+		
 		if(dir.isDirectory() || dir.isFile()) {
-			
-			String endingOriginal = FilenameUtils.getExtension(dir.getName());
-			if(!targetname.endsWith(endingOriginal)) {
-				targetname = targetname + "." + endingOriginal;
-			}
-			
-			String path = FilenameUtils.getFullPath(dir.getAbsolutePath());
-			File correctedFile = new File(path, targetname);
-			
 			if(correctedFile.exists()) {
 				throw new Exception("File already exists");
 			}
@@ -56,6 +55,14 @@ public class PhoboxOperations {
 				File thumbTar = getThumb(correctedFile, s);
 				thumbDir.renameTo(thumbTar);
 			}
+		}
+		
+		if(correctedFile.isFile()) {
+			Phobox.getEventRegistry().onRenameFile(dir, correctedFile);
+		}
+
+		if(correctedFile.isDirectory()) {
+			Phobox.getEventRegistry().onRenameDirectory(dir, correctedFile);
 		}
 	}
 

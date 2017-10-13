@@ -36,17 +36,18 @@ public class FileMoveAction implements FileAction {
 			silentMove(file, movies, false);
 			return;
 		}
-		
+			
 		try {
 			ImportFormatter importFormatter = new ImportFormatter(model.getImportFormat());
 			File dirStructure = importFormatter.createPath(file);
 			File target = new File(storage, dirStructure.toString());
 			
 			if(!silentMove(file, target, true)) {
-				File doubles = new File(storage, ConfigManager.get(ConfigManager.STORAGE_DOUBLES));
-				silentMove(file, doubles, false);
+				target = new File(storage, ConfigManager.get(ConfigManager.STORAGE_DOUBLES));
+				silentMove(file, target, false);
 			}
 			
+			Phobox.getEventRegistry().onNewFile(new File(target, file.getName()));
 			return;
 			
 		} catch (ImageProcessingException | NullPointerException e) {
@@ -62,6 +63,8 @@ public class FileMoveAction implements FileAction {
 				ConfigManager.get(ConfigManager.STORAGE_UNSORTED));
 		
 		silentMove(file, target, false);
+		
+		Phobox.getEventRegistry().onNewFile(new File(target, file.getName()));
 	}
 	
 	private boolean silentMove(File source, File target, boolean checkExistence) {

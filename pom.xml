@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.nartis</groupId>
 	<artifactId>phobox</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<name>Phobox</name>
 	
 	<!-- Output to jar format -->
@@ -21,6 +21,20 @@
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-jmx</artifactId>
 			<version>9.3.0.M2</version>
+		</dependency>
+		
+		<!-- Embedded database -->
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <version>1.4.196</version>
+		</dependency>
+		
+		<!-- Lightweight ORM -->
+		<dependency>
+		    <groupId>com.j256.ormlite</groupId>
+		    <artifactId>ormlite-jdbc</artifactId>
+		    <version>5.0</version>
 		</dependency>
 		
 		<!-- Logging API -->

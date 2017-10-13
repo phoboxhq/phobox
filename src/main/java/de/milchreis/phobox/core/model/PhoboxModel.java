@@ -13,8 +13,10 @@ public class PhoboxModel {
 
 	private int port = 8080;
 	private boolean activeGui = true;
+	private boolean databasebrowser = true;
 	private String storagePath;
 	private File phoboxPath;
+	private File databasePath;
 	private File incomingPath;
 	private File albumPath;
 	private File watchPath;
@@ -47,6 +49,8 @@ public class PhoboxModel {
 		
 		thumbPath = new File(phoboxPath, ConfigManager.get(ConfigManager.STORAGE_THUMBS));
 		thumbPath.mkdirs();
+		
+		databasePath = new File(phoboxPath, "phobox");
 		
 		PreferencesManager.set(PreferencesManager.STORAGE_PATH, storagePath);
 	}
@@ -127,7 +131,6 @@ public class PhoboxModel {
 		}
 	}
 
-	
 	@ManagedAttribute(value="Defines the path to the phobox meta data", name="phoboxPath")
 	public File getPhoboxPath() {
 		return phoboxPath;
@@ -135,5 +138,23 @@ public class PhoboxModel {
 
 	public void setPhoboxPath(File phoboxPath) {
 		this.phoboxPath = phoboxPath;
+	}
+
+	@ManagedAttribute(value="Defines the path and the name to the database", name="databasePath")
+	public File getDatabasePath() {
+		return databasePath;
+	}
+
+	public void setDatabasePath(File databasePath) {
+		this.databasePath = databasePath;
+	}
+
+	@ManagedAttribute(value="Is the databaser browser started on startup (h2 browser on port 8082)", name="databasebrowser")
+	public boolean isDatabasebrowser() {
+		return databasebrowser;
+	}
+
+	public void setDatabasebrowser(boolean databasebrowser) {
+		this.databasebrowser = databasebrowser;
 	}
 }

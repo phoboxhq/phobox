@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.apache.log4j.Logger;
 
+import de.milchreis.phobox.core.events.EventRegistry;
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.ThumbProcessorQueue;
@@ -19,7 +20,8 @@ public class Phobox {
 	private PhoboxServer server;
 	private ThumbProcessorQueue thumbProcessor;
 	private FileProcessor importProcessor;
-
+	private EventRegistry eventRegistry;
+	
 	private static Phobox instance;
 	
 	private Phobox() {
@@ -28,6 +30,7 @@ public class Phobox {
 		operations = new PhoboxOperations(model);
 		thumbProcessor = new ThumbProcessorQueue();
 		importProcessor = new FileProcessor();
+		eventRegistry = new EventRegistry();
 		server = new PhoboxServer();
 	}
 	
@@ -74,4 +77,9 @@ public class Phobox {
 	public static FileProcessor getImportProcessor() {
 		return getInstance().importProcessor;
 	}
+
+	public static EventRegistry getEventRegistry() {
+		return getInstance().eventRegistry;
+	}
+
 }

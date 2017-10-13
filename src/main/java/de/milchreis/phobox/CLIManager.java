@@ -27,6 +27,7 @@ public class CLIManager {
 		options.addOption("w", "watchDirectory", true, "Scans this directory for new files");
 		options.addOption("p", "port", true, "Sets the port for this application (default 8080)");
 		options.addOption("b", "backupDirectory", true, "Sets the directory for backups");
+		options.addOption("db", "dbbrowser", false, "Activates the integrated database browser (port 8082)");
 		options.addOption("h", "help", false, "Prints this help");
 		
 		// parse the command line arguments
@@ -35,6 +36,11 @@ public class CLIManager {
 		if(line.hasOption("noWindow")) {
 			model.setActiveGui(false);
 			log.debug("noWindow option is active");
+		}
+		
+		if(line.hasOption("dbbrowser")) {
+			model.setDatabasebrowser(true);
+			log.debug("database browser option is active");
 		}
 		
 		if(line.hasOption("storage")) {
