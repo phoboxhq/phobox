@@ -1,11 +1,12 @@
 # What is phobox?
 Phobox is a small tool to extend your local picture storage with a bunch of connectivity features. 
 It starts a lightweight server process, which you allows to access your pictures over a graphical user interface
-or an advanced REST-API. Moreover your can organize your files and create collections of the best photographs.
+or a REST-API. Moreover you can organize your files and create collections of the best photographs.
 
 **I developed phobox to solve two main problems in my picture workflow:**
  - organize new pictures from camera to the correct directories
  - get a simple and fast access to the pictures on my smartphone at home
+ - search for pictures
 
 ![phobox](https://github.com/Milchreis/phobox/raw/master/screenshots/phobox.gif)
 
@@ -56,4 +57,4 @@ The tool runs on the raspberry pi 3 with the Java ARM version great, too.
 The project can build with maven and the goal `clean compile assembly:single`. For eclipse the run configuration is stored in `phobox.launch`.
 
 # Contribute
-Please try it out and leave issues if something goes wrong or your have a feature request. Pull requests are also welcome :simple_smile:  
+Please try it out and leave issues if something goes wrong or your have a feature request. Pull requests are also welcome :-)
