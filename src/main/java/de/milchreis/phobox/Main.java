@@ -10,6 +10,7 @@ import org.h2.tools.Server;
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.config.PreferencesManager;
 import de.milchreis.phobox.core.events.IEvent;
+import de.milchreis.phobox.core.events.MetaExtractEvent;
 import de.milchreis.phobox.core.events.UpdateDatabaseEvent;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.schedules.CopyScheduler;
@@ -76,6 +77,7 @@ public class Main {
 		}
 		
 		Phobox.getEventRegistry().addEvent(new UpdateDatabaseEvent());
+		Phobox.getEventRegistry().addEvent(new MetaExtractEvent());
 
 		Phobox.getEventRegistry().onCreation();
 				

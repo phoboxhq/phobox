@@ -2,6 +2,9 @@
 CREATE TABLE IF NOT EXISTS `item` (
 	`path` varchar(500) NOT NULL,
 	`rotation` int(10) DEFAULT 0,
+	`width` int(10),
+	`height` int(10),
+	`creation` datetime,
 	`found` datetime DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY( `path` )
 );

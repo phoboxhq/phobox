@@ -13,6 +13,15 @@ public class Item {
 	
 	@DatabaseField(canBeNull = false, defaultValue="0")
 	private Integer rotation;
+
+	@DatabaseField
+	private Integer width;
+
+	@DatabaseField
+	private Integer height;
+	
+	@DatabaseField
+	private Date creation;
 	
 	@DatabaseField(canBeNull = false)
 	private Date found;
@@ -42,5 +51,29 @@ public class Item {
 	
 	public void setFound(Date found) {
 		this.found = found;
+	}
+
+	public Integer getWidth() {
+		return width;
+	}
+
+	public void setWidth(Integer width) {
+		this.width = width;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
+	}
+
+	public Date getCreation() {
+		return creation;
+	}
+
+	public void setCreation(Date creation) {
+		this.creation = creation;
 	}
 }

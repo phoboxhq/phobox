@@ -26,6 +26,20 @@ public class DBManager {
 		executeSQL(initscript); 
 	}
 	
+	public static <T> T getById(Object id, Class<T> clazz) throws SQLException, IOException {
+		Dao dao = DaoManager.createDao(getJdbcConnection(), clazz);
+		T obj = (T) dao.queryForId(id);
+		dao.getConnectionSource().close();
+		return obj;
+	}
+	
+	public static <T> void store(Object element, Class<T> clazz) throws SQLException, IOException {
+		Dao dao = DaoManager.createDao(getJdbcConnection(), clazz);
+		dao.createOrUpdate(element);
+		dao.getConnectionSource().close();
+		
+	}
+	
 	public static Dao<?, ?> getDAO(Class<?> clazz) throws SQLException {
 		return DaoManager.createDao(getJdbcConnection(), clazz);
 	}

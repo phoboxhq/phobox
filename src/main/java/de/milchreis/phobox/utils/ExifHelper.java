@@ -46,6 +46,14 @@ public class ExifHelper {
 		return directory.getInt(ExifIFD0Directory.TAG_ORIENTATION);
 	}
 	
+	public static int[] getDimension(File file) throws ImageProcessingException, IOException, MetadataException {
+		Metadata metadata = ImageMetadataReader.readMetadata(file);
+		ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
+		int width = directory.getInt(ExifSubIFDDirectory.TAG_EXIF_IMAGE_WIDTH);
+		int height = directory.getInt(ExifSubIFDDirectory.TAG_EXIF_IMAGE_HEIGHT);
+		return new int[] {width, height};
+	}
+	
 	public static Map<String, String> getExifDataMap(File file) throws ImageProcessingException, IOException {
 		
 		Map<String, String> map = new TreeMap<>();
