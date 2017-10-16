@@ -1,5 +1,5 @@
 .pbreadcrumb {
-	position: fixed;
+    position: fixed;
     z-index: 80;
     top: 46px;
     background-color: #1d1b1b;
@@ -10,7 +10,7 @@
 }
 
 .pbreadcrumb .bc_element {
-	float: left;
+    float: left;
     background-color: rgba(66, 66, 66, 0.35);
     padding: 6px;
     margin-right: 3px;
@@ -21,12 +21,17 @@
     cursor: pointer;
 }
 
+.pbreadcrumb .bc_element:first-child {
+    width: 50px;
+    text-align: center;
+}
+
 .pbreadcrumb .bc_element:hover {
     border: 1px solid rgba(75, 103, 121, 0.77);
 }
 
 .items {
-	padding: 7px;
+    padding: 7px;
 }
 
 .not_found_center {
