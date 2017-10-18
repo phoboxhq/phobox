@@ -178,7 +178,7 @@ public class PhotoService {
 				item.setPreview(ops.getWebPath(model.getThumbPath()) + "/" + previewFiles.get(0));
 				File previewFile = new File(model.getStoragePath(), previewFiles.get(0));
 				
-				if(!Phobox.getOperations().getThumb(previewFile).exists()) {
+				if(!ops.getThumb(previewFile).exists()) {
 					
 					// Start creating thumb-nails
 					Phobox.processThumbnails(previewFile);
@@ -194,7 +194,7 @@ public class PhotoService {
 			item.setThumb(ops.getWebPath(model.getThumbPath()) + "/" + item.getPath());
 			
 			// Check existence of the thumbnails
-			if(!Phobox.getOperations().getThumb(file).exists()) {
+			if(!ops.getThumb(file).exists()) {
 				
 				// Start creating thumb-nails
 				Phobox.processThumbnails(file);
