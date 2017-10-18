@@ -39,7 +39,11 @@ public class ThumbProcessorQueue implements Runnable {
 				
 			} else {
 				File file = thumbQueue.poll();
-				thumbAction.process(file, null);
+				try {
+					thumbAction.process(file, null);
+				} catch(Exception e) {
+					log.error("Error while creating thumbnails" , e);
+				}
 			}
 		}
 	}
