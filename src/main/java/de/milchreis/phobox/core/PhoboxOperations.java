@@ -49,12 +49,9 @@ public class PhoboxOperations {
 			}
 			
 			dir.renameTo(correctedFile);
-
-			for(String s : new String[]{"low", "high"}) {
-				File thumbDir = getThumb(dir, s);
-				File thumbTar = getThumb(correctedFile, s);
-				thumbDir.renameTo(thumbTar);
-			}
+			File thumbDir = getThumb(dir);
+			File thumbTar = getThumb(correctedFile);
+			thumbDir.renameTo(thumbTar);
 		}
 		
 		if(correctedFile.isFile()) {
@@ -68,16 +65,12 @@ public class PhoboxOperations {
 
 	public void moveFile(File file, File tar) throws IOException {
 		FileUtils.moveFileToDirectory(file, tar, true);
-		for(String s : new String[]{"low", "high"}) {
-			FileUtils.moveFileToDirectory(getThumb(file, s), getThumb(tar, s), true);
-		}
+		FileUtils.moveFileToDirectory(getThumb(file), getThumb(tar), true);
 	}
 
 	public void moveDir(File dir, File tar) throws IOException {
 		FileUtils.moveDirectoryToDirectory(dir, tar, true);
-		for(String s : new String[]{"low", "high"}) {
-			FileUtils.moveDirectoryToDirectory(getThumb(dir, s), getThumb(tar, s), true);
-		}
+		FileUtils.moveDirectoryToDirectory(getThumb(dir), getThumb(tar), true);
 	}
 
 	public List<String> getFiles(File directory, int number) {
@@ -122,18 +115,12 @@ public class PhoboxOperations {
 		
 		if(item.isFile()) {
 			item.delete();
-			for(String s : new String[]{"low", "high"}) {
-				File thumb = getThumb(item, s);
-				thumb.delete();
-			}
+			getThumb(item).delete();
 			Phobox.getEventRegistry().onDeleteFile(item);
 			
 		} else if(item.isDirectory()) {
 			FileUtils.deleteDirectory(item);
-			for(String s : new String[]{"low", "high"}) {
-				File thumb = getThumb(item, s);
-				FileUtils.deleteDirectory(thumb);
-			}
+			FileUtils.deleteDirectory(getThumb(item));
 			Phobox.getEventRegistry().onDeleteDirectory(item);
 		}
 		
@@ -170,10 +157,8 @@ public class PhoboxOperations {
 	}
 
 	
-	private File getThumb(File image, String thumbType) {
+	public File getThumb(File image) {
 		File thumbpath = model.getThumbPath();
-		thumbpath = new File(thumbpath, thumbType);
-		
 		String imgPath = image.getAbsolutePath().replace(model.getStoragePath(), "");
 		return new File(thumbpath, imgPath);
 	}
