@@ -33,9 +33,12 @@ CREATE TABLE IF NOT EXISTS `album` (
 
 -- Album Item
 CREATE TABLE IF NOT EXISTS `album_item` (
+	`id` int(10) NOT NULL auto_increment,
 	`id_album` int(10) NOT NULL,
 	`path` varchar(500) NOT NULL,
+	`order` int(10),
 	FOREIGN KEY(id_album) REFERENCES album(id),
 	FOREIGN KEY(path) REFERENCES item(path),
-	`order` int(10)
+	PRIMARY KEY( `id` )
+	
 );

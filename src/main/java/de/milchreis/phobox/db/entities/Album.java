@@ -8,8 +8,8 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "album")
 public class Album {
 	
-	@DatabaseField(id = true)
-	private int id;
+	@DatabaseField(columnName = "id", generatedId = true, allowGeneratedIdInsert = true)
+	private Integer id;
 
 	@DatabaseField(canBeNull = false)
 	private String name;
@@ -20,11 +20,11 @@ public class Album {
 	public Album() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
