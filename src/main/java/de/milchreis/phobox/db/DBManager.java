@@ -35,9 +35,12 @@ public class DBManager {
 	
 	public static <T> void store(Object element, Class<T> clazz) throws SQLException, IOException {
 		Dao dao = DaoManager.createDao(getJdbcConnection(), clazz);
-		dao.createOrUpdate(element);
+		try {
+			dao.createOrUpdate(element);
+		} catch(Exception e) {
+			dao.refresh(element);
+		}
 		dao.getConnectionSource().close();
-		
 	}
 	
 	public static Dao<?, ?> getDAO(Class<?> clazz) throws SQLException {
@@ -74,6 +77,7 @@ public class DBManager {
 			}
 		} 
 	}
+
 }
 
 
