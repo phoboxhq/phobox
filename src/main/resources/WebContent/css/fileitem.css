@@ -50,21 +50,21 @@
 
 .item img {
     max-width: 150px;
-    max-width: 250px;
-    margin-top: -19px;
+    max-width: 225px;
+    margin-top: 0px;
     margin-left: -20px;
 }
 
-.item .menu_button {
-    /*display: none;*/
-    right: 0px;
-    bottom: 0px;
+.menu_button {
+    right: 6px;
     position: absolute;
-    margin: -10px 5px 0px 0px;
+    z-index: 30;
     font-size: 20px;
     color: #f0f0f0;
+    bottom: 5px;
+    cursor: pointer;
+    padding: 5px;
     transition: display 0.5s;
-    z-index: 30;
 }
 
 .menu {

@@ -2,36 +2,36 @@ const FileItem = Vue.component(
 	'fileitem', {
     template: `
     <div class="item_area">
-        <div class="item" v-on:click="open(item)">
+        
+        <div class="menu_button" v-on:click="toggleMenu()">
+            <i class="fa fa-caret-square-o-down" aria-hidden="true" :id="item.name"></i>
+        </div>
 
-        	<!-- File: Show-->
-        	<img class="item_thumb" 
-        		:src="item.thumb"
-        		v-if="item.type === 'file'" />
+        <div class="item" v-on:click="open(item)">
+            <!-- File: Show-->
+            <img class="item_thumb" 
+                :src="item.thumb"
+                v-if="item.type === 'file'" />
 
             <p v-if="item.thumb==='img/stopwatch.png'" class="reloadInfo">
                 {{ Locale.values.pictures.waitforthumb }}
             </p>
 
-        	<!-- Directory: Show preview if exists-->
-    		<img class="item_thumb" 
-        		:src="item.preview"
+            <!-- Directory: Show preview if exists-->
+            <img class="item_thumb" 
+                :src="item.preview"
                 v-on:click="open(item)"
-        		v-if="item.type === 'dir' && item.preview != null" />
-    	
-    	  	<!-- Directory: Show static image if preview not exists-->
-    		<img class="item_thumb_static" 
-        		src="img/directory.png"
+                v-if="item.type === 'dir' && item.preview != null" />
+        
+            <!-- Directory: Show static image if preview not exists-->
+            <img class="item_thumb_static" 
+                src="img/directory.png"
                 v-on:click="open(item)"                
-        		v-if="item.type === 'dir' && item.preview == null" />
+                v-if="item.type === 'dir' && item.preview == null" />
 
-        	<!-- Directory: Show name -->
-        	<div class="item_name" v-if="item.type === 'dir'" v-on:click="open(item)">
-        		{{ item.name }}
-        	</div>
-
-            <div class="menu_button" v-on:click="toggleMenu()">
-                <i class="fa fa-caret-square-o-down" aria-hidden="true" :id="item.name"></i>
+            <!-- Directory: Show name -->
+            <div class="item_name" v-if="item.type === 'dir'" v-on:click="open(item)">
+                {{ item.name }}
             </div>
         </div>
         
