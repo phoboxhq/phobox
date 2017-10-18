@@ -43,19 +43,19 @@ public class PhotosService {
 	public StorageStatus scanDirectory( @PathParam("dir") String directory ) {
 
 		directory = PathConverter.decode(directory);
-		
+
 		PhotoService photoService = new PhotoService();
 		PhoboxModel model = Phobox.getModel();
 		PhoboxOperations ops = Phobox.getOperations();
 		File storage = new File(model.getStoragePath());
 		File dir = new File(storage, directory);
+		boolean isRoot = directory.equals("/");
 		
 		if(directory == null || directory.isEmpty())
 			dir = storage;
-		
+
 		StorageStatus response = new StorageStatus();
 		response.setName(ops.getElementName(dir));
-		response.setTime(ops.getElementTimestamp(dir));
 		response.setPath(directory);
 		
 		if(dir.isDirectory()) {
@@ -71,6 +71,11 @@ public class PhotosService {
 			// for each file check and add to response
 			for(java.nio.file.Path path : stream) {
 				File file = path.toFile();
+				
+				// Skip internal phobox directory
+				if(isRoot && file.isDirectory() && file.getName().equals("phobox")) {
+					continue;
+				}
 				
 				// select supported formats and directories only
 				if(file.isFile() && ListHelper.endsWith(file.getName(), PhoboxConfigs.SUPPORTED_VIEW_FORMATS) || file.isDirectory()) {
