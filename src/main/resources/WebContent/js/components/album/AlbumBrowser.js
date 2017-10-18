@@ -16,7 +16,7 @@ const AlbumBrowser = Vue.component(
         <div id="albumitems">
             <div class="albumelement item" v-for="item in album.items" v-if="album">
                 <img class="item_thumb" 
-                    :src="item.thumbLow"
+                    :src="item.thumb"
                     v-on:click="selectedItem = item"
                     v-if="item.type === 'file'" />
             </div>
