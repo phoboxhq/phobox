@@ -1,7 +1,6 @@
 package de.milchreis.phobox.gui;
 
 import java.io.File;
-import java.net.URI;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -11,7 +10,7 @@ import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.config.PreferencesManager;
 import de.milchreis.phobox.core.schedules.CopyScheduler;
 import de.milchreis.phobox.core.schedules.ImportScheduler;
-import de.milchreis.phobox.core.schedules.ThumbCleanerScheduler;
+import de.milchreis.phobox.core.schedules.StorageScanScheduler;
 import de.milchreis.phobox.server.api.StorageService;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -47,8 +46,7 @@ public class StorageAskGui extends Application implements Initializable {
     }
     
     public void initGui() throws Exception {
-    	URI uri = StorageAskGui.class.getClassLoader().getResource("PhoboxServerGuiStorageAsk.fxml").toURI();
-    	URL url = uri.toURL();
+    	URL url = StorageAskGui.class.getClassLoader().getResource("PhoboxServerGuiStorageAsk.fxml");
     	
     	Parent root = FXMLLoader.<Parent>load(url);
     	Scene scene = new Scene(root, 500, 370);
@@ -96,7 +94,7 @@ public class StorageAskGui extends Application implements Initializable {
 		// Initialize the scheduler for importing and scanning new files
 		new ImportScheduler(3000);
 		new CopyScheduler(3000);
-		new ThumbCleanerScheduler(24);
+		new StorageScanScheduler(24);
 	}
 }
 
