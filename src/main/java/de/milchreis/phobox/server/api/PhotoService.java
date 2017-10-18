@@ -174,7 +174,19 @@ public class PhotoService {
 		if(file.isDirectory()) {
 			List<String> previewFiles = ops.getFiles(file, 1);
 			if(previewFiles.size() >= 1) {
+				
 				item.setPreview(ops.getWebPath(model.getThumbPath()) + "/" + previewFiles.get(0));
+				File previewFile = new File(model.getStoragePath(), previewFiles.get(0));
+				
+				if(!Phobox.getOperations().getThumb(previewFile).exists()) {
+					
+					// Start creating thumb-nails
+					Phobox.processThumbnails(previewFile);
+
+					// Set waiting icon
+					item.setPreview("img/stopwatch.png");
+					item.setThumb("img/stopwatch.png");
+				}
 			}
 			
 		} else if(ListHelper.endsWith(fileExtension, PhoboxConfigs.SUPPORTED_VIEW_FORMATS)) {
@@ -182,11 +194,11 @@ public class PhotoService {
 			item.setThumb(ops.getWebPath(model.getThumbPath()) + "/" + item.getPath());
 			
 			// Check existence of the thumbnails
-			if (!new File(model.getStoragePath(), item.getThumb()).exists()) {
-
+			if(!Phobox.getOperations().getThumb(file).exists()) {
+				
 				// Start creating thumb-nails
 				Phobox.processThumbnails(file);
-				
+
 				// Set waiting icon
 				item.setThumb("img/stopwatch.png");
 			}
