@@ -81,8 +81,7 @@ public class StorageService {
 		
 		new Thread(() -> {
 			List<FileAction> actions = new ArrayList<FileAction>();
-			actions.add(ThumbHelper.createReThumbActionForLow());
-			actions.add(ThumbHelper.createReThumbActionForHigh());
+			actions.add(ThumbHelper.createReThumbAction());
 			
 			new FileProcessor().foreachFile(
 					new File(model.getStoragePath()), 

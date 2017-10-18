@@ -6,11 +6,11 @@ const FileItem = Vue.component(
 
         	<!-- File: Show-->
         	<img class="item_thumb" 
-        		:src="item.thumbLow"
+        		:src="item.thumb"
                 v-on:click="open(item)"
         		v-if="item.type === 'file'" />
 
-            <p v-if="item.thumbLow==='img/stopwatch.png'" class="reloadInfo">
+            <p v-if="item.thumb==='img/stopwatch.png'" class="reloadInfo">
                 {{ Locale.values.pictures.waitforthumb }}
             </p>
 

@@ -160,7 +160,6 @@ public class PhotoService {
 		StorageItem item = new StorageItem();
 
 		item.setName(FilenameUtils.getBaseName(file.getName()));
-		item.setTime(ops.getElementTimestamp(file));
 		item.setPath(ops.getWebPath(new File(directory, file.getName())));
 		item.setType(file.isDirectory() ? StorageItem.TYPE_DIRECTORY : StorageItem.TYPE_FILE);
 		
@@ -175,24 +174,21 @@ public class PhotoService {
 		if(file.isDirectory()) {
 			List<String> previewFiles = ops.getFiles(file, 1);
 			if(previewFiles.size() >= 1) {
-				item.setPreview(ops.getWebPath(model.getThumbPath()) + "/low/"+previewFiles.get(0));
+				item.setPreview(ops.getWebPath(model.getThumbPath()) + "/" + previewFiles.get(0));
 			}
 			
 		} else if(ListHelper.endsWith(fileExtension, PhoboxConfigs.SUPPORTED_VIEW_FORMATS)) {
-
-			item.setThumbLow(ops.getWebPath(model.getThumbPath()) + "/low/" + item.getPath());
-			item.setThumbHigh(ops.getWebPath(model.getThumbPath()) + "/high/" + item.getPath());
-
+			
+			item.setThumb(ops.getWebPath(model.getThumbPath()) + "/" + item.getPath());
+			
 			// Check existence of the thumbnails
-			if (!new File(model.getStoragePath(), item.getThumbHigh()).exists() || 
-				!new File(model.getStoragePath(), item.getThumbLow()).exists()) {
+			if (!new File(model.getStoragePath(), item.getThumb()).exists()) {
 
 				// Start creating thumb-nails
 				Phobox.processThumbnails(file);
 				
 				// Set waiting icon
-				item.setThumbLow("img/stopwatch.png");
-				item.setThumbHigh("img/stopwatch.png");
+				item.setThumb("img/stopwatch.png");
 			}
 		}
 		

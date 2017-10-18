@@ -15,7 +15,7 @@ import de.milchreis.phobox.core.events.UpdateDatabaseEvent;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.schedules.CopyScheduler;
 import de.milchreis.phobox.core.schedules.ImportScheduler;
-import de.milchreis.phobox.core.schedules.ThumbCleanerScheduler;
+import de.milchreis.phobox.core.schedules.StorageScanScheduler;
 import de.milchreis.phobox.db.DBManager;
 import de.milchreis.phobox.gui.ServerGui;
 import de.milchreis.phobox.gui.StorageAsk;
@@ -84,7 +84,7 @@ public class Main {
 		// Initialize the scheduler for importing and scanning new files
 		new ImportScheduler(3000);
 		new CopyScheduler(3000);
-		new ThumbCleanerScheduler(24);
+		new StorageScanScheduler(24);
 	}
 	
 	private static boolean isFirstRun() {

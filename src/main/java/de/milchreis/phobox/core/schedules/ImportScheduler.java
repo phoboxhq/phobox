@@ -23,8 +23,7 @@ public class ImportScheduler extends TimerTask {
 	
 	public ImportScheduler() {
 		actions = new ArrayList<FileAction>();
-		actions.add(ThumbHelper.createThumbActionForLow());
-		actions.add(ThumbHelper.createThumbActionForHigh());
+		actions.add(ThumbHelper.createThumbAction());
 		actions.add(new FileMoveAction());
 	}
 	

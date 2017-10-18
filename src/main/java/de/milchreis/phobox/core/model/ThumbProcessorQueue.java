@@ -27,11 +27,10 @@ public class ThumbProcessorQueue implements Runnable {
 	@Override
 	public void run() {
 
-		// Start deploy with 5 seconds
+		// Start delay with 5 seconds
 		sleep(5000);
 
-		ReThumbFileAction lowThumbAction = ThumbHelper.createReThumbActionForLow();
-		ReThumbFileAction highThumbAction = ThumbHelper.createReThumbActionForHigh();
+		ReThumbFileAction thumbAction = ThumbHelper.createReThumbAction();
 		
 		while(true) {
 		
@@ -40,8 +39,7 @@ public class ThumbProcessorQueue implements Runnable {
 				
 			} else {
 				File file = thumbQueue.poll();
-				lowThumbAction.process(file, null);
-				highThumbAction.process(file, null);
+				thumbAction.process(file, null);
 			}
 		}
 	}

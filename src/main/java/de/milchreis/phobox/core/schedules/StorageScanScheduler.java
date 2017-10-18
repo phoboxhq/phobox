@@ -16,10 +16,10 @@ import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.file.LoopInfo;
 
-public class ThumbCleanerScheduler extends TimerTask {
-	private static final Logger log = Logger.getLogger(ThumbCleanerScheduler.class);
+public class StorageScanScheduler extends TimerTask {
+	private static final Logger log = Logger.getLogger(StorageScanScheduler.class);
 
-	public ThumbCleanerScheduler(int timeInHours) {
+	public StorageScanScheduler(int timeInHours) {
 		new Timer().schedule(this, getStartDate(), timeInHours * 3600000);
 	}
 

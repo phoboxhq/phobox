@@ -10,8 +10,7 @@ public class StorageItem {
 	private String path;
 	private String type;
 	private String preview;
-	private String thumbHigh;
-	private String thumbLow;
+	private String thumb;
 	private String raw;
 	
 	public String getName() {
@@ -54,27 +53,19 @@ public class StorageItem {
 		this.preview = preview;
 	}
 	
-	public String getThumbHigh() {
-		return thumbHigh;
-	}
-	
-	public void setThumbHigh(String thumbHigh) {
-		this.thumbHigh = thumbHigh;
-	}
-	
-	public String getThumbLow() {
-		return thumbLow;
-	}
-	
-	public void setThumbLow(String thumbLow) {
-		this.thumbLow = thumbLow;
-	}
-
 	public String getRaw() {
 		return raw;
 	}
 
 	public void setRaw(String raw) {
 		this.raw = raw;
+	}
+
+	public String getThumb() {
+		return thumb;
+	}
+
+	public void setThumb(String thumb) {
+		this.thumb = thumb;
 	}
 }

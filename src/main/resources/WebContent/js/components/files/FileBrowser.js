@@ -57,6 +57,11 @@ const FileBrowser = Vue.component(
 			var that = this;
 			new ComService().scan(path, function(data) {
                 that.items = data.items;
+
+       /*         if(that.path === '%2F') {
+                    console.log(that.items);
+                    var result = $.grep(that.path, function(e){ return e.name === 'phobox'; });
+                }*/
             });
         },
 

@@ -19,7 +19,7 @@ const Lightbox = Vue.component(
 				<img 
 					id="lightbox_image"
 					class="preview"
-					:src="selectedItem.thumbHigh" />
+					:src="selectedItem.thumb" />
 				
 				<div class="window_buttons">
 					<!-- Close window -->
@@ -111,7 +111,7 @@ const Lightbox = Vue.component(
 
         	if(this.selectedItem != null) {
 	        	var img = new Image();
-				img.src = this.selectedItem.thumbLow;
+				img.src = this.selectedItem.thumb;
 
 				setTimeout(function() {
 
