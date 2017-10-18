@@ -2,13 +2,9 @@ package de.milchreis.phobox.server.api;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -21,10 +17,16 @@ import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
 
 import de.milchreis.phobox.core.Phobox;
+import de.milchreis.phobox.core.events.UpdateDatabaseEvent;
 import de.milchreis.phobox.core.model.Album;
 import de.milchreis.phobox.core.model.AlbumOperation;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.Status;
+import de.milchreis.phobox.db.AlbumAccess;
+import de.milchreis.phobox.db.DBManager;
+import de.milchreis.phobox.db.ItemAccess;
+import de.milchreis.phobox.db.entities.AlbumItem;
+import de.milchreis.phobox.db.entities.Item;
 
 
 @Path("/album/")
@@ -35,41 +37,16 @@ public class AlbumService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> getAlbums() {
 		
-		PhoboxModel model = Phobox.getModel();
-		File albumPath = model.getAlbumPath();
-		List<File> albums = new ArrayList<>();
-		
 		try {
-			DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(albumPath.toPath());
-			
-			// for each file check and add to response
-			for(java.nio.file.Path path : stream) {
-				albums.add(path.toFile());
-			}
-			
-		} catch(IOException e) {
+			return AlbumAccess.getAlbums().stream()
+					.map(a -> a.getName())
+					.collect(Collectors.toList());
+		
+		} catch (SQLException | IOException e) {
 			log.error("Error while scanning album directory", e);
 		}
 		
-		Collections.sort(albums, new Comparator<File>() {
-			@Override public int compare(File o1, File o2) {
-				return o1.lastModified() < o2.lastModified() ? 1 : 0;
-			}
-		});
-		
-		List<String> albumNames = new ArrayList<>();
-		albums.forEach(f -> albumNames.add(f.getName()));
-		
-		return albumNames;
-		
-//		List<Album> albumOverview = new ArrayList<>();
-//		albums.forEach(f -> {
-//			Album album = new Album(f.getName());
-//			album.addItem(photoService.getItem(new File(albumPath, model.getFiles(f, 1).get(0)), model));
-//			albumOverview.add(album);
-//		});
-//		
-//		return albumOverview;
+		return null;
 	}
 
 	@GET
@@ -78,25 +55,18 @@ public class AlbumService {
 	public Album getAlbumContent(@PathParam("album") String albumName) {
 		
 		PhoboxModel model = Phobox.getModel();
-		File albumPath = new File(model.getAlbumPath(), albumName);
 		PhotoService photoService = new PhotoService();
-		
 		Album album = new Album(albumName);
-		
-		try {
-			DirectoryStream<java.nio.file.Path> stream = Files.newDirectoryStream(albumPath.toPath());
 
-			// for each file check and add to response
-			for(java.nio.file.Path path : stream) {
-				java.nio.file.Path target = Files.readSymbolicLink(path);
-				album.addItem(photoService.getItem(target.toFile()));
+		try {
+			List<AlbumItem> albumItems = AlbumAccess.getAlbumItemsByAlbumName(albumName);
+			for(AlbumItem dbAlbum : albumItems) {
+				Item item = dbAlbum.getItem();
+				album.addItem(photoService.getItem(new File(model.getStoragePath(), item.getPath())));
 			}
-			
-		} catch(NoSuchFileException e) {
-			log.warn("Album not found: " + e.getLocalizedMessage());
-			
-		} catch(IOException e) {
-			log.error("Error while scanning album", e);
+		
+		} catch (SQLException | IOException e) {
+			log.error("Error while scanning album directory", e);
 		}
 		
 		return album;
@@ -107,18 +77,39 @@ public class AlbumService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Status addToAlbum(AlbumOperation op) {
 		
-		PhoboxModel model = Phobox.getModel();
-		File item = new File(model.getStoragePath(), op.getItem());
+		String albumname = op.getName();
 		Status status = new Status(Status.OK);
-		
+
 		try {
-			Phobox.getOperations().addToAlbum(item, op.getName());
-		} catch (IOException e) {
+			de.milchreis.phobox.db.entities.Album album = AlbumAccess.getAlbumByName(albumname);
+			
+			// Create if not exists
+			if(album == null) {
+				album = new de.milchreis.phobox.db.entities.Album();
+				album.setName(albumname);
+				DBManager.store(album, de.milchreis.phobox.db.entities.Album.class);
+				album = AlbumAccess.getAlbumByName(albumname);
+			}
+			
+			Item item = ItemAccess.getItemByPath(op.getItem());
+			if(item == null) {
+				UpdateDatabaseEvent event = new UpdateDatabaseEvent();
+				event.onNewFile(new File(Phobox.getModel().getStoragePath(), op.getItem()));
+				item = ItemAccess.getItemByPath(op.getItem());
+			}
+			
+			AlbumItem albumItem = new AlbumItem();
+			albumItem.setAlbum(album);
+			albumItem.setItem(item);
+			
+			DBManager.store(albumItem, AlbumItem.class);
+			
+		} catch (SQLException | IOException e) {
 			status.setStatus(Status.ERROR);
 			log.error("Error while adding item to album", e);
 		}
 		
 		return status;
 	}
-	
+		
 }
