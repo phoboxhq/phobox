@@ -2,12 +2,11 @@ const FileItem = Vue.component(
 	'fileitem', {
     template: `
     <div class="item_area">
-        <div class="item">
+        <div class="item" v-on:click="open(item)">
 
         	<!-- File: Show-->
         	<img class="item_thumb" 
         		:src="item.thumb"
-                v-on:click="open(item)"
         		v-if="item.type === 'file'" />
 
             <p v-if="item.thumb==='img/stopwatch.png'" class="reloadInfo">
