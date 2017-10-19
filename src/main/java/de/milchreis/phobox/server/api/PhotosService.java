@@ -57,7 +57,7 @@ public class PhotosService {
 			dir = storage;
 
 		// Update directory on database and
-		new StorageScanScheduler(StorageScanScheduler.IMMEDIATELY, dir).start();
+		new StorageScanScheduler(StorageScanScheduler.IMMEDIATELY, dir, false).start();
 		
 		StorageStatus response = new StorageStatus();
 		response.setName(ops.getElementName(dir));

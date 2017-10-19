@@ -26,6 +26,7 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 	
 	public static final int IMMEDIATELY = 0;
 	
+	private boolean recursive;
 	private Timer timer;
 	private int timeInHours;
 	private File directory;
@@ -33,11 +34,13 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 	public StorageScanScheduler(int timeInHours) {
 		timer = new Timer();
 		this.setTimeInHours(timeInHours);
+		recursive = true;
 	}
 	
-	public StorageScanScheduler(int timeInHours, File directory) {
+	public StorageScanScheduler(int timeInHours, File directory, boolean recursive) {
 		this(timeInHours);
 		this.directory = directory;
+		this.recursive = recursive;
 	}
 
 	@Override
@@ -52,7 +55,7 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 				directory, 
 				PhoboxConfigs.SUPPORTED_VIEW_FORMATS, 
 				this,
-				true);
+				recursive);
 		
 		// Check the database
 		try {
