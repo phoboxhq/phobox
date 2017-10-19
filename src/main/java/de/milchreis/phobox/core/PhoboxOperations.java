@@ -49,9 +49,6 @@ public class PhoboxOperations {
 			}
 			
 			dir.renameTo(correctedFile);
-			File thumbDir = getThumb(dir);
-			File thumbTar = getThumb(correctedFile);
-			thumbDir.renameTo(thumbTar);
 		}
 		
 		if(correctedFile.isFile()) {
@@ -115,15 +112,12 @@ public class PhoboxOperations {
 		
 		if(item.isFile()) {
 			item.delete();
-			getThumb(item).delete();
 			Phobox.getEventRegistry().onDeleteFile(item);
 			
 		} else if(item.isDirectory()) {
 			FileUtils.deleteDirectory(item);
-			FileUtils.deleteDirectory(getThumb(item));
 			Phobox.getEventRegistry().onDeleteDirectory(item);
 		}
-		
 	}
 	
 	public List<String> getFiles(File directory) {
@@ -162,7 +156,15 @@ public class PhoboxOperations {
 		String imgPath = image.getAbsolutePath().replace(model.getStoragePath(), "");
 		return new File(thumbpath, imgPath);
 	}
-
+	
+	public File getPhysicalFile(File webfile) {
+		return getPhysicalFile(webfile.getAbsolutePath());
+	}
+	
+	public File getPhysicalFile(String webfile) {
+		return new File(model.getStoragePath(), webfile);
+	}
+	
 	public String getElementName(File element) {
 		String name = FilenameUtils.getBaseName(element.getAbsolutePath());
 		
@@ -226,6 +228,11 @@ public class PhoboxOperations {
 		path = path.replace(model.getStoragePath(), "");
 		path = path.replace(File.separatorChar, '/');		
 		return path;
+	}
+
+	public boolean isInPhoboxDirectory(File file) {
+		String path = getWebPath(file);
+		return path.startsWith("/phobox/");
 	}
 
 }

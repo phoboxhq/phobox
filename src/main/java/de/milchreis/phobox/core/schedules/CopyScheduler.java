@@ -15,13 +15,16 @@ import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.file.LoopInfo;
 import de.milchreis.phobox.core.model.PhoboxModel;
 
-public class CopyScheduler extends TimerTask {
+public class CopyScheduler extends TimerTask implements FileAction {
 	private static final Logger log = Logger.getLogger(CopyScheduler.class);
 
 	private int lastSize = 0;
+	private int intervallInMillis;
+	private Timer timer;
 	
 	public CopyScheduler(int intervallInMillis) {
-		new Timer().schedule(this, 100, intervallInMillis);
+		timer = new Timer();
+		this.intervallInMillis = intervallInMillis;
 	}
 
 	@Override
@@ -40,21 +43,36 @@ public class CopyScheduler extends TimerTask {
 			new FileProcessor().foreachFile(
 					watchDir, 
 					PhoboxConfigs.SUPPORTED_IMPORT_FORMATS, 
-					new FileAction() {
-						@Override
-						public void process(File file, LoopInfo info) {
-							try {
-								FileUtils.copyFileToDirectory(file, model.getIncomingPath());
-							} catch (IOException e) {
-								log.error("Could not copy file: " + file.getName());
-							}
-						}
-					},
+					this,
 					true);
 			
 			lastSize = numOfFiles;
 		}
-				
-		return;
 	}
+	
+	@Override
+	public void process(File file, LoopInfo info) {
+		try {
+			FileUtils.copyFileToDirectory(file, Phobox.getModel().getIncomingPath());
+		} catch (IOException e) {
+			log.error("Could not copy file: " + file.getName());
+		}
+	}
+
+	public void start() {
+		timer.schedule(this, 100, getIntervallInMillis());
+	}
+	
+	public void stop() {
+		timer.cancel();
+	}
+
+	public int getIntervallInMillis() {
+		return intervallInMillis;
+	}
+
+	public void setIntervallInMillis(int intervallInMillis) {
+		this.intervallInMillis = intervallInMillis;
+	}
+	
 }

@@ -11,6 +11,7 @@ import com.j256.ormlite.dao.DaoManager;
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.db.DBManager;
+import de.milchreis.phobox.db.ItemAccess;
 import de.milchreis.phobox.db.entities.Item;
 
 public class UpdateDatabaseEvent implements IEvent {
@@ -21,16 +22,18 @@ public class UpdateDatabaseEvent implements IEvent {
 	@Override
 	public void onNewFile(File incomingfile) {
 		String subpath = ops.getWebPath(incomingfile);
-
-		Item item = new Item();
-		item.setFound(new Date(System.currentTimeMillis()));
-		item.setPath(subpath);
 		
 		try {
-			Dao<Item, String> itemDAO = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
-			itemDAO.createIfNotExists(item);
-			itemDAO.getConnectionSource().close();
+			Item item = ItemAccess.getItemByPath(subpath);
 			
+			if(item == null) {
+				item = new Item();
+				item.setFound(new Date(System.currentTimeMillis()));
+				item.setPath(subpath);
+			}
+			
+			DBManager.store(item, Item.class);
+
 		} catch (Exception e) {
 			log.error("Error while saving new file in database", e);
 		}

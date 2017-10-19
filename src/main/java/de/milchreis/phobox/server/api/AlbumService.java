@@ -17,7 +17,6 @@ import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
 
 import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.events.UpdateDatabaseEvent;
 import de.milchreis.phobox.core.model.Album;
 import de.milchreis.phobox.core.model.AlbumOperation;
 import de.milchreis.phobox.core.model.PhoboxModel;
@@ -93,8 +92,7 @@ public class AlbumService {
 			
 			Item item = ItemAccess.getItemByPath(op.getItem());
 			if(item == null) {
-				UpdateDatabaseEvent event = new UpdateDatabaseEvent();
-				event.onNewFile(new File(Phobox.getModel().getStoragePath(), op.getItem()));
+				Phobox.getEventRegistry().onNewFile(new File(Phobox.getModel().getStoragePath(), op.getItem()));
 				item = ItemAccess.getItemByPath(op.getItem());
 			}
 			

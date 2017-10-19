@@ -64,7 +64,7 @@ public class StorageService {
 			resp.setStatus(Status.IS_RUNNING);
 			
 		} else {
-			new ImportScheduler().run();
+			new ImportScheduler(1).run();
 			resp.setStatus(Status.OK);
 		}
 		

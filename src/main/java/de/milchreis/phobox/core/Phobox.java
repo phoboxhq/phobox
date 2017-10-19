@@ -8,6 +8,9 @@ import de.milchreis.phobox.core.events.EventRegistry;
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.ThumbProcessorQueue;
+import de.milchreis.phobox.core.schedules.CopyScheduler;
+import de.milchreis.phobox.core.schedules.ImportScheduler;
+import de.milchreis.phobox.core.schedules.StorageScanScheduler;
 import de.milchreis.phobox.server.PhoboxServer;
 
 public class Phobox {
@@ -22,6 +25,10 @@ public class Phobox {
 	private FileProcessor importProcessor;
 	private EventRegistry eventRegistry;
 	
+	private ImportScheduler 	importScheduler;
+	private CopyScheduler copyScheduler;
+	private StorageScanScheduler storageScanScheduler;
+	
 	private static Phobox instance;
 	
 	private Phobox() {
@@ -32,6 +39,11 @@ public class Phobox {
 		importProcessor = new FileProcessor();
 		eventRegistry = new EventRegistry();
 		server = new PhoboxServer();
+		
+		// Initialize the scheduler for importing and scanning new files
+		importScheduler = new ImportScheduler(3000);
+		copyScheduler = new CopyScheduler(3000);
+		storageScanScheduler = new StorageScanScheduler(24);
 	}
 	
 	private static Phobox getInstance() {
@@ -74,12 +86,44 @@ public class Phobox {
 		}
 	}
 
+	public static void startSchedules() {
+		Phobox phobox = getInstance();
+		phobox.copyScheduler.start();
+		phobox.storageScanScheduler.start();
+		phobox.importScheduler.start();
+	}
+
+	
 	public static FileProcessor getImportProcessor() {
 		return getInstance().importProcessor;
 	}
 
 	public static EventRegistry getEventRegistry() {
 		return getInstance().eventRegistry;
+	}
+
+	public ImportScheduler getImportScheduler() {
+		return importScheduler;
+	}
+
+	public void setImportScheduler(ImportScheduler importScheduler) {
+		this.importScheduler = importScheduler;
+	}
+
+	public CopyScheduler getCopyScheduler() {
+		return copyScheduler;
+	}
+
+	public void setCopyScheduler(CopyScheduler copyScheduler) {
+		this.copyScheduler = copyScheduler;
+	}
+
+	public StorageScanScheduler getStorageScanScheduler() {
+		return storageScanScheduler;
+	}
+
+	public void setStorageScanScheduler(StorageScanScheduler storageScanScheduler) {
+		this.storageScanScheduler = storageScanScheduler;
 	}
 
 }

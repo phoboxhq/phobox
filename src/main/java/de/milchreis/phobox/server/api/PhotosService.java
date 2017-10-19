@@ -22,6 +22,7 @@ import de.milchreis.phobox.core.PhoboxConfigs;
 import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.StorageStatus;
+import de.milchreis.phobox.core.schedules.StorageScanScheduler;
 import de.milchreis.phobox.utils.ListHelper;
 import de.milchreis.phobox.utils.PathConverter;
 import de.milchreis.phobox.utils.ZipStreamHelper;
@@ -47,6 +48,7 @@ public class PhotosService {
 		PhotoService photoService = new PhotoService();
 		PhoboxModel model = Phobox.getModel();
 		PhoboxOperations ops = Phobox.getOperations();
+		
 		File storage = new File(model.getStoragePath());
 		File dir = new File(storage, directory);
 		boolean isRoot = directory.equals("/");
@@ -54,6 +56,9 @@ public class PhotosService {
 		if(directory == null || directory.isEmpty())
 			dir = storage;
 
+		// Update directory on database and
+		new StorageScanScheduler(StorageScanScheduler.IMMEDIATELY, dir).start();
+		
 		StorageStatus response = new StorageStatus();
 		response.setName(ops.getElementName(dir));
 		response.setPath(directory);
@@ -72,8 +77,8 @@ public class PhotosService {
 			for(java.nio.file.Path path : stream) {
 				File file = path.toFile();
 				
-				// Skip internal phobox directory
-				if(isRoot && file.isDirectory() && file.getName().equals("phobox")) {
+				// Skip internal phobox directory and hidden files
+				if((isRoot && file.isDirectory() && file.getName().equals("phobox")) || file.isHidden()) {
 					continue;
 				}
 				

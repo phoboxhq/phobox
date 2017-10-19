@@ -11,11 +11,9 @@ import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.config.PreferencesManager;
 import de.milchreis.phobox.core.events.IEvent;
 import de.milchreis.phobox.core.events.MetaExtractEvent;
+import de.milchreis.phobox.core.events.ThumbnailEvent;
 import de.milchreis.phobox.core.events.UpdateDatabaseEvent;
 import de.milchreis.phobox.core.model.PhoboxModel;
-import de.milchreis.phobox.core.schedules.CopyScheduler;
-import de.milchreis.phobox.core.schedules.ImportScheduler;
-import de.milchreis.phobox.core.schedules.StorageScanScheduler;
 import de.milchreis.phobox.db.DBManager;
 import de.milchreis.phobox.gui.ServerGui;
 import de.milchreis.phobox.gui.StorageAsk;
@@ -76,15 +74,15 @@ public class Main {
 			Server.createWebServer().start();
 		}
 		
+		// Start all implemented background tasks
+		Phobox.startSchedules();
+		
+		// Set up the EventRegistry
 		Phobox.getEventRegistry().addEvent(new UpdateDatabaseEvent());
 		Phobox.getEventRegistry().addEvent(new MetaExtractEvent());
+		Phobox.getEventRegistry().addEvent(new ThumbnailEvent());
 
 		Phobox.getEventRegistry().onCreation();
-				
-		// Initialize the scheduler for importing and scanning new files
-		new ImportScheduler(3000);
-		new CopyScheduler(3000);
-		new StorageScanScheduler(24);
 	}
 	
 	private static boolean isFirstRun() {

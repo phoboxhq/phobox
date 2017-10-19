@@ -180,9 +180,9 @@ public class PhotoService {
 				
 				if(!ops.getThumb(previewFile).exists()) {
 					
-					// Start creating thumb-nails
-					Phobox.processThumbnails(previewFile);
-
+					// Add to database and create thumbnail
+					Phobox.getEventRegistry().onNewFile(previewFile);
+					
 					// Set waiting icon
 					item.setPreview("img/stopwatch.png");
 					item.setThumb("img/stopwatch.png");
@@ -196,9 +196,9 @@ public class PhotoService {
 			// Check existence of the thumbnails
 			if(!ops.getThumb(file).exists()) {
 				
-				// Start creating thumb-nails
-				Phobox.processThumbnails(file);
-
+				// Add to database and create thumbnail
+				Phobox.getEventRegistry().onNewFile(file);
+				
 				// Set waiting icon
 				item.setThumb("img/stopwatch.png");
 			}

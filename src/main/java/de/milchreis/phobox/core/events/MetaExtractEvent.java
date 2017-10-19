@@ -23,12 +23,22 @@ public class MetaExtractEvent implements IEvent {
 		try {
 			Item item = DBManager.getById(subpath, Item.class);
 			
-			item.setRotation(ExifHelper.getOrientation(file));
-			item.setCreation(new Date(ExifHelper.getCreationDate(file).getTime()));
+			try {
+				item.setRotation(ExifHelper.getOrientation(file));
+			} catch(Exception e) {
+			}
 			
-			int[] dimension = ExifHelper.getDimension(file);
-			item.setWidth(dimension[0]);
-			item.setHeight(dimension[1]);
+			try {
+				item.setCreation(new Date(ExifHelper.getCreationDate(file).getTime()));
+			} catch(Exception e) {
+			}
+			
+			try {
+				int[] dimension = ExifHelper.getDimension(file);
+				item.setWidth(dimension[0]);
+				item.setHeight(dimension[1]);
+			} catch(Exception e) {
+			}
 			
 			DBManager.store(item, Item.class);
 			
