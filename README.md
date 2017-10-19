@@ -3,7 +3,7 @@ Phobox is a small tool to extend your local picture storage with a bunch of conn
 It starts a lightweight server process, which you allows to access your pictures over a graphical user interface
 or a REST-API. Moreover you can organize your files and create collections of the best photographs.
 
-**I developed phobox to solve two main problems in my picture workflow:**
+**I developed phobox to solve three main problems in my picture workflow:**
  - organize new pictures from camera to the correct directories
  - get a simple and fast access to the pictures on my smartphone at home
  - search for pictures
