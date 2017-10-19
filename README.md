@@ -61,4 +61,4 @@ The tool runs on the raspberry pi 3 with the Java ARM version great, too.
 The project can build with maven and the goal `clean compile assembly:single`. For eclipse the run configuration is stored in `phobox.launch`.
 
 # Contribute
-Please try it out and leave issues if something goes wrong or your have a feature request. Pull requests are also welcome :-)
+Please try it out and leave issues if something goes wrong or you have a feature request. Pull requests are also welcome :-)
