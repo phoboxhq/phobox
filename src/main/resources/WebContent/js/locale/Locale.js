@@ -16,6 +16,7 @@ var en = {
 		download: 'Download',
 		rename: 'Rename',
 		delete: 'Delete',
+		tags: 'TAGs',
 		waitforthumb: 'Creating thumbnail... Please reload.',
 
 		rename_dialog_head: 'Rename element',
@@ -116,6 +117,7 @@ var de = {
 		download: 'Herunterladen',
 		rename: 'Umbenennen',
 		delete: 'Löschen',
+		tags: 'Schlagworte',
 		waitforthumb: 'Erstelle Vorschaubild... Bitte aktualisieren.',
 		
 		rename_dialog_head: 'Umbenennen von',

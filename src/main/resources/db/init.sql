@@ -11,9 +11,11 @@ CREATE TABLE IF NOT EXISTS `item` (
 
 -- Storage item tagging
 CREATE TABLE IF NOT EXISTS `item_tag` (
+	`id` int(10) NOT NULL auto_increment,
 	`id_item` varchar(500) NOT NULL,
 	`tag_value` varchar(255) NOT NULL,
 	FOREIGN KEY(id_item) REFERENCES item(path),
+	PRIMARY KEY( `id` )
 );
 
 -- Config

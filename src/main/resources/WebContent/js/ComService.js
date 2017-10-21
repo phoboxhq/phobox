@@ -136,4 +136,21 @@ function ComService() {
 			return response.data;
 		});
 	};
+
+	this.getTags = function(itemPath, callback) {
+		var p = this.encodePath(itemPath);
+		return $.get("/api/tags/item/"+p).done(callback);
+	};
+
+	this.setTags = function(itemPath, tags, callback) {
+		var p = this.encodePath(itemPath);
+		return $.ajax({
+            url: "/api/tags/",
+            type: "put",
+			contentType: "application/json",
+			data: JSON.stringify({'tags':tags, 'item':itemPath}),
+            dataType : "json",
+            success: callback,
+        });
+	};
 }

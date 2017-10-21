@@ -1,5 +1,5 @@
 .dialog {
-	position: fixed;
+    position: fixed;
     z-index: 100;
     top: 10%;
     max-width: 500px;
@@ -11,9 +11,8 @@
     background-color: #212020;
 }
 
-
 .dialog .head {
-	font-weight: bold;
+    font-weight: bold;
     background-color: #151414;
     padding: 10px;
     border-radius: 5px 5px 0px 0px;
@@ -26,4 +25,9 @@
 .dialog .footer {
     padding: 10px;
     text-align: right;
+}
+
+.bootstrap-tagsinput .tag {
+    color: #151414;
+    font-size: 13px;
 }

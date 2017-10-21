@@ -45,6 +45,7 @@ const FileItem = Vue.component(
                     </li>
                     <li class="menu_element" v-on:click="onRename"><i class="fa fa-pencil" aria-hidden="true"></i> {{ Locale.values.pictures.rename }}</li>
                     <li class="menu_element" v-on:click="onDelete"><i class="fa fa-trash" aria-hidden="true"></i> {{ Locale.values.pictures.delete }}</li>
+                    <li class="menu_element" v-on:click="onTags"><i class="fa fa-tags" aria-hidden="true"></i> {{ Locale.values.pictures.tags }}</li>
                 </ul>
             </div>
         </transition>
@@ -108,6 +109,11 @@ const FileItem = Vue.component(
         
         onDelete: function() {
             this.$parent.deleteItem = this.item;
+            this.closeMenu();
+        },
+
+        onTags: function() {
+            this.$parent.tagsItem = this.item;
             this.closeMenu();
         },
     },

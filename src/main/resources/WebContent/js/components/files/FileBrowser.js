@@ -33,6 +33,8 @@ const FileBrowser = Vue.component(
         <deleteConfirmDialog :item="deleteItem"></deleteConfirmDialog>
 
         <favoriteDialog :item="favoriteItem"></favoriteDialog>
+        
+        <tagsDialog :item="tagsItem"></tagsDialog>
     </div>
     `,
     props: [],
@@ -43,6 +45,7 @@ const FileBrowser = Vue.component(
             selectedItem: null,
             renameItem: null,
             deleteItem: null,
+            tagsItem: null,
             favoriteItem: null,
             Locale: Locale,
     	};

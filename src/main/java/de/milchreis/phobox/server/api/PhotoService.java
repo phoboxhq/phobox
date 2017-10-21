@@ -153,9 +153,7 @@ public class PhotoService {
 		PhoboxModel model = Phobox.getModel();
 		
 		String filename = file.getName();
-		String directory = file.getAbsolutePath()
-				.replace(model.getStoragePath(), "")
-				.replace(filename, "");
+		String directory = ops.getWebPath(file).replace(filename, "");
 		
 		StorageItem item = new StorageItem();
 
