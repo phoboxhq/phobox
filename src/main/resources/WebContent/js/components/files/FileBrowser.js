@@ -1,23 +1,28 @@
 const FileBrowser = Vue.component(
-	'filebrowser', {
+    'filebrowser', {
     template: `
     <div id="filebrowser">
-		<breadcrumb :path="path"></breadcrumb>
+        <breadcrumb :path="path"></breadcrumb>
 
-		<transition name="fade">
-    		<!-- List all elements as FileItem -->
-    		<div class="items">
-    			<fileitem v-for="item in items" 
+        <transition name="fade">
+            <!-- List all elements as FileItem -->
+            <div class="items">
+                <fileitem v-for="item in items" 
                     :item="item"
                     :selectedItem="selectedItem"></fileitem>
-    		</div>
-		</transition>
+            </div>
+        </transition>
+
+        <!-- Dark overlay -->
+        <transition name="fade">
+            <img src="img/loading.gif" v-if="isLoading" class="loading" />
+        </transition>
 
         <!-- Include the lightbox -->
         <lightbox
             :items="items" 
             :selectedItem="selectedItem"></lightbox>
-	
+    
         <div class="not_found_center"
             v-if="isItemListEmpty">
             <i style="font-size: 20em; color: rgba(0, 0, 0, 0.27);"
@@ -39,27 +44,30 @@ const FileBrowser = Vue.component(
     `,
     props: [],
     data: function() {
-    	return {
-    		items: null,
-    		path: null,
+        return {
+            items: null,
+            path: null,
             selectedItem: null,
             renameItem: null,
             deleteItem: null,
             tagsItem: null,
             favoriteItem: null,
+            isLoading: true,
             Locale: Locale,
-    	};
+        };
     },
     methods: {
-    	refresh () {
-    		this.path = this.$route.params.path;
-    		this.scan(this.path);
-    	},
+        refresh () {
+            this.path = this.$route.params.path;
+            this.scan(this.path);
+        },
 
-    	scan : function(path) {
-			var that = this;
-			new ComService().scan(path, function(data) {
+        scan : function(path) {
+            this.isLoading = true;
+            var that = this;
+            new ComService().scan(path, function(data) {
                 that.items = data.items;
+                that.isLoading = false;
             });
         },
 
@@ -75,8 +83,8 @@ const FileBrowser = Vue.component(
     },
     watch: {
         '$route': 'refresh',
-	},
-	created () {
-    	this.refresh();
-  	}
+    },
+    created () {
+        this.refresh();
+      }
 });
