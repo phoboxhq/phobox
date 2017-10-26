@@ -12,7 +12,7 @@ or a REST-API. Moreover you can organize your files and create collections of th
 
 # Getting started
 ## Download
-If you want to try phobox, you can download the jar file from github. Look [here](https://github.com/Milchreis/phobox/raw/master/bin/phobox-0.0.1.jar) for the last version. All versions/builds are saved in the [bin-directory](https://github.com/Milchreis/phobox/tree/master/bin).
+If you want to try phobox, you can download the jar file from github. Look [here](https://github.com/Milchreis/phobox/raw/master/bin/phobox-0.0.2.jar) for the last version. All versions/builds are saved in the [bin-directory](https://github.com/Milchreis/phobox/tree/master/bin).
 
 ## Graphical interface 
 1) Start the program (double click on phobox-<version>.jar or `java -jar phobox-<version>.jar` in terminal
