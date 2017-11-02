@@ -21,6 +21,9 @@ public class Item {
 	private Integer height;
 	
 	@DatabaseField
+	private String description;
+
+	@DatabaseField
 	private Date creation;
 	
 	@DatabaseField(canBeNull = false)
@@ -75,5 +78,13 @@ public class Item {
 
 	public void setCreation(Date creation) {
 		this.creation = creation;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

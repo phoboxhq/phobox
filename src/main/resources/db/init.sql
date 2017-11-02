@@ -1,10 +1,11 @@
 -- Storage item
 CREATE TABLE IF NOT EXISTS `item` (
-	`path` varchar(500) NOT NULL,
+	`path` VARCHAR_IGNORECASE(500) NOT NULL,
 	`rotation` int(10) DEFAULT 0,
 	`width` int(10),
 	`height` int(10),
 	`creation` datetime,
+	`description` varchar(500),
 	`found` datetime DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY( `path` )
 );
@@ -13,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `item` (
 CREATE TABLE IF NOT EXISTS `item_tag` (
 	`id` int(10) NOT NULL auto_increment,
 	`id_item` varchar(500) NOT NULL,
-	`tag_value` varchar(255) NOT NULL,
+	`tag_value` VARCHAR_IGNORECASE(255) NOT NULL,
 	FOREIGN KEY(id_item) REFERENCES item(path),
 	PRIMARY KEY( `id` )
 );

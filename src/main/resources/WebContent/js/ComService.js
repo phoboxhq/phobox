@@ -8,7 +8,7 @@ function ComService() {
 	this.getData = function(response) {
 		return repsonse;
 	}
-	
+
 	/** Encodes a given path to an URL frindly path (/ -> %252F) */
 	this.encodePath = function (path) {
 		if(path === undefined) 		path = "/";
@@ -47,21 +47,21 @@ function ComService() {
 	/** Save the login credentials for a secure storage access */
 	this.saveCredentials = function(user, pass, callback) {
 		return $.ajax({
-            url: "/api/settings/credentials/",
-            type: "post",
+			url: "/api/settings/credentials/",
+			type: "post",
 			contentType: "application/json",
-            data: JSON.stringify({username: user, password: pass}),
-            dataType : "json",
-            success: callback,
-        });
+			data: JSON.stringify({username: user, password: pass}),
+			dataType : "json",
+			success: callback,
+		});
 	};
 
 	/** Deletes the current access credentials */
 	this.resetCredentials = function(callback) {
 		return $.ajax({
-		    url: '/api/settings/credentials/',
-		    type: 'DELETE',
-		    success: callback
+			url: '/api/settings/credentials/',
+			type: 'DELETE',
+			success: callback
 		});
 	};
 
@@ -78,12 +78,12 @@ function ComService() {
 	/** Save an other import pattern for directories */
 	this.saveImportPattern = function(pattern, callback) {
 		return $.ajax({
-            url: "/api/settings/importPattern/",
-            type: "post",
+			url: "/api/settings/importPattern/",
+			type: "post",
 			contentType: "application/json",
-            data: pattern,
-            success: callback,
-        });
+			data: pattern,
+			success: callback,
+		});
 	};
 
 	/** Get the avialable album names */
@@ -99,13 +99,13 @@ function ComService() {
 	/** Add element to album */
 	this.addToAlbum = function(itemPath, album, callback) {
 		return $.ajax({
-            url: "/api/album/",
-            type: "put",
+			url: "/api/album/",
+			type: "put",
 			contentType: "application/json",
 			data: JSON.stringify({'name':album, 'item':itemPath}),
-            dataType : "json",
-            success: callback,
-        });
+			dataType : "json",
+			success: callback,
+		});
 	};
 
 	/** Check current state of all thumbnails and possible recreate is again */
@@ -115,12 +115,12 @@ function ComService() {
 
 	this.changePath = function(newpath, callback) {
 		return $.ajax({
-            url: "/api/settings/path/",
-            type: "post",
+			url: "/api/settings/path/",
+			type: "post",
 			contentType: "application/json",
-            data: newpath,
-            success: callback,
-        });
+			data: newpath,
+			success: callback,
+		});
 	};
 
 	this.getExif = function(itemPath) {
@@ -145,12 +145,16 @@ function ComService() {
 	this.setTags = function(itemPath, tags, callback) {
 		var p = this.encodePath(itemPath);
 		return $.ajax({
-            url: "/api/tags/",
-            type: "put",
+			url: "/api/tags/",
+			type: "put",
 			contentType: "application/json",
 			data: JSON.stringify({'tags':tags, 'item':itemPath}),
-            dataType : "json",
-            success: callback,
-        });
+			dataType : "json",
+			success: callback,
+		});
+	};
+
+	this.search = function(searchString, callback) {
+		return $.get("/api/search/"+searchString).done(callback);
 	};
 }

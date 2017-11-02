@@ -2,6 +2,7 @@
 var en = {
 	menu: {
 		pictures: 'Pictures',
+		search: 'Search for pictures',
 		albums: 'Albums',
 		status: 'Status',
 		upload: 'Upload',
@@ -38,6 +39,12 @@ var en = {
 		favorite_dialog_add: 'Add to album',
 	},
 
+	search: {
+		searchbar: 'Search for name, TAG, date ...',
+		search_button: 'Search',
+		no_results: 'No files found.',
+	},
+
 	status: {
 		import_state: 'Import state',
 		remaining_files: 'Remaining files',
@@ -54,8 +61,8 @@ var en = {
 		saved: 'Saved',
 		failed: 'Error',
 
-		access_auth_head: 'Security: Access by authentication', 
-		access_auth_description: 'Set up a username and password for a basic authenication before you access phobox. If your wireless network is open for other user, you can secure the access to your photos.', 
+		access_auth_head: 'Security: Access by authentication',
+		access_auth_description: 'Set up a username and password for a basic authenication before you access phobox. If your wireless network is open for other user, you can secure the access to your photos.',
 		access_auth_username: 'Username',
 		access_auth_password: 'Password',
 		access_auth_save: 'Save credentials',
@@ -93,7 +100,7 @@ var en = {
 		background_head: 'Background',
 		background_text: `<p>Phobox is born as a private project to be a lean solution to get a fast and easy access to my personal pictures at home on different devices. It should be a lightweight extention to an existing picture storage and can be used as simple picture organizer, too.</p>
 			<p>With Phobox you get a light HTTP-Server which will be provide your images in your private network and your local device. Moreover it's possible to import new images to storage and let be automatically placed in the correct directory struture.</p>`,
-	
+
 		author_and_contact_head: 'Author and Contact',
 		author_and_contact_text: `<p>Author: Nick Müller</p>
 			<p>Contact at <a href="https://github.com/milchreis/phobox">Github</a></p>`,
@@ -103,6 +110,7 @@ var en = {
 var de = {
 	menu: {
 		pictures: 'Bilder',
+		search: 'Bildersuche',
 		albums: 'Alben',
 		status: 'Status',
 		upload: 'Upload',
@@ -119,7 +127,7 @@ var de = {
 		delete: 'Löschen',
 		tags: 'Schlagworte',
 		waitforthumb: 'Erstelle Vorschaubild... Bitte aktualisieren.',
-		
+
 		rename_dialog_head: 'Umbenennen von',
 		rename_dialog_save: 'Speichern',
 		rename_dialog_cancel: 'Abbrechen',
@@ -139,6 +147,12 @@ var de = {
 		favorite_dialog_add: 'Hinzufügen',
 	},
 
+	search: {
+		searchbar: 'Suche nach Namen, Schlagworten, Datum ...',
+		search_button: 'Suchen',
+		no_results: 'Keine Dateien gefunden.',
+	},
+
 	status: {
 		import_state: 'Importstatus',
 		remaining_files: 'Wartende Dateien',
@@ -155,7 +169,7 @@ var de = {
 		saved: 'Gespeichert',
 		failed: 'Fehler',
 
-		access_auth_head: 'Sicherheit: Zugang mit Nutzerauthentifizierung', 
+		access_auth_head: 'Sicherheit: Zugang mit Nutzerauthentifizierung',
 		access_auth_description: 'Lege einen Benutzernamen und ein Password fest, um den Zugang zur Phobox zu sichern. Wenn dein WLAN zugänglich für andere Nutzer ist, kannst du so deine Bilder schützen.',
 		access_auth_username: 'Benutzername',
 		access_auth_password: 'Passwort',
@@ -194,7 +208,7 @@ var de = {
 		background_head: 'Hintergrund',
 		background_text: `<p>Phobox wurde als privates Projekt gestartet, um eine schlanke Lösung für den schnellen und einfachen Zugriff auf die eigenen Bilder zuhause von verschiedenen Geräten zu erhalten. Es soll eine leichtgewichtige Erweiterung von bereits vorhandenen Bildersammlungen sein und auch als einfacher Bildspeicher-Organizer verwendet werden können.</p>
 						  <p>Mit Phobox erhält man einen kleinen HTTP-Server, welcher die Bilder in einem lokalen Netzwerk für alle Geräte bereitstellt. Darüber hinaus ist es möglich neue Bilder in die Sammlung hinzufügen und automatisch in die Verzeichnissturktur einsortieren zu lassen.</p>`,
-	
+
 		author_and_contact_head: 'Autor und Kontakt',
 		author_and_contact_text: `<p>Autor: Nick Müller</p>
 			<p>Kontakt über <a href="https://github.com/milchreis/phobox">Github</a></p>`,
@@ -207,11 +221,11 @@ const Locale = {
 		en: en,
 		de: de,
 	},
-	
+
 	values: undefined,
 
 	init: function() {
-		this.__detectLang(navigator.language || navigator.userlanguage); 
+		this.__detectLang(navigator.language || navigator.userlanguage);
 	},
 
 	setLanguage: function(localekey) {

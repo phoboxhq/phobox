@@ -60,4 +60,31 @@ public class ItemAccess {
 		return results;
 	}
 
+	public static List<Item> getItemsWhereMetaLike(String searchString) throws SQLException, IOException {
+		Dao<Item, String> itemDao = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
+		QueryBuilder<Item, String> itemQB = itemDao.queryBuilder();
+		
+		List<Item> items = itemQB.where().like("path", "%"+searchString+"%").query();
+
+		itemDao.getConnectionSource().close();
+		
+		return items;
+	}
+
+	public static List<Item> getItemsWhereTagsLike(String searchString) throws SQLException, IOException {
+		Dao<ItemTag, Integer> itemTagDao = DaoManager.createDao(DBManager.getJdbcConnection(), ItemTag.class);
+		Dao<Item, String> itemDao = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
+		
+		QueryBuilder<ItemTag, Integer> itemTagQB = itemTagDao.queryBuilder();
+		itemTagQB.where().like("tag_value", "%"+searchString+"%");
+		
+		QueryBuilder<Item, String> itemQB = itemDao.queryBuilder();
+		List<Item> items = itemQB.join(itemTagQB).query();
+
+		itemDao.getConnectionSource().close();
+		itemTagDao.getConnectionSource().close();
+		
+		return items;
+	}
+
 }

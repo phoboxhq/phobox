@@ -7,28 +7,28 @@ const FileBrowser = Vue.component(
         <transition name="fade">
             <!-- List all elements as FileItem -->
             <div class="items">
-                <fileitem v-for="item in items" 
+                <fileitem v-for="item in items"
                     :item="item"
                     :selectedItem="selectedItem"></fileitem>
             </div>
         </transition>
 
-        <!-- Dark overlay -->
+        <!-- Loading image -->
         <transition name="fade">
             <img src="img/loading.gif" v-if="isLoading" class="loading" />
         </transition>
 
         <!-- Include the lightbox -->
         <lightbox
-            :items="items" 
+            :items="items"
             :selectedItem="selectedItem"></lightbox>
-    
+
         <div class="not_found_center"
             v-if="isItemListEmpty">
             <i style="font-size: 20em; color: rgba(0, 0, 0, 0.27);"
                 class="fa fa-frown-o" aria-hidden="true"></i>
             <h4>{{ Locale.values.pictures.not_found }}</h4>
-            <a href="" 
+            <a href=""
                 v-on:click="goBack()">
                 {{ Locale.values.pictures.go_back }}</a>
         </div>
@@ -38,7 +38,7 @@ const FileBrowser = Vue.component(
         <deleteConfirmDialog :item="deleteItem"></deleteConfirmDialog>
 
         <favoriteDialog :item="favoriteItem"></favoriteDialog>
-        
+
         <tagsDialog :item="tagsItem"></tagsDialog>
     </div>
     `,
@@ -86,5 +86,5 @@ const FileBrowser = Vue.component(
     },
     created () {
         this.refresh();
-      }
+    }
 });

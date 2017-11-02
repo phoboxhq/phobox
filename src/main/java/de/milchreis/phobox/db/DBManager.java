@@ -49,13 +49,13 @@ public class DBManager {
 	
 	public static JdbcConnectionSource getJdbcConnection() throws SQLException {
 		File phoboxpath = Phobox.getModel().getDatabasePath();
-		return new JdbcConnectionSource("jdbc:h2:" + phoboxpath.getAbsolutePath());
+		return new JdbcConnectionSource("jdbc:h2:" + phoboxpath.getAbsolutePath()+";IGNORECASE=TRUE");
 	}
 	
 	
 	public static Connection getConnection() throws SQLException {
 		File phoboxpath = Phobox.getModel().getDatabasePath();
-		return DriverManager.getConnection("jdbc:h2:" + phoboxpath.getAbsolutePath());
+		return DriverManager.getConnection("jdbc:h2:" + phoboxpath.getAbsolutePath()+";IGNORECASE=TRUE");
 	}
 	
 	public static void executeSQL(String sql, Object... arguments) throws SQLException {
