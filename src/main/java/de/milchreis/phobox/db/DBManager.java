@@ -2,28 +2,64 @@ package de.milchreis.phobox.db;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import org.apache.commons.io.IOUtils;
+import java.util.Collections;
+import java.util.List;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 
 import de.milchreis.phobox.core.Phobox;
+import de.milchreis.phobox.core.config.ConfigManager;
+import de.milchreis.phobox.db.entities.Config;
+import de.milchreis.phobox.utils.ResourcesHelper;
+import de.milchreis.phobox.utils.VersionComparator;
 
 public class DBManager {
 
 	public static void init() throws ClassNotFoundException, SQLException, IOException {
 		Class.forName("org.h2.Driver");
-		InputStream in = DBManager.class.getClassLoader().getResourceAsStream("db/init.sql");
-		String initscript = IOUtils.toString(in);
-		executeSQL(initscript); 
+		
+		// Init SQL script (creates tables if not exists)
+		executeSQL(ResourcesHelper.getResourceContent("db/init.sql")); 
+
+		// Version 
+		Config versionConfig = ConfigAccess.getConfig("version");
+
+		if(versionConfig == null) {
+			versionConfig = new Config();
+			versionConfig.setKey("version");
+			versionConfig.setValue("0.0.1");
+		}
+		
+		String lastversion = versionConfig.getValue();
+		String version = ConfigManager.getVersion();
+		
+		if(!lastversion.equals(version)) {
+
+			List<String> versions = ResourcesHelper.getResourceFiles("db/");
+			Collections.sort(versions);
+			Collections.reverse(versions);
+			
+			for(String v : versions) {
+
+				// Skip older versions
+				if(v.equals("init.sql") || VersionComparator.compare("\\.", v, lastversion) <= 0) {
+					continue;
+				}
+				
+				executeSQL(ResourcesHelper.getResourceContent("db/" + v));
+			}
+			
+			// Update current version in database
+			versionConfig.setValue(version);
+			store(versionConfig, Config.class);
+		}
 	}
 	
 	public static <T> T getById(Object id, Class<T> clazz) throws SQLException, IOException {

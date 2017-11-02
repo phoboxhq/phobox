@@ -20,12 +20,17 @@ public class ConfigManager {
 	public static final String STORAGE_ALBUMS = "storage.albums";
 	
 	private static Properties props;
+	private static Properties generatedProps;
 	
 	public static String get(String key) {
 		if(props == null) {
 			init();
 		}
 		return props.getProperty(key);
+	}
+	
+	public static String getVersion() {
+		return generatedProps.getProperty("version");
 	}
 
 	private static void init() {
@@ -34,6 +39,13 @@ public class ConfigManager {
 			props.load(ConfigManager.class.getClassLoader().getResourceAsStream("AppConfig.properties"));
 		} catch (IOException e) {
 			log.error("Error while loading properties file: " + e.getCause());
+		}
+		
+		generatedProps = new Properties();
+		try {
+			generatedProps.load(ConfigManager.class.getClassLoader().getResourceAsStream("app.properties"));
+		} catch (IOException e) {
+			log.error("Error while loading generated properties file: " + e.getCause());
 		}
 	}
 }
