@@ -11,8 +11,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
-
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.core.model.StorageItem;
@@ -22,7 +20,6 @@ import de.milchreis.phobox.db.entities.Item;
 
 @Path("/search/")
 public class SearchService {
-	private static Logger log = Logger.getLogger(SearchService.class);
 	
 	@GET
 	@Path("{search}")
@@ -31,15 +28,7 @@ public class SearchService {
 		
 		// Utils
 		PhotoService photoService = new PhotoService();
-		PhoboxOperations ops = Phobox.getOperations();
-
-		// Search String Analyser
-		//  -> Datum?
-		//  -> Befehl? (z.B. :name ....
-		
-		// Item:		Path,  Creation Description, 
-		// Item_Tag:	Tags
-		
+		PhoboxOperations ops = Phobox.getOperations();	
 		
 		List<Item> items = ItemAccess.getItemsWhereMetaLike(searchString);
 		items.addAll(ItemAccess.getItemsWhereTagsLike(searchString));
