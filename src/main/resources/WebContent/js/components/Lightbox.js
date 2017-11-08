@@ -4,26 +4,26 @@ const Lightbox = Vue.component(
 	<transition name="fade">
 		<div id="lightbox" v-if="selectedItem">
 			<!-- Dark overlay -->
-			<div 
+			<div
 				class="menuoverlay"
 				v-on:click="close()"></div>
 
 			<!-- Lightbox window to presenting the picture -->
 			<div id="lightbox_window">
-				
+
 				<!-- Current position of the picture -->
 				<div class="picture_position">
 					{{ index+1 }} {{ Locale.values.pictures.of }} {{ maxItems }}
 				</div>
 
-				<img 
+				<img
 					id="lightbox_image"
 					class="preview"
 					:src="selectedItem.thumb" />
-				
+
 				<div class="window_buttons">
 					<!-- Close window -->
-					<button type="button" class="close window_button" 
+					<button type="button" class="close window_button"
 						v-on:click="close()">
 						<i class="fa fa-times" aria-hidden="true"></i>
 					</button>
@@ -31,19 +31,19 @@ const Lightbox = Vue.component(
 					<!-- Previous picture -->
 					<button type="button" class="close window_button"
 						v-on:click="previous()"
-						v-show="hasPrevious">
+						:disabled="!hasPrevious">
 						<i class="fa fa-arrow-left" aria-hidden="true"></i>
 					</button>
 
 					<!-- Next picture -->
 					<button type="button" class="close window_button"
 						v-on:click="next()"
-						v-show="hasNext">
+						:disabled="!hasNext">
 						<i class="fa fa-arrow-right" aria-hidden="true"></i>
 					</button>
 
 					<!-- Download picture -->
-					<a :href="selectedItem.path" 
+					<a :href="selectedItem.path"
 						class="close window_button" target="_blank" download>
 						<i class="fa fa-download" aria-hidden="true"></i>
 					</a>
@@ -106,11 +106,11 @@ const Lightbox = Vue.component(
 			this.$parent.favoriteItem = this.selectedItem;
 		},
 	},
-    watch: {
-        'selectedItem': function() {
+	watch: {
+		'selectedItem': function() {
 
-        	if(this.selectedItem != null) {
-	        	var img = new Image();
+			if(this.selectedItem != null) {
+				var img = new Image();
 				img.src = this.selectedItem.thumb;
 
 				setTimeout(function() {
@@ -126,15 +126,15 @@ const Lightbox = Vue.component(
 						// landscape orientation
 						lightboxImage.style.maxWidth = "100%";
 						lightboxImage.style.maxHeight = undefined;
-					
+
 					} else {
 						// portrait orientation
 						lightboxImage.style.maxWidth = undefined;
 						lightboxImage.style.maxHeight = window.innerHeight - (window.innerHeight*0.3) + "px";
 					}
-					
+
 				}, 300);
-        	}
-        },
+			}
+		},
 	},
 })
