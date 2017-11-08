@@ -2,8 +2,10 @@ package de.milchreis.phobox.server.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -21,6 +23,8 @@ import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.Status;
 import de.milchreis.phobox.core.model.StorageItem;
+import de.milchreis.phobox.db.ItemAccess;
+import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.utils.ExifHelper;
 import de.milchreis.phobox.utils.FilesystemManager;
 import de.milchreis.phobox.utils.ListHelper;
@@ -161,6 +165,12 @@ public class PhotoService {
 		item.setPath(ops.getWebPath(new File(directory, file.getName())));
 		item.setType(file.isDirectory() ? StorageItem.TYPE_DIRECTORY : StorageItem.TYPE_FILE);
 		
+		Item dbItem = null;
+		try {
+			dbItem = ItemAccess.getItemByPath(item.getPath());
+		} catch (SQLException | IOException e) {
+		}
+		
 		File rawFile = FilesystemManager.getRawIfExists(file, PhoboxConfigs.SUPPORTED_RAW_FORMATS);
 		if(rawFile != null) {
 			File raw = new File(directory, rawFile.getName().toString());
@@ -190,6 +200,11 @@ public class PhotoService {
 		} else if(ListHelper.endsWith(fileExtension, PhoboxConfigs.SUPPORTED_VIEW_FORMATS)) {
 			
 			item.setThumb(ops.getWebPath(model.getThumbPath()) + "/" + item.getPath());
+
+			// Add landscape/portrait information by database item
+			if(dbItem != null && Objects.nonNull(dbItem.getWidth()) && Objects.nonNull(dbItem.getHeight())) {
+				item.setLandscape(dbItem.getWidth() > dbItem.getHeight());
+			}
 			
 			// Check existence of the thumbnails
 			if(!ops.getThumb(file).exists()) {

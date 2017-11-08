@@ -12,6 +12,7 @@ public class StorageItem {
 	private String preview;
 	private String thumb;
 	private String raw;
+	private Boolean isLandscape;
 	
 	public String getName() {
 		return name;
@@ -68,4 +69,13 @@ public class StorageItem {
 	public void setThumb(String thumb) {
 		this.thumb = thumb;
 	}
+
+	public Boolean isLandscape() {
+		return isLandscape;
+	}
+
+	public void setLandscape(Boolean isLandscape) {
+		this.isLandscape = isLandscape;
+	}
+
 }

@@ -1,5 +1,7 @@
 package de.milchreis.phobox.core.events;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.File;
 import java.sql.Date;
 
@@ -38,6 +40,9 @@ public class MetaExtractEvent implements IEvent {
 				item.setWidth(dimension[0]);
 				item.setHeight(dimension[1]);
 			} catch(Exception e) {
+				Image img = Toolkit.getDefaultToolkit().getImage(file.getAbsolutePath());
+				item.setWidth(img.getWidth(null));
+				item.setHeight(img.getHeight(null));
 			}
 			
 			DBManager.store(item, Item.class);
