@@ -2,7 +2,7 @@ const Lightbox = Vue.component(
 	'lightbox', {
 	template: `
 	<transition name="fade">
-		<div id="lightbox" v-if="selectedItem">
+		<div id="lightbox" v-if="selectedItem" @keydown.prevent="onKeydown">
 			<!-- Dark overlay -->
 			<div
 				class="menuoverlay"
@@ -105,36 +105,61 @@ const Lightbox = Vue.component(
 		onFavorite: function() {
 			this.$parent.favoriteItem = this.selectedItem;
 		},
+
+		onShow: function() {
+			if(this.selectedItem.landscape != null) {
+			}
+
+			var img = new Image();
+			img.src = this.selectedItem.thumb;
+
+			var lightboxImage = document.getElementById("lightbox_image");
+			lightboxImage.style.transition = "all 0.3s";
+
+			var lightboxWindow = document.getElementById("lightbox_window");
+			var xPos = window.innerWidth/2 - lightboxWindow.clientWidth/2;
+			lightboxWindow.style.left = xPos + "px";
+
+			if(this.selectedItem.landscape != null && this.selectedItem.landscape || img.width >= img.height) {
+				// landscape orientation
+				lightboxImage.style.maxWidth = "100%";
+				lightboxImage.style.maxHeight = undefined;
+
+			} else {
+				// portrait orientation
+				lightboxImage.style.maxWidth = undefined;
+				lightboxImage.style.maxHeight = window.innerHeight - (window.innerHeight*0.3) + "px";
+			}
+		},
 	},
+
+	updated: function() {
+		if(this.selectedItem !== null) {
+			this.onShow();
+		}
+	},
+
+	created: function() {
+		var that = this;
+
+		// Add cursor key listeners for navigation
+		document.onkeydown = function (e) {
+			e = e || window.event;
+
+			// Right/Next
+			if(e.keyCode === 39 && that.hasNext) {
+				that.next();
+			}
+
+			// Left/Previous
+			if(e.keyCode === 37 && that.hasPrevious) {
+				that.previous();
+			}
+		};
+	},
+
 	watch: {
 		'selectedItem': function() {
-
-			if(this.selectedItem != null) {
-				var img = new Image();
-				img.src = this.selectedItem.thumb;
-
-				setTimeout(function() {
-
-					var lightboxImage = document.getElementById("lightbox_image");
-					lightboxImage.style.transition = "all 0.3s";
-
-					var lightboxWindow = document.getElementById("lightbox_window");
-					var xPos = window.innerWidth/2 - lightboxWindow.clientWidth/2;
-					lightboxWindow.style.left = xPos + "px";
-
-					if(img.width >= img.height) {
-						// landscape orientation
-						lightboxImage.style.maxWidth = "100%";
-						lightboxImage.style.maxHeight = undefined;
-
-					} else {
-						// portrait orientation
-						lightboxImage.style.maxWidth = undefined;
-						lightboxImage.style.maxHeight = window.innerHeight - (window.innerHeight*0.3) + "px";
-					}
-
-				}, 300);
-			}
 		},
 	},
 })
