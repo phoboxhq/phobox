@@ -174,38 +174,6 @@ public class PhoboxOperations {
 			return "";
 		}
 	}
-	
-	@Deprecated
-	public String getElementTimestamp(File element) {
-		String name = FilenameUtils.getBaseName(element.getAbsolutePath());
-
-		if(name.length() > 10) {
-			return name.substring(0, 10);
-		} else {
-			return name;
-		}
-	}
-
-	@Deprecated
-	public File convertNameToCorrectPath(File tar, String targetname) {
-		String orgFile = tar.getAbsolutePath();
-		String path = FilenameUtils.getFullPath(orgFile);
-		String name = FilenameUtils.getName(orgFile);
-		
-		if(tar.isDirectory()) {
-			if(name.contains("_")) {
-				String[] components = name.split("_");
-				name = components[0] + "_" + targetname;
-			} else {
-				name = name + "_" + targetname;
-			}
-		} else {
-			name = targetname;
-			
-		}
-		
-		return new File(path, name);
-	}
 
 	public SystemStatus getStatus() {
 		FileProcessor fileProcessor = Phobox.getImportProcessor();
