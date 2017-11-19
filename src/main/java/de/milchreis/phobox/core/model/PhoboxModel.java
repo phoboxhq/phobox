@@ -18,7 +18,6 @@ public class PhoboxModel {
 	private File phoboxPath;
 	private File databasePath;
 	private File incomingPath;
-	private File albumPath;
 	private File watchPath;
 	private File backupPath;
 	private File thumbPath;
@@ -44,9 +43,6 @@ public class PhoboxModel {
 		this.storagePath = storagePath;
 		phoboxPath = new File(storagePath, "phobox");
 		incomingPath = new File(phoboxPath, ConfigManager.get(ConfigManager.STORAGE_INCOMING));
-		
-		albumPath = new File(phoboxPath, ConfigManager.get(ConfigManager.STORAGE_ALBUMS));
-		albumPath.mkdirs();
 		
 		thumbPath = new File(phoboxPath, ConfigManager.get(ConfigManager.STORAGE_THUMBS));
 		thumbPath.mkdirs();
@@ -86,16 +82,6 @@ public class PhoboxModel {
 	
 	public void setBackupPath(File backupPath) {
 		this.backupPath = backupPath;
-	}
-
-	
-	@ManagedAttribute(value="Name of the directory for albums", name="albumPath")
-	public File getAlbumPath() {
-		return albumPath;
-	}
-	
-	public void setAlbumPath(File albumPath) {
-		this.albumPath = albumPath;
 	}
 
 	

@@ -2,8 +2,6 @@ package de.milchreis.phobox.core;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -88,23 +86,6 @@ public class PhoboxOperations {
 		}
 		
 		return files;
-	}
-	
-	public void addToAlbum(File item, String album) throws IOException {
-		// Get album path and create directories
-		File albumPath = model.getAlbumPath();
-		albumPath = new File(albumPath, album);
-		Path albumItem = new File(albumPath, item.getName()).toPath();
-		
-		// Create the directory
-		albumPath.mkdirs();
-		
-		// Create a link with the original name in album to the original file
-		Files.createSymbolicLink(albumItem, item.toPath());
-	}
-	
-	public void removeFromAlbum(File albumItem) {
-		albumItem.delete();
 	}
 	
 	public void delete(File item) throws IOException {
