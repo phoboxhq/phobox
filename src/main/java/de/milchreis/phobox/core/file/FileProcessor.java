@@ -1,11 +1,17 @@
 package de.milchreis.phobox.core.file;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileVisitOption;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.EnumSet;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import de.milchreis.phobox.core.file.filter.ImageFileFilter;
@@ -40,30 +46,44 @@ public class FileProcessor {
 		
 		status = PROCESSING;
 
-		ImageFileFilter filter = new ImageFileFilter(format);
-		Iterator<File> it = FileUtils.iterateFiles(path, null, recursivly);
-		LoopInfo info = new LoopInfo();
-		
-		it.forEachRemaining(f -> {
-			if(!filter.accept(f)) {
-				return;
-			}
-			currentfile = f.getAbsolutePath();
-	
-			FileIntegrityChecker.checkFile(f, WAIT_TIME_IN_MILLIS);
-			
-			actions.stream().forEach(action -> {
-				long t0 = System.currentTimeMillis();
-				state = action.getClass().getSimpleName();
-				try {
-					action.process(f, info);
-				} catch(Exception e) {
-					log.error("Error while performing an action: ", e);
-				}
-				long t1 = System.currentTimeMillis();
-				log.debug(state + " in " + (t1-t0)/1000.0 + " secs");
+		final ImageFileFilter filter = new ImageFileFilter(format);
+		final LoopInfo info = new LoopInfo();
+
+		try {
+			Files.walkFileTree(
+					path.toPath(), 
+					EnumSet.noneOf(FileVisitOption.class),
+					recursivly ? Integer.MAX_VALUE : 1,
+					new SimpleFileVisitor<Path>() {
+						@Override
+						public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
+
+							File f = path.toFile();
+							
+							if(!filter.accept(f) || f.isDirectory()) {
+								return FileVisitResult.CONTINUE;
+							}
+							currentfile = f.getAbsolutePath();
+					
+							FileIntegrityChecker.checkFile(f, WAIT_TIME_IN_MILLIS);
+							
+							actions.stream().forEach(action -> {
+								
+								state = action.getClass().getSimpleName();
+								try {
+									action.process(f, info);
+								} catch(Exception e) {
+									log.error("Error while performing an action: ", e);
+								}
+							});
+							
+							return FileVisitResult.CONTINUE;
+						}
 			});
-		});
+			
+		} catch (IOException e) {
+			log.error("Error while iteration directory: " + path.getAbsolutePath(), e);
+		}
 		
 		state = "";
 		currentfile = "";
