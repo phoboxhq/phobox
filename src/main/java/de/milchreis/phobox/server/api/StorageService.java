@@ -1,8 +1,6 @@
 package de.milchreis.phobox.server.api;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -11,14 +9,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.PhoboxConfigs;
 import de.milchreis.phobox.core.actions.SyncAction;
-import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.Status;
 import de.milchreis.phobox.core.schedules.ImportScheduler;
-import de.milchreis.phobox.utils.ThumbHelper;
+import de.milchreis.phobox.core.schedules.StorageScanScheduler;
 
 
 @Path("/storage")
@@ -79,17 +75,8 @@ public class StorageService {
 		Status resp = new Status();
 		PhoboxModel model = Phobox.getModel();
 		
-		new Thread(() -> {
-			List<FileAction> actions = new ArrayList<FileAction>();
-			actions.add(ThumbHelper.createReThumbAction());
-			
-			new FileProcessor().foreachFile(
-					new File(model.getStoragePath()), 
-					PhoboxConfigs.SUPPORTED_VIEW_FORMATS, 
-					actions,
-					true);
-		}).start();
-
+		new StorageScanScheduler(StorageScanScheduler.IMMEDIATELY, new File(model.getStoragePath()), true).start();
+		
 		resp.setStatus(Status.OK);
 		return resp;
 	}

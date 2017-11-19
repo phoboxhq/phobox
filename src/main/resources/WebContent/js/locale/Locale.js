@@ -84,9 +84,9 @@ var en = {
 		import_pattern_formatting: 'Import formatting',
 		import_pattern_save: 'Save pattern',
 
-		storage_thumbnails_head: 'Storage: Create thumbnails',
-		storage_thumbnails_description: 'Recreates for all images without thumbnails new ones.',
-		storage_thumbnails_start: 'Start thumbnail creation now',
+		storage_thumbnails_head: 'Storage: Recreate thumbnails',
+		storage_thumbnails_description: 'Recreates the thumbnail pictures and updates the internal database.',
+		storage_thumbnails_start: 'Start recreation now',
 		storage_thumbnails_success: 'All new incoming files will be saved with the new format.',
 		storage_thumbnails_failed: 'New settings could not saved.',
 
@@ -195,7 +195,7 @@ var de = {
 		import_pattern_save: 'Konfiguration speichern',
 
 		storage_thumbnails_head: 'Speicher: Vorschaubilder erzeugen',
-		storage_thumbnails_description: 'Erstellt für alle Bilder die Vorschaubilder erneut, wenn keine vorhanden sind.',
+		storage_thumbnails_description: 'Erstellt für alle Bilder die Vorschaubilder erneut und aktualisiert die interne Datenbank.',
 		storage_thumbnails_start: 'Vorschaubilder-Erstellung starten',
 		storage_thumbnails_success: 'Alle neuen Dateien werden mit den neuen Format gespeichert',
 		storage_thumbnails_failed: 'Neue Einstellung konnte nicht gespeichert werden.',
