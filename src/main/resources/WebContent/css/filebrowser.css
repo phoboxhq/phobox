@@ -34,6 +34,19 @@
     padding: 7px;
 }
 
+.btn {
+    background-color: #337ab7;
+}
+
+.moreImagesBtn {
+    margin: 15px auto;
+}
+
+.moreImagesContainer {
+    clear:both;
+    text-align: center;
+}
+
 .not_found_center {
     width: 300px;
     margin: 0 auto;

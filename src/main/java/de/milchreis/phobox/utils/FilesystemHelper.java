@@ -1,10 +1,18 @@
 package de.milchreis.phobox.utils;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class FilesystemManager {
+import de.milchreis.phobox.core.Phobox;
+import de.milchreis.phobox.core.PhoboxConfigs;
+import de.milchreis.phobox.core.file.filter.ImageFileFilter;
+
+public class FilesystemHelper {
 
 	private static final SimpleDateFormat TIMESTAMP_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 	private static final SimpleDateFormat YEAR_FORMATTER = new SimpleDateFormat("yyyy");
@@ -33,5 +41,11 @@ public class FilesystemManager {
 				return tmpFile; 
 		}
 		return null;
+	}
+	
+	public static boolean isDirEmpty(final Path directory) throws IOException {
+		try(DirectoryStream<Path> dirStream = Files.newDirectoryStream(directory, new ImageFileFilter(PhoboxConfigs.SUPPORTED_VIEW_FORMATS))) {
+	        return !dirStream.iterator().hasNext();
+	    }
 	}
 }

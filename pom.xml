@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.nartis</groupId>
 	<artifactId>phobox</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<name>Phobox</name>
 
 	<!-- Output to jar format -->

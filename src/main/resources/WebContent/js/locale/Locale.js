@@ -19,6 +19,8 @@ var en = {
 		delete: 'Delete',
 		tags: 'TAGs',
 		waitforthumb: 'Creating thumbnail... Please reload.',
+		load_more: 'Load more ...',
+		reload: 'Currently the directory will be processed. Please reload',
 
 		rename_dialog_head: 'Rename element',
 		rename_dialog_save: 'Save',
@@ -127,6 +129,8 @@ var de = {
 		delete: 'Löschen',
 		tags: 'Schlagworte',
 		waitforthumb: 'Erstelle Vorschaubild... Bitte aktualisieren.',
+		load_more: 'Weitere laden ...',
+		reload: 'Aktuell wird das Verzeichnis aufgebaut. Bitte neuladen',
 
 		rename_dialog_head: 'Umbenennen von',
 		rename_dialog_save: 'Speichern',

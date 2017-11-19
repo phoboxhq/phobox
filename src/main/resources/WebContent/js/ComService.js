@@ -27,6 +27,12 @@ function ComService() {
 		return $.get("/api/photos/scan/"+p).done(callback);
 	};
 
+	/** Requests the backend for a given directory with last item as marker for pagination */
+	this.loadMore = function (path, lastItemIndex, callback) {
+		var p = this.encodePath(path);
+		return $.get("/api/photos/scan/"+p+"/"+lastItemIndex).done(callback);
+	};
+
 	/** Requests the backend for the current status of the system */
 	this.status = function (callback) {
 		return $.get("/api/storage/status").done(callback);

@@ -26,7 +26,7 @@ import de.milchreis.phobox.core.model.StorageItem;
 import de.milchreis.phobox.db.ItemAccess;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.utils.ExifHelper;
-import de.milchreis.phobox.utils.FilesystemManager;
+import de.milchreis.phobox.utils.FilesystemHelper;
 import de.milchreis.phobox.utils.ListHelper;
 import de.milchreis.phobox.utils.PathConverter;
 
@@ -167,11 +167,11 @@ public class PhotoService {
 		
 		Item dbItem = null;
 		try {
-			dbItem = ItemAccess.getItemByPath(item.getPath());
+			dbItem = ItemAccess.getItem(item.getPath());
 		} catch (SQLException | IOException e) {
 		}
 		
-		File rawFile = FilesystemManager.getRawIfExists(file, PhoboxConfigs.SUPPORTED_RAW_FORMATS);
+		File rawFile = FilesystemHelper.getRawIfExists(file, PhoboxConfigs.SUPPORTED_RAW_FORMATS);
 		if(rawFile != null) {
 			File raw = new File(directory, rawFile.getName().toString());
 			item.setRaw(ops.getWebPath(raw));

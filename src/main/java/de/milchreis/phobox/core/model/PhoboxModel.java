@@ -23,6 +23,7 @@ public class PhoboxModel {
 	private File backupPath;
 	private File thumbPath;
 	private String importFormat = "%Y/%Y-%M/%Y-%M-%D";
+	private int imgPageSize = 30;
 	
 	@ManagedAttribute(value="State of the gui", name="activeGui")
 	public boolean isActiveGui() {
@@ -156,5 +157,14 @@ public class PhoboxModel {
 
 	public void setDatabasebrowser(boolean databasebrowser) {
 		this.databasebrowser = databasebrowser;
+	}
+
+	@ManagedAttribute(value="Number of images for paginagion", name="imgPageSize")
+	public int getImgPageSize() {
+		return imgPageSize;
+	}
+
+	public void setImgPageSize(int imgPageSize) {
+		this.imgPageSize = imgPageSize;
 	}
 }

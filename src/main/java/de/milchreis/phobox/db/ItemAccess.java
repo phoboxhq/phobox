@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
+
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -15,15 +17,21 @@ import de.milchreis.phobox.db.entities.ItemTag;
 
 public class ItemAccess {
 
-	public static Item getItemByPath(String path) throws SQLException, IOException {
-		Dao<Item, String> itemDao = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
-		Item item = itemDao.queryForId(path);
+	public static Item getItem(String path) throws SQLException, IOException {
+		Dao<Item, Integer> itemDao = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
+		
+		Item item = new Item();
+		item.setPath(FilenameUtils.getFullPath(path));
+		item.setName(FilenameUtils.getName(path));
+		
+		List<Item> items = itemDao.queryForMatching(item);
 		itemDao.getConnectionSource().close();
-		return item;
+		
+		return items.size() > 0 ? items.get(0) : null;
 	}
 
 	public static CloseableIterator<Item> getItems() throws SQLException, IOException {
-		Dao<Item, String> itemDao = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
+		Dao<Item, Integer> itemDao = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
 		return itemDao.iterator();
 	}
 
@@ -61,10 +69,13 @@ public class ItemAccess {
 	}
 
 	public static List<Item> getItemsWhereMetaLike(String searchString) throws SQLException, IOException {
-		Dao<Item, String> itemDao = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
-		QueryBuilder<Item, String> itemQB = itemDao.queryBuilder();
+		Dao<Item, Integer> itemDao = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
+		QueryBuilder<Item, Integer> itemQB = itemDao.queryBuilder();
 		
-		List<Item> items = itemQB.where().like("path", "%"+searchString+"%").query();
+		List<Item> items = itemQB.where()
+				.like("path", "%"+searchString+"%")
+				.and()
+				.like("name", "%"+searchString+"%").query();
 
 		itemDao.getConnectionSource().close();
 		
@@ -73,18 +84,52 @@ public class ItemAccess {
 
 	public static List<Item> getItemsWhereTagsLike(String searchString) throws SQLException, IOException {
 		Dao<ItemTag, Integer> itemTagDao = DaoManager.createDao(DBManager.getJdbcConnection(), ItemTag.class);
-		Dao<Item, String> itemDao = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
+		Dao<Item, Integer> itemDao = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
 		
 		QueryBuilder<ItemTag, Integer> itemTagQB = itemTagDao.queryBuilder();
 		itemTagQB.where().like("tag_value", "%"+searchString+"%");
 		
-		QueryBuilder<Item, String> itemQB = itemDao.queryBuilder();
+		QueryBuilder<Item, Integer> itemQB = itemDao.queryBuilder();
 		List<Item> items = itemQB.join(itemTagQB).query();
 
 		itemDao.getConnectionSource().close();
 		itemTagDao.getConnectionSource().close();
 		
 		return items;
+	}
+
+	public static List<Item> getItemsByPath(String directory) throws SQLException, IOException {
+		return getItemsByPath(directory, -1, -1);
+	}
+	
+	public static List<Item> getItemsByPath(String directory, long start, long number) throws SQLException, IOException {
+		Dao<Item, String> itemDao = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
+		QueryBuilder<Item, String> itemQB = itemDao.queryBuilder();
+		
+		if(start >= 0 && number >= 0) {
+			itemQB.offset(start).limit(number);
+		}
+		
+		if(!directory.endsWith("/")) {
+			directory = directory + "/";
+		}
+
+		List<Item> items = itemQB.where().eq("path", directory).query();
+		itemDao.getConnectionSource().close();
+		
+		return items;
+	}
+	
+	public static void deleteItem(Item item) throws SQLException, IOException {
+		Dao<Item, Integer> itemDAO = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
+		itemDAO.delete(item);
+		itemDAO.getConnectionSource().close();
+	}
+
+	public static void store(Item item) throws SQLException, IOException {
+		Dao<Item, Integer> itemDAO = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
+		itemDAO.createOrUpdate(item);
+		itemDAO.getConnectionSource().close();
 	}
 
 }

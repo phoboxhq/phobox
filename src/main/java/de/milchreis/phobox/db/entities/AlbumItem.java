@@ -12,7 +12,7 @@ public class AlbumItem {
 	@DatabaseField(canBeNull = false, foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true, foreignColumnName = "id", columnName="id_album")
 	private Album album;
 	
-	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, foreignColumnName = "path", columnName="path")
+	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, foreignColumnName = "id", columnName="id_item")
 	private Item item;
 	
 	@DatabaseField

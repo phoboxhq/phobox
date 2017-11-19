@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxOperations;
-import de.milchreis.phobox.db.DBManager;
+import de.milchreis.phobox.db.ItemAccess;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.utils.ExifHelper;
 
@@ -22,8 +22,13 @@ public class MetaExtractEvent implements IEvent {
 	public void onNewFile(File file) {
 		String subpath = ops.getWebPath(file);
 		
+		// Skip directory items
+		if(file.isDirectory()) {
+			return;
+		}
+		
 		try {
-			Item item = DBManager.getById(subpath, Item.class);
+			Item item = ItemAccess.getItem(subpath);
 			
 			try {
 				item.setRotation(ExifHelper.getOrientation(file));
@@ -39,13 +44,14 @@ public class MetaExtractEvent implements IEvent {
 				int[] dimension = ExifHelper.getDimension(file);
 				item.setWidth(dimension[0]);
 				item.setHeight(dimension[1]);
+				
 			} catch(Exception e) {
 				Image img = Toolkit.getDefaultToolkit().getImage(file.getAbsolutePath());
 				item.setWidth(img.getWidth(null));
 				item.setHeight(img.getHeight(null));
 			}
 			
-			DBManager.store(item, Item.class);
+			ItemAccess.store(item);
 			
 		} catch (Exception e) {
 			log.error("Error while saving new file in database", e);

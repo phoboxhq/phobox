@@ -61,7 +61,7 @@ public class AlbumService {
 			List<AlbumItem> albumItems = AlbumAccess.getAlbumItemsByAlbumName(albumName);
 			for(AlbumItem dbAlbum : albumItems) {
 				Item item = dbAlbum.getItem();
-				album.addItem(photoService.getItem(new File(model.getStoragePath(), item.getPath())));
+				album.addItem(photoService.getItem(new File(model.getStoragePath(), item.getPath() + item.getName())));
 			}
 		
 		} catch (SQLException | IOException e) {
@@ -90,10 +90,10 @@ public class AlbumService {
 				album = AlbumAccess.getAlbumByName(albumname);
 			}
 			
-			Item item = ItemAccess.getItemByPath(op.getItem());
+			Item item = ItemAccess.getItem(op.getItem());
 			if(item == null) {
 				Phobox.getEventRegistry().onNewFile(new File(Phobox.getModel().getStoragePath(), op.getItem()));
-				item = ItemAccess.getItemByPath(op.getItem());
+				item = ItemAccess.getItem(op.getItem());
 			}
 			
 			AlbumItem albumItem = new AlbumItem();

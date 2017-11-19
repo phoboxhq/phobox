@@ -16,6 +16,10 @@ public class ThumbnailEvent implements IEvent {
 
 	@Override
 	public void onNewFile(File file) {
+		// Skip directory items
+		if(file.isDirectory()) {
+			return;
+		}
 		
 		File thumbnail = ops.getThumb(file);
 		

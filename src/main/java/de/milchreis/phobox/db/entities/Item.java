@@ -8,8 +8,14 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "item")
 public class Item {
 
-	@DatabaseField(id = true, canBeNull = false)
+	@DatabaseField(generatedId = true)
+	private Integer id;
+	
+	@DatabaseField
 	private String path;
+	
+	@DatabaseField
+	private String name;
 	
 	@DatabaseField(canBeNull = false, defaultValue="0")
 	private Integer rotation;
@@ -87,4 +93,21 @@ public class Item {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }

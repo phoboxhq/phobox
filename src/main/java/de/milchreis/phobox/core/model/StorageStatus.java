@@ -8,6 +8,8 @@ import java.util.TreeMap;
 public class StorageStatus extends StorageItem {
 
 	private Map<String, StorageItem> items;
+	private boolean isFragment;
+	private boolean isProcessing;
 	
 	public StorageStatus() {
 		setItems(new TreeMap<>());
@@ -31,5 +33,21 @@ public class StorageStatus extends StorageItem {
 
 	public void setItems(Map<String, StorageItem> items) {
 		this.items = items;
+	}
+
+	public boolean isFragment() {
+		return isFragment;
+	}
+
+	public void setFragment(boolean isFragment) {
+		this.isFragment = isFragment;
+	}
+
+	public boolean isProcessing() {
+		return isProcessing;
+	}
+
+	public void setProcessing(boolean isProcessing) {
+		this.isProcessing = isProcessing;
 	}
 }

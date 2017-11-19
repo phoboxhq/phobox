@@ -2,7 +2,9 @@ package de.milchreis.phobox.core.events;
 
 import java.io.File;
 import java.sql.Date;
+import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
 import com.j256.ormlite.dao.Dao;
@@ -24,15 +26,16 @@ public class UpdateDatabaseEvent implements IEvent {
 		String subpath = ops.getWebPath(incomingfile);
 		
 		try {
-			Item item = ItemAccess.getItemByPath(subpath);
+			Item item = ItemAccess.getItem(subpath);
 			
 			if(item == null) {
 				item = new Item();
 				item.setFound(new Date(System.currentTimeMillis()));
-				item.setPath(subpath);
+				item.setName(incomingfile.getName());
+				item.setPath(FilenameUtils.getFullPath(subpath));
 			}
 			
-			DBManager.store(item, Item.class);
+			ItemAccess.store(item);
 
 		} catch (Exception e) {
 			log.error("Error while saving new file in database", e);
@@ -44,9 +47,8 @@ public class UpdateDatabaseEvent implements IEvent {
 		String subpath = ops.getWebPath(file);
 
 		try {
-			Dao<Item, String> itemDAO = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
-			itemDAO.deleteById(subpath);
-			itemDAO.getConnectionSource().close();
+			Item item = ItemAccess.getItem(subpath);
+			ItemAccess.deleteItem(item);
 			
 		} catch (Exception e) {
 			log.error("Error while deleting file in database", e);
@@ -72,12 +74,18 @@ public class UpdateDatabaseEvent implements IEvent {
 		String newsubpath = ops.getWebPath(newFile);
 
 		try {
-			Dao<Item, String> itemDAO = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
-			Item item = itemDAO.queryForId(subpath);
+			Dao<Item, Integer> itemDAO = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
+			Item item = new Item();
+			item.setPath(FilenameUtils.getFullPath(subpath));
+			item.setName(original.getName());
 			
-			if(item != null) {
-				itemDAO.updateId(item, newsubpath);
-			}
+			List<Item> items = itemDAO.queryForMatching(item);
+			item = items.get(0);
+			
+			item.setPath(FilenameUtils.getFullPath(newsubpath));
+			item.setName(newFile.getName());
+			
+			itemDAO.update(item);
 			
 			itemDAO.getConnectionSource().close();
 			
