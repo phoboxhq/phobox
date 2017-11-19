@@ -63,3 +63,15 @@ img.loading {
     right: 10px;
     transition: all 0.3s;
 }
+
+.btn {
+    color: #FFFFFF;
+    background-color: #337ab7;
+    border-color: #1d4d75;
+}
+
+.btn:hover {
+    color: #FFFFFF;
+    background-color: #2e5f8a;
+    border-color: #1d4d75;
+}
