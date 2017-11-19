@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxConfigs;
 import de.milchreis.phobox.core.file.filter.ImageFileFilter;
 
