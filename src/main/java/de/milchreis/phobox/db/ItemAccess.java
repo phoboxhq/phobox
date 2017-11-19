@@ -74,7 +74,7 @@ public class ItemAccess {
 		
 		List<Item> items = itemQB.where()
 				.like("path", "%"+searchString+"%")
-				.and()
+				.or()
 				.like("name", "%"+searchString+"%").query();
 
 		itemDao.getConnectionSource().close();

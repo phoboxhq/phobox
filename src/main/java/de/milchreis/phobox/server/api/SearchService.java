@@ -34,7 +34,7 @@ public class SearchService {
 		items.addAll(ItemAccess.getItemsWhereTagsLike(searchString));
 
 		return items.stream()
-				.map(i -> photoService.getItem(ops.getPhysicalFile(i.getPath())))
+				.map(i -> photoService.getItem(ops.getPhysicalFile(i.getPath() + i.getName())))
 				.collect(Collectors.toList());
 	}
 		
