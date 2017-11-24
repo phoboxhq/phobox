@@ -53,6 +53,8 @@ phobox by calling the ip address of the RPi.
 
 ![raspberry pi setup](https://github.com/Milchreis/phobox/raw/master/screenshots/RPi-setting.png)
 
+**To run phobox correctly on arm devices look [here](https://github.com/Milchreis/phobox/wiki/Setup-for-arm-devices-(f.e.-Raspberry-Pi)).**
+
 # Requirements
 Phobox is build on Java and just requires a JRE 1.8+. The jar file is a standalone application and runs with `java -jar phobox.jar`. 
 The tool runs on the raspberry pi 3 with the Java ARM version great, too.
