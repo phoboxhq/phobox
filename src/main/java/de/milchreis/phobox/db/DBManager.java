@@ -3,12 +3,13 @@ package de.milchreis.phobox.db;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collections;
 import java.util.List;
+
+import org.h2.jdbcx.JdbcConnectionPool;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -21,9 +22,14 @@ import de.milchreis.phobox.utils.ResourcesHelper;
 import de.milchreis.phobox.utils.VersionComparator;
 
 public class DBManager {
+	
+	private static JdbcConnectionPool pool;
 
 	public static void init() throws ClassNotFoundException, SQLException, IOException {
 		Class.forName("org.h2.Driver");
+		
+		File phoboxpath = Phobox.getModel().getDatabasePath();
+		pool = JdbcConnectionPool.create("jdbc:h2:" + phoboxpath.getAbsolutePath()+";IGNORECASE=TRUE", "", "");
 		
 		// Init SQL script (creates tables if not exists)
 		executeSQL(ResourcesHelper.getResourceContent("db/init.sql")); 
@@ -62,6 +68,10 @@ public class DBManager {
 		}
 	}
 	
+	public static void dispose() {
+        pool.dispose();
+	}
+	
 	public static <T> T getById(Object id, Class<T> clazz) throws SQLException, IOException {
 		Dao dao = DaoManager.createDao(getJdbcConnection(), clazz);
 		T obj = (T) dao.queryForId(id);
@@ -90,8 +100,7 @@ public class DBManager {
 	
 	
 	public static Connection getConnection() throws SQLException {
-		File phoboxpath = Phobox.getModel().getDatabasePath();
-		return DriverManager.getConnection("jdbc:h2:" + phoboxpath.getAbsolutePath()+";IGNORECASE=TRUE");
+        return pool.getConnection();
 	}
 	
 	public static void executeSQL(String sql, Object... arguments) throws SQLException {
