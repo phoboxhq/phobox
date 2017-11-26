@@ -33,7 +33,7 @@ usage: phobox
 ```
 
 ## Importing new pictures
-Phobox reads the _phobox/import/_ directory inside your specified picture directory. Each new readable picture will
+Phobox reads the `phobox/import/` directory inside your specified picture directory. Each new readable picture will
 be processed. Phobox moves the files to the configured directory (if EXIF data exists) and creates thumbnails for
 a faster display on remote devices. Additionally you can define another watch directory to listen for new files (maybe a ssh or remote directory).  
 
