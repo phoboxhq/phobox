@@ -39,11 +39,11 @@ public class Item {
 	}
 	
 	public String getPath() {
-		return path;
+		return path.replace("''", "'");
 	}
 	
 	public void setPath(String path) {
-		this.path = path;
+		this.path = path.replace("'", "''");
 	}
 	
 	public Integer getRotation() {
@@ -103,11 +103,11 @@ public class Item {
 	}
 
 	public String getName() {
-		return name;
+		return name.replace("''", "'");
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.replace("'", "''");
 	}
 
 }

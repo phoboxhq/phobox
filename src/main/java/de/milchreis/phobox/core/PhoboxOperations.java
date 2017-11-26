@@ -147,13 +147,7 @@ public class PhoboxOperations {
 	}
 	
 	public String getElementName(File element) {
-		String name = FilenameUtils.getBaseName(element.getAbsolutePath());
-		
-		if(name.length() > 10) {
-			return name.substring(11);
-		} else {
-			return "";
-		}
+		return FilenameUtils.getBaseName(element.getAbsolutePath());
 	}
 
 	public SystemStatus getStatus() {

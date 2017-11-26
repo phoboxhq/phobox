@@ -24,6 +24,10 @@ public class ItemAccess {
 		item.setPath(FilenameUtils.getFullPath(path));
 		item.setName(FilenameUtils.getName(path));
 		
+		// Escape single quotes
+		item.setPath(item.getPath().replace("'", "''"));
+		item.setName(item.getName().replace("'", "''"));
+		
 		List<Item> items = itemDao.queryForMatching(item);
 		itemDao.getConnectionSource().close();
 		
@@ -114,6 +118,9 @@ public class ItemAccess {
 			directory = directory + "/";
 		}
 
+		// Escape single quotes
+		directory = directory.replace("'", "''''");
+		
 		List<Item> items = itemQB.where().eq("path", directory).query();
 		itemDao.getConnectionSource().close();
 		
