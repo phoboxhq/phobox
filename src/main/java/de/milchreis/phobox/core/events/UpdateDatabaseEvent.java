@@ -33,9 +33,8 @@ public class UpdateDatabaseEvent implements IEvent {
 				item.setFound(new Date(System.currentTimeMillis()));
 				item.setName(incomingfile.getName());
 				item.setPath(FilenameUtils.getFullPath(subpath));
+				ItemAccess.store(item);
 			}
-			
-			ItemAccess.store(item);
 
 		} catch (Exception e) {
 			log.error("Error while saving new file in database", e);
