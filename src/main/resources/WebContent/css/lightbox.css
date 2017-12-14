@@ -30,10 +30,17 @@
 }
 
 .window_buttons {
+    /* fixed on the right side */
+    position: fixed;
+    top: 10%;
+    right: 0px;
+
+    /* Floating with image
     position: absolute;
     top: -16px;
     right: -57px;
     float: left;
+    */
     width: 65px;
 }
 
