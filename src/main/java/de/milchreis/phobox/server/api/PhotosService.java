@@ -25,7 +25,6 @@ import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.core.file.filter.DirectoryFilter;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.StorageStatus;
-import de.milchreis.phobox.core.schedules.StorageScanScheduler;
 import de.milchreis.phobox.db.ItemAccess;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.utils.FilesystemHelper;
@@ -75,7 +74,7 @@ public class PhotosService {
 		
 		// Update directory on database if it is no fragment
 		if(lastIndex == 0) {
-			new StorageScanScheduler(StorageScanScheduler.IMMEDIATELY, dir, false).start();
+			Phobox.addPathToScanQueue(dir);
 		}
 		
 		StorageStatus response = new StorageStatus();

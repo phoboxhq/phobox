@@ -30,6 +30,8 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 	private Timer timer;
 	private int timeInHours;
 	private File directory;
+	private boolean ready;
+
 	
 	public StorageScanScheduler(int timeInHours) {
 		timer = new Timer();
@@ -43,6 +45,7 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 		this.recursive = recursive;
 	}
 
+	
 	@Override
 	public void run() {
 		log.debug("Start storage scanner");
@@ -76,6 +79,8 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 		} catch (IOException | SQLException e) {
 			log.error("Error while scanning database", e);
 		}
+		
+		ready = true;
 	}
 	
 	@Override
@@ -91,17 +96,21 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 	}
 
 	public void start() {
-		if(timeInHours == IMMEDIATELY) {
+		if (timeInHours == IMMEDIATELY) {
 			timer.schedule(this, 1);
-			
+
 		} else {
 			timer.schedule(this, getStartDate(), getTimeInHours() * 3600000);
 		}
 	}
-	
-	 public void stop() {
-		 timer.cancel();
-	 }
+
+	public void stop() {
+		timer.cancel();
+	}
+
+	public boolean isReady() {
+		return ready;
+	}
 
 	public int getTimeInHours() {
 		return timeInHours;

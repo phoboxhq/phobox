@@ -28,6 +28,7 @@ public class Phobox {
 	private ImportScheduler 	importScheduler;
 	private CopyScheduler copyScheduler;
 	private StorageScanScheduler storageScanScheduler;
+	private StorageScanQueue scanQueue;
 	
 	private static Phobox instance;
 	
@@ -44,6 +45,7 @@ public class Phobox {
 		importScheduler = new ImportScheduler(3000);
 		copyScheduler = new CopyScheduler(3000);
 		storageScanScheduler = new StorageScanScheduler(24);
+		scanQueue = new StorageScanQueue();
 	}
 	
 	private static Phobox getInstance() {
@@ -69,9 +71,12 @@ public class Phobox {
 		return getInstance().operations;
 	}
 	
-
 	public static void processThumbnails(File file) {
 		getInstance().thumbProcessor.put(file);
+	}
+	
+	public static void addPathToScanQueue(File path) {
+		getInstance().scanQueue.putScan(path);
 	}
 
 	public static void startServer() {
@@ -89,7 +94,7 @@ public class Phobox {
 	public static void startSchedules() {
 		Phobox phobox = getInstance();
 		phobox.copyScheduler.start();
-		phobox.storageScanScheduler.start();
+		//phobox.storageScanScheduler.start();
 		phobox.importScheduler.start();
 	}
 
