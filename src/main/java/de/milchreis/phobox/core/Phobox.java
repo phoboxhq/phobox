@@ -94,7 +94,7 @@ public class Phobox {
 	public static void startSchedules() {
 		Phobox phobox = getInstance();
 		phobox.copyScheduler.start();
-		//phobox.storageScanScheduler.start();
+		phobox.storageScanScheduler.start();
 		phobox.importScheduler.start();
 	}
 
