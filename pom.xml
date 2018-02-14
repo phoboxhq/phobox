@@ -115,7 +115,7 @@
 	</repositories>
 
 	<build>
-
+		<defaultGoal>clean compile assembly:single</defaultGoal>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
