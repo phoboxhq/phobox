@@ -70,6 +70,13 @@ const FavoriteDialog = Vue.component(
 			return "";
 		},
 
+		loadAlbums: function() {
+			that = this;
+			new ComService().getAlbums(function(data) {
+				that.albums = data;
+			});
+		},
+
 		save: function() {
 			var that = this;
 			new ComService().addToAlbum(this.item.path, this.albumname, function(data) {
@@ -77,6 +84,7 @@ const FavoriteDialog = Vue.component(
 
 				if(that.status === "OK") {
 					that.close();
+					that.loadAlbums();
 				}
 			});
 		},
@@ -86,15 +94,12 @@ const FavoriteDialog = Vue.component(
 		},
 	},
 	watch: {
-	    'item': function() {
-	    	this.name = this.getName();
-	    },
+		'item': function() {
+			this.name = this.getName();
+		},
 	},
 	created: function() {
-		that = this;
-		new ComService().getAlbums(function(data) {
-            that.albums = data;
-        });
+		this.loadAlbums();
 	}
 
 });
