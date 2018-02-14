@@ -6,7 +6,7 @@ const AlbumBrowser = Vue.component(
         <!-- Existing album selector -->
         <div id="albumselector">
             <div class="form-group">
-                <label for="sel2">Select album:</label>
+                <label for="sel2">{{ Locale.values.album.select }}:</label>
                 <select class="form-control" id="sel2" v-model="albumname">
                     <option v-for="a in albums" :value="a" :label="a">
                 </select>

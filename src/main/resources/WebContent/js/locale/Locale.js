@@ -41,6 +41,10 @@ var en = {
 		favorite_dialog_add: 'Add to album',
 	},
 
+	album: {
+		select: 'Select album',
+	},
+
 	search: {
 		searchbar: 'Search for name, TAG, date ...',
 		search_button: 'Search',
@@ -149,6 +153,10 @@ var de = {
 		favorite_dialog_name: 'Name des neuen Albums',
 		favorite_dialog_select: 'Album auswählen',
 		favorite_dialog_add: 'Hinzufügen',
+	},
+
+	album: {
+		select: 'Album auswählen',
 	},
 
 	search: {
