@@ -9,8 +9,8 @@ import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.LoopInfo;
 import de.milchreis.phobox.core.model.PhoboxModel;
-import de.milchreis.phobox.gui.ServerGui;
 import de.milchreis.phobox.utils.ExifHelper;
+import de.milchreis.phobox.utils.ImageProcessing;
 
 public class ReThumbFileAction implements FileAction {
 	private static final Logger log = Logger.getLogger(ReThumbFileAction.class);
@@ -52,8 +52,8 @@ public class ReThumbFileAction implements FileAction {
 			}
 			
 			try {
-				ServerGui.scale(file, target, width, height);
-				ServerGui.rotate(target, target, ExifHelper.ORIENTATION_ROTATION_MAP.get(orientation));
+				ImageProcessing.scale(file, target, width, height);
+				ImageProcessing.rotate(target, target, ExifHelper.ORIENTATION_ROTATION_MAP.get(orientation));
 			} catch (IOException e) {
 				log.info("Could not create thumb for " + file.getAbsolutePath());
 			}

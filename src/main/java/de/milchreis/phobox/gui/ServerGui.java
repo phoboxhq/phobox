@@ -1,6 +1,5 @@
 package de.milchreis.phobox.gui;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.SocketException;
@@ -13,8 +12,6 @@ import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
-import org.imgscalr.Scalr;
-import org.imgscalr.Scalr.Rotation;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxConfigs;
@@ -45,24 +42,11 @@ public class ServerGui extends Application implements Initializable {
 	private static final Logger log = Logger.getLogger(ServerGui.class);
 	
 	public static void scale(File original, File target, int sizeW, int sizeH) throws IOException {
-		Image image = new Image(original.toURI().toString(), sizeW, sizeH, true, false);
 		String format = FilenameUtils.getExtension(target.getName()).toLowerCase();
+		Image image = new Image(original.toURI().toString(), sizeW, sizeH, true, false);
 		ImageIO.write(SwingFXUtils.fromFXImage(image, null), format, target);
 	}
 	
-	public static void rotate(File original, File target, Rotation degree) throws IOException {
-		Image image = new Image(original.toURI().toString());
-		BufferedImage img = SwingFXUtils.fromFXImage(image, null);
-		
-		if(degree != null) {
-			img = Scalr.rotate(img, degree, Scalr.OP_ANTIALIAS);
-		}
-		
-		if(img != null) {
-			String format = target.getAbsolutePath().substring(target.getAbsolutePath().length() - 3).toLowerCase();
-			ImageIO.write(img, format, target);
-		}
-	}
 
 	// ---- GUI -----------------------------------------------------------------------------------------------------
 	

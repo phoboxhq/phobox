@@ -10,8 +10,8 @@ import de.milchreis.phobox.core.config.ConfigManager;
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.LoopInfo;
 import de.milchreis.phobox.core.model.PhoboxModel;
-import de.milchreis.phobox.gui.ServerGui;
 import de.milchreis.phobox.utils.ExifHelper;
+import de.milchreis.phobox.utils.ImageProcessing;
 import de.milchreis.phobox.utils.ImportFormatter;
 import de.milchreis.phobox.utils.ListHelper;
 
@@ -67,12 +67,12 @@ public class ThumbFileAction implements FileAction {
 		try {
 			if(!thumb.exists()) {
 				long t0 = System.currentTimeMillis();
-				ServerGui.scale(file, thumb, width, height);
+				ImageProcessing.scale(file, thumb, width, height);
 				long t1 = System.currentTimeMillis();
 				log.debug((t1-t0)/1000.0 + " secs for scale");
 
 				t0 = System.currentTimeMillis();
-				ServerGui.rotate(thumb, thumb, ExifHelper.ORIENTATION_ROTATION_MAP.get(orientation));
+				ImageProcessing.rotate(thumb, thumb, ExifHelper.ORIENTATION_ROTATION_MAP.get(orientation));
 				t1 = System.currentTimeMillis();
 				log.debug((t1-t0)/1000.0 + " secs for rotate");
 			}
