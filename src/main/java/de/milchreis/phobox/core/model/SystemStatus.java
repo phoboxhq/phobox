@@ -8,6 +8,7 @@ public class SystemStatus extends Status {
 	protected double freespace;
 	protected double maxspace;
 	protected int remainingfiles;
+	protected long numberOfPictures;
 	
 	public String getStatus() {
 		return status;
@@ -63,6 +64,14 @@ public class SystemStatus extends Status {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public long getNumberOfPictures() {
+		return numberOfPictures;
+	}
+
+	public void setNumberOfPictures(long l) {
+		this.numberOfPictures = l;
 	}
 
 }

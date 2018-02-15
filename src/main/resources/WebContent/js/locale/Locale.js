@@ -56,7 +56,8 @@ var en = {
 		remaining_files: 'Remaining files',
 		current_file: 'Current file',
 		free_space: 'Free space',
-		max_space: 'Max space'
+		max_space: 'Max space',
+		number_of_pictures: 'Number of pictures',
 	},
 
 	upload: {
@@ -170,7 +171,8 @@ var de = {
 		remaining_files: 'Wartende Dateien',
 		current_file: 'Bearbeitete Datei',
 		free_space: 'Freier Speicher',
-		max_space: 'Gesamtspeicher'
+		max_space: 'Gesamtspeicher',
+		number_of_pictures: 'Bilderanzahl',
 	},
 
 	upload: {

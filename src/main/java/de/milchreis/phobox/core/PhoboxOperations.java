@@ -2,6 +2,7 @@ package de.milchreis.phobox.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +15,7 @@ import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.file.filter.ImageFileFilter;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.SystemStatus;
+import de.milchreis.phobox.db.ItemAccess;
 import de.milchreis.phobox.utils.SpaceInfo;
 
 public class PhoboxOperations {
@@ -159,6 +161,11 @@ public class PhoboxOperations {
 		status.setFreespace(SpaceInfo.getFreeSpaceMB(model.getStoragePath()));
 		status.setMaxspace(SpaceInfo.getMaxSpaceMB(model.getStoragePath()));
 		status.setRemainingfiles(getRemainingFiles().size());
+		try {
+			status.setNumberOfPictures(ItemAccess.getItemCount());
+		} catch (SQLException | IOException e) {
+			log.error("Error while counting number of images", e);
+		}
 		return status;
 	}
 

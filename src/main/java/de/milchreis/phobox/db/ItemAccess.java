@@ -17,6 +17,13 @@ import de.milchreis.phobox.db.entities.ItemTag;
 
 public class ItemAccess {
 
+	public static long getItemCount() throws SQLException, IOException {
+		Dao<Item, Integer> itemDao = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
+		long count = itemDao.countOf();
+		itemDao.getConnectionSource().close();
+		return count;
+	}
+	
 	public static Item getItem(String path) throws SQLException, IOException {
 		Dao<Item, Integer> itemDao = DaoManager.createDao(DBManager.getJdbcConnection(), Item.class);
 		

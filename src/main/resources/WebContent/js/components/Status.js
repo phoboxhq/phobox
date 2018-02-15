@@ -29,6 +29,11 @@ const Status = Vue.component(
 			<p class="binfo">{{ maxspaceInGb }} GB</p>
 		</div>
 
+		<div class="batch">
+			<p class="title">{{ Locale.values.status.number_of_pictures }}</p>
+			<p class="binfo">{{ numberOfPictures }}</p>
+		</div>
+
 	</div>
 
 	`,
@@ -48,7 +53,11 @@ const Status = Vue.component(
 
 		maxspaceInGb: function() {
 			return (this.statusData.maxspace / 1024).toFixed(1);
-		}
+		},
+
+		numberOfPictures: function() {
+			return this.statusData.numberOfPictures;
+		},
 	},
 	
 	methods: {
