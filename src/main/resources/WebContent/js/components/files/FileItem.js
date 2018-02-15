@@ -7,7 +7,7 @@ const FileItem = Vue.component(
             <i class="fa fa-caret-square-o-down" aria-hidden="true" :id="item.name"></i>
         </div>
 
-        <div class="item" v-on:click="open(item)">
+        <div class="item" v-on:click="open(item)" :id="encodePath">
             <!-- File: Show-->
             <img class="item_thumb" 
                 :src="item.thumb"
@@ -93,7 +93,7 @@ const FileItem = Vue.component(
 
         onClickOutside: function(e) {
             // Hide menu if no element is clickt and the contextmenu is open
-            if(e.srcElement.id === "" && this.menuShow) {
+            if((e.srcElement.id === "" || e.srcElement.id === "filebrowser") && this.menuShow) {
                 this.closeMenu();
             }
         },
@@ -118,6 +118,9 @@ const FileItem = Vue.component(
         },
     },
     computed: { 
+        encodePath: function() {
+            return (this.item.path).replace(/\//g , "_");
+        },
     },
 
     created: function() {

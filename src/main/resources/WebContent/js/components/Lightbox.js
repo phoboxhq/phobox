@@ -54,6 +54,14 @@ const Lightbox = Vue.component(
 						<i class="fa fa-star" aria-hidden="true"></i>
 					</button>
 				</div>
+				
+				<!-- Show a button to load more images -->
+		        <div v-if="isFragment && !hasNext">
+		            <button type="button" class="btn btn-secondary moreImagesBtn"
+		                v-on:click="onLoadMoreItems()">
+		                {{ Locale.values.pictures.load_more }}
+		            </button>
+		        </div>
 			</div>
 		</div>
 	</transition>
@@ -82,6 +90,10 @@ const Lightbox = Vue.component(
 		maxItems: function() {
 			return this.items.length;
 		},
+
+		isFragment: function() {
+			return this.$parent.isFragment;
+		}
 	},
 	methods: {
 		close: function() {
@@ -92,6 +104,7 @@ const Lightbox = Vue.component(
 			if(this.hasNext) {
 				index = this.items.indexOf(this.selectedItem);
 				this.$parent.selectedItem = this.items[index+1];
+				this.onShow();
 			}
 		},
 
@@ -99,6 +112,7 @@ const Lightbox = Vue.component(
 			if(this.hasPrevious) {
 				index = this.items.indexOf(this.selectedItem);
 				this.$parent.selectedItem = this.items[index-1];
+				this.onShow();
 			}
 		},
 
@@ -106,30 +120,42 @@ const Lightbox = Vue.component(
 			this.$parent.favoriteItem = this.selectedItem;
 		},
 
-		onShow: function() {
-			if(this.selectedItem.landscape != null) {
+		scrollToItem: function() {
+
+			var id = (this.selectedItem.path).replace(/\//g , "_");
+			var element = document.getElementById(id)
+
+			if(element !== undefined && element !== null) {
+				element.scrollIntoView();
 			}
+		},
+
+		onLoadMoreItems: function() {
+			this.$parent.onLoadMoreItems();
+		},
+
+		onShow: function() {
 
 			var img = new Image();
 			img.src = this.selectedItem.thumb;
 
+
 			var lightboxImage = document.getElementById("lightbox_image");
-			lightboxImage.style.transition = "all 0.3s";
 
-			var lightboxWindow = document.getElementById("lightbox_window");
-			var xPos = window.innerWidth/2 - lightboxWindow.clientWidth/2;
-			lightboxWindow.style.left = xPos + "px";
-
-			if(this.selectedItem.landscape != null && this.selectedItem.landscape || img.width >= img.height) {
-				// landscape orientation
+			if(img.width >= img.height) {
 				lightboxImage.style.maxWidth = "100%";
 				lightboxImage.style.maxHeight = undefined;
 
 			} else {
-				// portrait orientation
-				lightboxImage.style.maxWidth = undefined;
 				lightboxImage.style.maxHeight = window.innerHeight - (window.innerHeight*0.3) + "px";
+				lightboxImage.style.maxWidth = undefined;
 			}
+
+			var lightboxWindow = document.getElementById("lightbox_window");	
+			var xPos = window.innerWidth/2 - lightboxImage.width/2;
+			lightboxWindow.style.left = xPos + "px";
+		
+			this.scrollToItem();
 		},
 	},
 
@@ -156,6 +182,10 @@ const Lightbox = Vue.component(
 				that.previous();
 			}
 		};
+
+		$(window).resize(function() {
+			that.onShow();
+		});
 	},
 
 	watch: {
