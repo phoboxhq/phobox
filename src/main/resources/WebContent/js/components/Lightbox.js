@@ -70,6 +70,7 @@ const Lightbox = Vue.component(
 	data: function() {
 		return {
 			Locale: Locale,
+			swipe: null,
 		}
 	},
 	computed: {
@@ -98,6 +99,7 @@ const Lightbox = Vue.component(
 	methods: {
 		close: function() {
 			this.$parent.selectedItem = null;
+			this.swipe = null;
 		},
 
 		next: function() {
@@ -139,7 +141,6 @@ const Lightbox = Vue.component(
 			var img = new Image();
 			img.src = this.selectedItem.thumb;
 
-
 			var lightboxImage = document.getElementById("lightbox_image");
 
 			if(img.width >= img.height) {
@@ -156,7 +157,25 @@ const Lightbox = Vue.component(
 			lightboxWindow.style.left = xPos + "px";
 		
 			this.scrollToItem();
+
+			if(this.swipe == null) {
+				this.addSwipeListener();
+			}
 		},
+
+		addSwipeListener: function() {
+			var that = this;
+			this.swipe = new Swipe(
+				document.getElementById("lightbox_window"),
+				function() {
+					// on left
+					that.next();
+				}, 
+				function() {
+					// on right
+					that.previous();
+				});
+		}
 	},
 
 	updated: function() {
