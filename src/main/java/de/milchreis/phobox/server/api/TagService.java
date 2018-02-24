@@ -41,39 +41,37 @@ public class TagService {
 		String path = Phobox.getOperations().getWebPath(tagOps.getItem());
 		path = PathConverter.decode(path);
 		File physicalFile = Phobox.getOperations().getPhysicalFile(path);
-		PhotosService ps = new PhotosService();
 		
-		List<String> items = new ArrayList<>();
-		items.add(path);
-		
-		if(physicalFile.isDirectory()) {
-			items = ps.scanDirectory(path).getItems().stream()
-					.map(i -> i.getPath())
-					.collect(Collectors.toList());
-		} else {
-			try {
-				ItemAccess.deleteTagsForItem(path);
-			} catch (SQLException | IOException e) {
-				log.error("Error while removing the old TAGs", e);
-			}
-		}
-		
-		for(String file : items) {		
-			for(String tag : tagOps.getTags()) {
-				ItemTag itemTag = new ItemTag();
-				Item item = new Item();
-				item.setPath(file);
-				itemTag.setItem(item);
-				itemTag.setTagValue(tag);
+		try {
+			List<Item> items = new ArrayList<>();
+			
+			if(physicalFile.isDirectory()) {
+				items = ItemAccess.getItemsByPath(path);
 				
-				try {
+			} else {
+				items.add(ItemAccess.getItem(path));
+			}
+			
+			
+			// Add tags
+			for(Item item : items) {	
+				
+				// Delete old tags
+				ItemAccess.deleteTagsForItem(item);
+
+				for(String tag : tagOps.getTags()) {
+					
+					ItemTag itemTag = new ItemTag();
+					itemTag.setItem(item);
+					itemTag.setTagValue(tag);
+					
 					DBManager.store(itemTag, ItemTag.class);
-				} catch (SQLException | IOException e) {
-					log.error("Error while saving the new TAG: " + tag, e);
-					status.setStatus(Status.ERROR);
-					status.setStatus("Error while saving");
 				}
 			}
+
+		} catch(Exception e) {
+			status.setStatus(Status.ERROR);
+			log.error("Error while saving tags", e);
 		}
 		
 		return status;

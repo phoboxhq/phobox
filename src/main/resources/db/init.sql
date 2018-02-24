@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS `item` (
 
 -- Storage item tagging
 CREATE TABLE IF NOT EXISTS `item_tag` (
-	`id` int(10) NOT NULL auto_increment,
-	`id_item` varchar(500) NOT NULL,
+	`id` BIGINT NOT NULL auto_increment,
+	`id_item` BIGINT NOT NULL,
 	`tag_value` VARCHAR_IGNORECASE(255) NOT NULL,
 	FOREIGN KEY(id_item) REFERENCES item(id),
 	PRIMARY KEY( `id` )

@@ -2,6 +2,7 @@ package de.milchreis.phobox.db;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
@@ -47,19 +48,32 @@ public class ItemAccess {
 	}
 
 	public static void deleteTagsForItem(String imagepath) throws SQLException, IOException {
+		Item item = ItemAccess.getItem(imagepath);
+		deleteTagsForItem(item);
+	}
+
+	public static void deleteTagsForItem(Item item) throws SQLException, IOException {
 		Dao<ItemTag, Integer> itemTagDao = DaoManager.createDao(DBManager.getJdbcConnection(), ItemTag.class);
 		
 		DeleteBuilder<ItemTag, Integer> itemTagQB = itemTagDao.deleteBuilder();
-		itemTagQB.where().eq("id_item", imagepath);
+		itemTagQB.where().eq("id_item", item.getId());
 		itemTagQB.delete();
 		
 		itemTagDao.getConnectionSource().close();
 	}
 	
-	public static List<ItemTag> getTagsForItem(String imagepath) throws SQLException, IOException {
+	public static List<ItemTag> getTagsForItem(String path) throws SQLException, IOException {
+		
+		Item item = ItemAccess.getItem(path);
+		
+		if(item == null) {
+			return new ArrayList<>();
+		}
+
 		Dao<ItemTag, Integer> itemTagDao = DaoManager.createDao(DBManager.getJdbcConnection(), ItemTag.class);
-		List<ItemTag> tags = itemTagDao.queryForEq("id_item", imagepath);
+		List<ItemTag> tags = itemTagDao.queryForEq("id_item", item.getId());
 		itemTagDao.getConnectionSource().close();
+
 		return tags;
 	}
 

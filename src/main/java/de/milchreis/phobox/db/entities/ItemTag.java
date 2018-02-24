@@ -9,7 +9,7 @@ public class ItemTag {
 	@DatabaseField(columnName = "id", generatedId = true, allowGeneratedIdInsert = true)
 	private Integer id;
 	
-	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh=true, foreignColumnName = "path", columnName="id_item")
+	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, foreignColumnName = "id", columnName="id_item")
 	private Item item;
 	
 	@DatabaseField(canBeNull = false, columnName="tag_value")
