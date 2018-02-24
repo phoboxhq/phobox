@@ -39,14 +39,22 @@ public class StorageScanQueue implements Runnable {
 				scheduler.start();
 				
 				while(!scheduler.isReady()) {
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-					}
+					sleep(500);
 				}
 				
 				log.debug("Finished scan: " + path);
+				
+			} else {
+				sleep(3000);
 			}
+		}
+	}
+	
+	private void sleep(int millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			log.warn("Error while sleeping");
 		}
 	}
 
