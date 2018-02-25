@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS `item` (
 	UNIQUE INDEX (path, name)
 );
 
-
 -- Storage item tagging
 CREATE TABLE IF NOT EXISTS `item_tag` (
 	`id` BIGINT NOT NULL auto_increment,
