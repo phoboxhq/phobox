@@ -71,7 +71,7 @@ public class Main {
 		
 		// Start an embedded database browser
 		if(model.isDatabasebrowser()) {
-			Server.createWebServer().start();
+			Server.createWebServer("-webAllowOthers").start();
 		}
 		
 		// Start all implemented background tasks
