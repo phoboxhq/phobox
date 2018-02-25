@@ -1,6 +1,5 @@
 package de.milchreis.phobox.utils;
 
-import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.actions.ReThumbFileAction;
 import de.milchreis.phobox.core.actions.ThumbFileAction;
 
@@ -12,14 +11,12 @@ public class ThumbHelper {
 	public static ThumbFileAction createThumbAction() {
 		return new ThumbFileAction(
 				THUMB_WIDTH,
-				THUMB_HEIGHT, 
-				Phobox.getModel().getThumbPath());
+				THUMB_HEIGHT);
 	}
 	
 	public static ReThumbFileAction createReThumbAction() {
 		return new ReThumbFileAction(
 				THUMB_WIDTH,
-				THUMB_HEIGHT, 
-				Phobox.getModel().getThumbPath());
+				THUMB_HEIGHT);
 	}
 }

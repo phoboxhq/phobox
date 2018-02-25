@@ -22,12 +22,10 @@ public class ThumbFileAction implements FileAction {
 
 	private int width;
 	private int height;
-	private File path;
 	
-	public ThumbFileAction(int maxImgWidth, int maxImgHeight, File targetPath) {
+	public ThumbFileAction(int maxImgWidth, int maxImgHeight) {
 		width = maxImgWidth;
 		height = maxImgHeight;
-		path = targetPath;
 	}
 	
 	
@@ -40,7 +38,7 @@ public class ThumbFileAction implements FileAction {
 		}
 		
 		PhoboxModel model = Phobox.getModel();
-		File thumbPath = path;
+		File thumbPath = model.getThumbPath();
 		File thumb = null;
 		int orientation = 1;
 		

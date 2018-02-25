@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.LoopInfo;
-import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.utils.ExifHelper;
 import de.milchreis.phobox.utils.ImageProcessing;
 
@@ -17,29 +16,21 @@ public class ReThumbFileAction implements FileAction {
 
 	private int width;
 	private int height;
-	private File path;
 	
-	public ReThumbFileAction(int maxImgWidth, int maxImgHeight, File targetPath) {
+	public ReThumbFileAction(int maxImgWidth, int maxImgHeight) {
 		width = maxImgWidth;
 		height = maxImgHeight;
-		path = targetPath;
 	}
 	
 	@Override
 	public void process(File file, LoopInfo info) {
 		log.debug(file.getName());
 		
-		PhoboxModel model = Phobox.getModel();
-		File storage = new File(model.getStoragePath());
-		
 		String fileStr = file.getAbsolutePath();
 		if(fileStr.contains("thumbs"))
 			return;
 		
-		// Set target path in thumbs from current storage position
-		File target = new File(
-				path,
-				file.getAbsolutePath().replace(storage.getAbsolutePath(), ""));
+		File target = Phobox.getOperations().getThumb(file);
 			
 		if(!target.exists()) {
 			target.getParentFile().mkdirs();
