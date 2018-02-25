@@ -31,7 +31,8 @@ const FileItem = Vue.component(
 
             <!-- Directory: Show name -->
             <div class="item_name" v-if="item.type === 'dir'" v-on:click="open(item)">
-                {{ item.name }}
+                <i class="fa fa-folder"></i>
+                <span>{{ item.name }}</span>
             </div>
         </div>
         
