@@ -38,6 +38,8 @@ public class Main {
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run() {
 				Phobox.getEventRegistry().onStop();
+				Phobox.getSever().stop();
+				DBManager.dispose();
 			}
 		});
 		
