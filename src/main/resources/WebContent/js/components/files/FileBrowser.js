@@ -4,6 +4,14 @@ const FileBrowser = Vue.component(
     <div id="filebrowser">
         <breadcrumb :path="path"></breadcrumb>
 
+        <!-- Contextmenu for open directory -->
+        <div class="directoryOptions" v-if="currentPath != '/'">
+            <div class="menu_button" v-on:click="onToggleDirectoryMenu()">
+                <i class="fa fa-caret-square-o-down" aria-hidden="true"></i>
+            </div>
+            <itemContextMenu ref="dirContextMenu" :item="currentItem" :parent="this"></itemContextMenu>
+        </div>
+
         <transition name="fade">
             <!-- List all elements as FileItem -->
             <div class="items">
@@ -57,6 +65,7 @@ const FileBrowser = Vue.component(
         <favoriteDialog :item="favoriteItem"></favoriteDialog>
 
         <tagsDialog :item="tagsItem"></tagsDialog>
+
     </div>
     `,
     props: [],
@@ -70,6 +79,7 @@ const FileBrowser = Vue.component(
             deleteItem: null,
             tagsItem: null,
             favoriteItem: null,
+            currentItem: null,
             isLoading: true,
             isFragment: false,
             isProcessing: false,
@@ -91,6 +101,7 @@ const FileBrowser = Vue.component(
                 that.isFragment = data.fragment;
                 that.currentPath = data.path;
                 that.isProcessing = data.processing;
+                that.currentItem = data;
             });
         },
 
@@ -102,6 +113,7 @@ const FileBrowser = Vue.component(
                 that.isLoading = false;
                 that.isFragment = data.fragment;
                 that.currentPath = data.path;
+                that.currentItem = data;
             });
         },
 
@@ -109,6 +121,10 @@ const FileBrowser = Vue.component(
             this.$router.go(-1);
         },
 
+        onToggleDirectoryMenu: function() {
+            let contextMenu = this.$refs.dirContextMenu; 
+            contextMenu.toggleMenu();
+        },
     },
     computed: {
         isItemListEmpty: function() {

@@ -48,7 +48,7 @@ const Sidemenu = Vue.component(
 					{ title: Locale.values.menu.albums,		address: "#/albums",	icon: "fa fa-star" },
 					{ title: Locale.values.menu.status,		address: "#/status",	icon: "fa fa-heartbeat" },
 					{ title: Locale.values.menu.upload,		address: "#/upload",	icon: "fa fa-upload" },
-					{ title: Locale.values.menu.settings,	address: "#/settings",icon: "fa fa-wrench" },
+					{ title: Locale.values.menu.settings,	address: "#/settings",  icon: "fa fa-wrench" },
 					{ title: Locale.values.menu.about, 		address: "#/about",		icon: "fa fa-info-circle" },
 				],
 		};

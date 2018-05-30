@@ -75,3 +75,11 @@ img.loading {
     background-color: #2e5f8a;
     border-color: #1d4d75;
 }
+
+.directoryOptions {
+    position: fixed;
+    top: 92px;
+    width: 100px;
+    right: 5px;
+    z-index: 90;
+}
