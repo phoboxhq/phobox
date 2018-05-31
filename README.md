@@ -15,7 +15,7 @@ or a REST-API. Moreover you can organize your files and create collections of th
 If you want to try phobox, you can download the jar file from github. Look [here](https://github.com/Milchreis/phobox/raw/master/bin/phobox-0.0.2.jar) for the last version. All versions/builds are saved in the [bin-directory](https://github.com/Milchreis/phobox/tree/master/bin).
 
 ## Graphical interface 
-1) Start the program (double click on phobox-<version>.jar or `java -jar phobox-<version>.jar` in terminal
+1) Start the program with double click on phobox-<version>.jar or `java -jar phobox-<version>.jar` in terminal
 2) Set up the directory to your local pictures
 3) Open a browser on your local machine or maybe a smartphone in the same wifi to the shown ip address
 4) Enjoy your pictures 
@@ -35,14 +35,17 @@ usage: phobox
 ## Importing new pictures
 Phobox reads the `phobox/import/` directory inside your specified picture directory. Each new readable picture will
 be processed. Phobox moves the files to the configured directory (if EXIF data exists) and creates thumbnails for
-a faster display on remote devices. Additionally you can define another watch directory to listen for new files (maybe a ssh or remote directory).  
+a faster display on remote devices. Additionally you can define another watch directory to listen for new files (maybe a remote directory).  
 
 For small number of files you can use a upload function in the phobox front-end or the drag-and-drop area of the phobox window.
 
 # Features
- - Automatic picture organization
+ - Automatic picture organization in the file directory
  - Browse your pictures on different devices in the same wifi
+ - Tagging your pictures
+ - Searching for pictures by name or TAGs
  - Creating albums
+ - Statistics
  - Upload pictures from remote devices in the same wifi
  - Password saved access
  - Languages: English and German
@@ -56,11 +59,11 @@ phobox by calling the ip address of the RPi.
 **To run phobox correctly on arm devices look [here](https://github.com/Milchreis/phobox/wiki/Setup-for-arm-devices-(f.e.-Raspberry-Pi)).**
 
 # Requirements
-Phobox is build on Java and just requires a JRE 1.8+. The jar file is a standalone application and runs with `java -jar phobox.jar`. 
+Phobox is build on Java and just requires a JRE 1.8 or higher. The jar file is a standalone application and runs with `java -jar phobox.jar`. 
 The tool runs on the raspberry pi 3 with the Java ARM version great, too.
 
 # Build
-The project can build with maven and the goal `clean compile assembly:single`. For eclipse the run configuration is stored in `phobox.launch`.
+The project can build with maven and the goal `clean compile assembly:single`.
 
 # Contribute
 Please try it out and leave issues if something goes wrong or you have a feature request. Pull requests are also welcome :-)
