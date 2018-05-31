@@ -38,7 +38,10 @@ public class ImportScheduler extends TimerTask {
 					incoming, 
 					PhoboxConfigs.SUPPORTED_IMPORT_FORMATS, 
 					new FileMoveAction());
+			
+			// TODO: Here remove empty directories
 		}
+		
 	}
 	
 	public void start() {

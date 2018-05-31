@@ -29,7 +29,7 @@ public class FileProcessor {
 	private String currentfile = "";
 
 	public void foreachFile(File path, String[] format, FileAction action) {
-		foreachFile(path, format, action, false);
+		foreachFile(path, format, action, true);
 	}
 	
 	public void foreachFile(File path, String[] format, FileAction action, boolean recursivly) {
