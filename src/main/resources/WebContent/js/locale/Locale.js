@@ -252,8 +252,14 @@ const Locale = {
 
 	__detectLang: function(localekey) {
 
-		if(localekey in this.languages) {
-			this.values = this.languages[localekey];
+		// Default is english
+		this.values = this.languages.en;
+
+		// Extract short localekey (firefox and chrome are different)
+		shortKey = localekey.substring(0, 2);
+
+		if(shortKey in this.languages) {
+			this.values = this.languages[shortKey];
 		} else {
 			this.values = this.languages.en;
 		}
