@@ -87,26 +87,28 @@ public class PhotosService {
 			response.setType(StorageStatus.TYPE_FILE);
 		}
 	
-		// Find including directories
-		DirectoryStream<java.nio.file.Path> stream = null;
-		try {
-			stream = Files.newDirectoryStream(dir.toPath(), new DirectoryFilter());
-			for(java.nio.file.Path path : stream) {
-				File file = path.toFile();
-				
-				// Skip internal phobox directory and hidden files
-				if((isRoot && file.isDirectory() && file.getName().equals("phobox")) || file.isHidden()) {
-					continue;
+		// Find including directories (but add it not by fragment scan)
+		if(lastIndex == 0) {
+			DirectoryStream<java.nio.file.Path> stream = null;
+			try {
+				stream = Files.newDirectoryStream(dir.toPath(), new DirectoryFilter());
+				for(java.nio.file.Path path : stream) {
+					File file = path.toFile();
+					
+					// Skip internal phobox directory and hidden files
+					if((isRoot && file.isDirectory() && file.getName().equals("phobox")) || file.isHidden()) {
+						continue;
+					}
+					
+					// select supported formats and directories only
+					if(file.isFile() && ListHelper.endsWith(file.getName(), PhoboxConfigs.SUPPORTED_VIEW_FORMATS) || file.isDirectory()) {
+						response.add(photoService.getItem(file));
+					}
 				}
 				
-				// select supported formats and directories only
-				if(file.isFile() && ListHelper.endsWith(file.getName(), PhoboxConfigs.SUPPORTED_VIEW_FORMATS) || file.isDirectory()) {
-					response.add(photoService.getItem(file));
-				}
+			} catch(IOException e) {
+				log.warn("Error while scanning directory: " + e.getLocalizedMessage());
 			}
-		
-		} catch(IOException e) {
-			log.warn("Error while scanning directory: " + e.getLocalizedMessage());
 		}
 		
 		// Scan files from database
