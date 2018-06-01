@@ -5,9 +5,9 @@ const FileBrowser = Vue.component(
         <breadcrumb :path="path"></breadcrumb>
 
         <!-- Contextmenu for open directory -->
-        <div class="directoryOptions" v-if="currentPath != '/'">
+        <div class="directoryOptions" v-if="currentPath != '/'" >
             <div class="menu_button" v-on:click="onToggleDirectoryMenu()">
-                <i class="fa fa-caret-square-o-down" aria-hidden="true"></i>
+                <i class="fa fa-caret-square-o-down" aria-hidden="true" id="currentItemContextButton"></i>
             </div>
             <itemContextMenu ref="dirContextMenu" :item="currentItem" :parent="this"></itemContextMenu>
         </div>

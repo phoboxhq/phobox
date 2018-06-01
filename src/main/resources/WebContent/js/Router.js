@@ -12,6 +12,10 @@ const router = new VueRouter({
 			component: FileBrowser,
 		},
 		{
+			path: '/approval/',
+			component: Approval,
+		},
+		{
 			path: '/search/',
 			component: Search,
 		},

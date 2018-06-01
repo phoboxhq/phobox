@@ -2,6 +2,7 @@
 var en = {
 	menu: {
 		pictures: 'Pictures',
+		approval: 'Picture approval',
 		search: 'Search for pictures',
 		albums: 'Albums',
 		status: 'Status',
@@ -117,6 +118,7 @@ var en = {
 var de = {
 	menu: {
 		pictures: 'Bilder',
+		approval: 'Bilder prüfen',
 		search: 'Bildersuche',
 		albums: 'Alben',
 		status: 'Status',

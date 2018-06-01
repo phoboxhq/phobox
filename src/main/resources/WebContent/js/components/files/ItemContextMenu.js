@@ -51,8 +51,8 @@ const ItemContextMenu = Vue.component(
         },
 
         onClickOutside: function(e) {
-            // Hide menu if no element is clickt and the contextmenu is open
-            if((e.srcElement.id === "" || e.srcElement.id === "filebrowser") && this.item.menuShow) {
+            // Hide menu if no element is clicked and the contextmenu is open
+            if((e.srcElement.id === "" || e.srcElement.id === "filebrowser") && this.menuShow) {
                 this.closeMenu();
             }
         },

@@ -148,6 +148,10 @@ function ComService() {
 		return $.get("/api/tags/item/"+p).done(callback);
 	};
 
+	this.getApprovalPictures = function(callback) {
+		return $.get("/api/approval/scan/").done(callback);
+	};
+
 	this.setTags = function(itemPath, tags, callback) {
 		var p = this.encodePath(itemPath);
 		return $.ajax({

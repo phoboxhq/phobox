@@ -18,6 +18,7 @@ public class PhoboxModel {
 	private File phoboxPath;
 	private File databasePath;
 	private File incomingPath;
+	private File approvalPath;
 	private File watchPath;
 	private File backupPath;
 	private File thumbPath;
@@ -46,6 +47,9 @@ public class PhoboxModel {
 		
 		thumbPath = new File(phoboxPath, ConfigManager.get(ConfigManager.STORAGE_THUMBS));
 		thumbPath.mkdirs();
+		
+		approvalPath = new File(phoboxPath, ConfigManager.get(ConfigManager.STORAGE_APPROVAL));
+		approvalPath.mkdirs();
 		
 		databasePath = new File(phoboxPath, "phobox");
 		
@@ -152,5 +156,15 @@ public class PhoboxModel {
 
 	public void setImgPageSize(int imgPageSize) {
 		this.imgPageSize = imgPageSize;
+	}
+
+	
+	@ManagedAttribute(value="Name of the directory for approval files", name="approvalPath")
+	public File getApprovalPath() {
+		return approvalPath;
+	}
+
+	public void setApprovalPath(File approvalPath) {
+		this.approvalPath = approvalPath;
 	}
 }

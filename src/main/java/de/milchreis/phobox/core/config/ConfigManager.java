@@ -13,11 +13,13 @@ public class ConfigManager {
 	private static Logger log = Logger.getLogger(ConfigManager.class);
 
 	public static final String STORAGE_INCOMING = "storage.incomingDirName";
+	public static final String STORAGE_APPROVAL = "storage.approval";
 	public static final String STORAGE_UNSORTED = "storage.unsorted";
 	public static final String STORAGE_THUMBS = "storage.thumbs";
 	public static final String STORAGE_DOUBLES = "storage.doubles";
 	public static final String STORAGE_MOVIES = "storage.movies";
 	public static final String STORAGE_ALBUMS = "storage.albums";
+
 	
 	private static Properties props;
 	private static Properties generatedProps;
