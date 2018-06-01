@@ -56,6 +56,7 @@ const FileItem = Vue.component(
             } else {
                 path = new ComService().encodePath(item.path);
                 router.push({ path: "/photos/"+path });
+                window.scrollTo(0, 0);
             }
         },
 
@@ -75,36 +76,6 @@ const FileItem = Vue.component(
             let contextMenu = this.$refs.dirContextMenu; 
             contextMenu.toggleMenu();
         },
-
-/*        closeMenu: function() {
-            this.menuShow = false;
-        },*/
-
-/*        onClickOutside: function(e) {
-            // Hide menu if no element is clickt and the contextmenu is open
-            if((e.srcElement.id === "" || e.srcElement.id === "filebrowser") && this.menuShow) {
-                this.closeMenu();
-            }
-        },*/
-
-/*        onDownload: function() {
-            this.closeMenu();
-        },
-
-        onRename: function() {
-            this.$parent.renameItem = this.item;
-            this.closeMenu();
-        },
-        
-        onDelete: function() {
-            this.$parent.deleteItem = this.item;
-            this.closeMenu();
-        },
-
-        onTags: function() {
-            this.$parent.tagsItem = this.item;
-            this.closeMenu();
-        },*/
     },
     computed: { 
         encodePath: function() {
