@@ -1,6 +1,7 @@
 #approval {
     margin: 15px;
     margin-top: -40px;
+    height: 100%;
 }
 
 #approval .pictureNavigation {
@@ -24,24 +25,33 @@
     display: inline-block;
 }
 
+#approval img.isSelected {
+    border: 3px solid;
+    border-color: #337ab7bf;
+}
+
 #approval img.preview {
     position: relative;
     float: left;
     margin-right: 5px;
     border-radius: 3px;
-    width: 150px;
-    height: 150px;
+    max-width: 240px;
+    max-height: 160px;
+    transition: 0.3s border;
 }
 
 #approval .picPanel {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
+    height: calc(100vh - 310px);
+    text-align: center;
 }
 
 #approval img.selectedPic {
-    margin-right: 5px;
     border-radius: 3px;
-    width: 100%;
-    height: auto;
+    max-width:100%;
+    max-height:100%;
+    vertical-align: middle;
+    transition: 0.3s all;
 }
 
 #approval .judgepanel {
@@ -57,4 +67,18 @@
     width: 50%;
     text-align: center;
     padding: 10px;
+}
+
+.fadeIn-enter-active {
+    transition: opacity .3s;
+}
+
+.fadeIn-enter {
+    opacity: 0;
+}
+
+.fadeIn-leave-to, .fadeIn-leave-active {
+    display: none;
+    transition: none;
+    opacity: 0;
 }
