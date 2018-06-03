@@ -10,7 +10,6 @@ import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -20,9 +19,7 @@ import org.apache.log4j.Logger;
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxConfigs;
 import de.milchreis.phobox.core.PhoboxOperations;
-import de.milchreis.phobox.core.file.filter.DirectoryFilter;
 import de.milchreis.phobox.core.model.Status;
-import de.milchreis.phobox.core.model.StorageStatus;
 import de.milchreis.phobox.utils.ListHelper;
 import de.milchreis.phobox.utils.PathConverter;
 
@@ -32,12 +29,12 @@ public class ApprovalService {
 	private static Logger log = Logger.getLogger(ApprovalService.class);
 	
 	@POST
-	@Path("accept/{path}")
+	@Path("accept/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Status accept(@PathParam("path") String filename) {
+	public Status accept(String filename) {
 		
 		filename = PathConverter.decode(filename);
-		File file = new File(Phobox.getModel().getApprovalPath(), filename);
+		File file = Phobox.getOperations().getPhysicalFile(filename);
 		
 		Status status = new Status();
 		
@@ -54,12 +51,12 @@ public class ApprovalService {
 	}
 	
 	@POST
-	@Path("decline/{path}")
+	@Path("decline/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Status decline(@PathParam("path") String filename) {
+	public Status decline(String filename) {
 		
 		filename = PathConverter.decode(filename);
-		File file = new File(Phobox.getModel().getApprovalPath(), filename);
+		File file = Phobox.getOperations().getPhysicalFile(filename);
 		
 		Status status = new Status();
 		

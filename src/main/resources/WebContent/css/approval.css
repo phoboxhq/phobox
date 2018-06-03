@@ -67,8 +67,31 @@
     width: 50%;
     text-align: center;
     padding: 10px;
+    cursor: pointer;
+    transition: 0.3s background-color;
 }
 
+#approval .judgeButton:hover {
+    background-color: #262626;
+}
+
+#approval .judgepanel .spacer {
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    background-color: #272525;
+    left: 50%;
+}
+
+.green {
+    color: #5cba5e;
+}
+
+.red {
+    color: #a94442;
+}
+
+/* Animations */
 .fadeIn-enter-active {
     transition: opacity .3s;
 }

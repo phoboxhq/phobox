@@ -25,15 +25,18 @@ const Approval = Vue.component(
         <!-- Accept/Decline panel-->
         <div class="judgepanel">
             <!-- Accept -->
-            <div class="judgeButton">
+            <div class="judgeButton green" @click="onAccept">
                 <i class="fa fa-check-circle" aria-hidden="true"></i>
-            </div>
+                {{ Locale.values.approval.accept }}
+                </div>
+                
+                <div class="spacer"></div>
 
-            <!-- Decline -->
-            <div class="judgeButton">
+                <!-- Decline -->
+                <div class="judgeButton red" @click="onDecline">
                 <i class="fa fa-trash" aria-hidden="true"></i>
+                {{ Locale.values.approval.decline }}
             </div>
-
         </div>
 
     </div>
@@ -43,24 +46,24 @@ const Approval = Vue.component(
     	return {
     		pictures: [],
             selectedPic: null,
+            status: null,
             Locale: Locale,
     	};
     },
     methods: {
 
-        init: function() {
-            var that = this;
-            new ComService().getApprovalPictures(function(data) {
-                that.pictures = data;
+        init() {
+            new ComService().getApprovalPictures((data) => {
+                this.pictures = data;
+                this.selectedPic = this.pictures.length > 0 ? this.pictures[0] : null;
             });
         },
 
-        onPictureSelect: function(pic) {
+        onPictureSelect(pic) {
             this.selectedPic = pic;
 
+            // Activate maginfication view
             setTimeout(() => {
-                console.log($("#mainPic"));
-    
                 $("#mainPic").elevateZoom({
                     zoomType: "lens",
                     zoomLens: false,
@@ -70,19 +73,41 @@ const Approval = Vue.component(
             }, 500);
         },
 
-        next: function() {
+        onAccept() {
+            if(this.selectedPic === null)
+                return;
+                
+                new ComService().acceptApprovalPicture(this.selectedPic, (data) => {
+                    this.status = data.status;
+                    this.init();
+                });
+            },
+            
+        onDecline() {
+            if(this.selectedPic === null)
+                return;
+
+            new ComService().declineApprovalPicture(this.selectedPic, (data) => {
+                this.status = data.status;
+                this.init();
+			});
+        },
+
+        next() {
 			if(this.hasNext) {
                 index = this.pictures.indexOf(this.selectedPic);
-				this.selectedPic = this.pictures[index+1];
+                this.selectedPic = this.pictures[index+1];
+                this.scrollToPreview();
 			}
 		},
-
-		previous: function() {
-			if(this.hasPrevious) {
-				index = this.pictures.indexOf(this.selectedPic);
+        
+		previous() {
+            if(this.hasPrevious) {
+                index = this.pictures.indexOf(this.selectedPic);
 				this.selectedPic = this.pictures[index-1];
+                this.scrollToPreview();
 			}
-		},
+        },
     },
     computed: {
         hasNext: function() {
@@ -93,7 +118,7 @@ const Approval = Vue.component(
 		hasPrevious: function() {
 			index = this.pictures.indexOf(this.selectedPic);
 			return index-1 >= 0;
-		},
+        },
     },
     watch: {
 	},

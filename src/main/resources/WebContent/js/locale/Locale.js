@@ -11,6 +11,11 @@ var en = {
 		about: 'About',
 	},
 
+	approval: {
+		accept: 'Accept (import)',
+		decline: 'Decline (delete)',
+	},
+
 	pictures: {
 		of: 'of',
 		not_found: 'No pictures found.',
@@ -125,6 +130,11 @@ var de = {
 		upload: 'Upload',
 		settings: 'Einstellungen',
 		about: 'Über Phobox',
+	},
+
+	approval: {
+		accept: 'Annehmen und importieren',
+		decline: 'Verweigern und löschen',
 	},
 
 	pictures: {

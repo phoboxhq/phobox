@@ -152,6 +152,28 @@ function ComService() {
 		return $.get("/api/approval/scan/").done(callback);
 	};
 
+	this.acceptApprovalPicture = function(picture, callback) {
+		var p = this.encodePath(picture);
+		return $.ajax({
+			url: "/api/approval/accept/",
+			type: "post",
+			contentType: "application/json",
+			data: picture,
+			success: callback,
+		});
+	};
+
+	this.declineApprovalPicture = function(picture, callback) {
+		var p = this.encodePath(picture);
+		return $.ajax({
+			url: "/api/approval/decline/",
+			type: "post",
+			contentType: "application/json",
+			data: picture,
+			success: callback,
+		});
+	};
+
 	this.setTags = function(itemPath, tags, callback) {
 		var p = this.encodePath(itemPath);
 		return $.ajax({
