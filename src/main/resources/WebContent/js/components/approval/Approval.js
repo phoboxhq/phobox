@@ -56,6 +56,7 @@ const Approval = Vue.component(
             new ComService().getApprovalPictures((data) => {
                 this.pictures = data;
                 this.selectedPic = this.pictures.length > 0 ? this.pictures[0] : null;
+                this.setMagnification();
             });
         },
 
@@ -63,6 +64,13 @@ const Approval = Vue.component(
             this.selectedPic = pic;
 
             // Activate maginfication view
+            this.setMagnification();
+        },
+
+        setMagnification() {
+            if(this.selectedPic === null)
+                return;
+            
             setTimeout(() => {
                 $("#mainPic").elevateZoom({
                     zoomType: "lens",
@@ -108,6 +116,11 @@ const Approval = Vue.component(
                 this.scrollToPreview();
 			}
         },
+
+        stopZoom() {
+            $.removeData($('#mainPic'), 'elevateZoom');
+            $('.zoomContainer').remove();
+        }
     },
     computed: {
         hasNext: function() {
@@ -141,5 +154,8 @@ const Approval = Vue.component(
                 that.previous();
             }
         };
-  	}
+      },
+      beforeDestroy: function() {
+		this.stopZoom();
+    }
 });
