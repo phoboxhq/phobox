@@ -1,0 +1,107 @@
+#approval {
+    margin: 15px;
+    margin-top: -40px;
+    height: 100%;
+}
+
+#approval .pictureNavigation {
+    height: 200px;
+    background-color: #2b2b2b;
+    padding: 10px;
+
+    overflow: hidden;
+    overflow-x: visible;
+    overflow-y: hidden;
+
+    white-space: nowrap;
+}
+
+#approval ul {
+    white-space: nowrap;
+    padding: 0px;
+}
+
+#approval ul li {
+    display: inline-block;
+}
+
+#approval img.isSelected {
+    border: 3px solid;
+    border-color: #337ab7bf;
+}
+
+#approval img.preview {
+    position: relative;
+    float: left;
+    margin-right: 5px;
+    border-radius: 3px;
+    max-width: 240px;
+    max-height: 160px;
+    transition: 0.3s border;
+}
+
+#approval .picPanel {
+    margin-bottom: 10px;
+    height: calc(100vh - 310px);
+    text-align: center;
+}
+
+#approval img.selectedPic {
+    border-radius: 3px;
+    max-width:100%;
+    max-height:100%;
+    vertical-align: middle;
+    transition: 0.3s all;
+}
+
+#approval .judgepanel {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    background-color: #191717;
+    margin-left: -15px;
+}
+
+#approval .judgeButton {
+    float: left;
+    width: 50%;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.3s background-color;
+}
+
+#approval .judgeButton:hover {
+    background-color: #262626;
+}
+
+#approval .judgepanel .spacer {
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    background-color: #272525;
+    left: 50%;
+}
+
+.green {
+    color: #5cba5e;
+}
+
+.red {
+    color: #a94442;
+}
+
+/* Animations */
+.fadeIn-enter-active {
+    transition: opacity .3s;
+}
+
+.fadeIn-enter {
+    opacity: 0;
+}
+
+.fadeIn-leave-to, .fadeIn-leave-active {
+    display: none;
+    transition: none;
+    opacity: 0;
+}

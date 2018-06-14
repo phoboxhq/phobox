@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="theme-color" content="#202020">
+	<link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+	<title>Phobox</title>
+
+	<link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="node_modules/bootstrap-tagsinput/bootstrap-tagsinput.css">
+	<link rel="stylesheet" type="text/css" href="node_modules/dropzone/dist/dropzone.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/fileitem.css">
+	<link rel="stylesheet" type="text/css" href="css/filebrowser.css">
+	<link rel="stylesheet" type="text/css" href="css/menu.css">
+	<link rel="stylesheet" type="text/css" href="css/lightbox.css">
+	<link rel="stylesheet" type="text/css" href="css/status.css">
+	<link rel="stylesheet" type="text/css" href="css/about.css">
+	<link rel="stylesheet" type="text/css" href="css/settings.css">
+	<link rel="stylesheet" type="text/css" href="css/search.css">
+	<link rel="stylesheet" type="text/css" href="css/upload.css">
+	<link rel="stylesheet" type="text/css" href="css/dialog.css">
+	<link rel="stylesheet" type="text/css" href="css/albumbrowser.css">
+	<link rel="stylesheet" type="text/css" href="css/approval.css">
+
+</head>
+<body>
+	<div id="app">
+
+		<!-- Shows the side and top menu -->
+		<sidemenu></sidemenu>
+
+		<!-- Shows the directory content -->
+		<transition name="fade">
+			<router-view></router-view>
+		</transition>
+	</div>
+
+	<script type="text/javascript" src="node_modules/vue/dist/vue.js"></script>
+	<script type="text/javascript" src="node_modules/vue-router/dist/vue-router.js"></script>
+	<script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="node_modules/dropzone/dist/dropzone.js"></script>
+	<script type="text/javascript" src="node_modules/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+	<script type="text/javascript" src="node_modules/elevatezoom/jquery.elevatezoom.js"></script>
+
+	<script type="text/javascript" src="js/Swipe.js"></script>
+	<script type="text/javascript" src="js/ComService.js"></script>
+	<script type="text/javascript" src="js/locale/Locale.js"></script>
+ 	<script type="text/javascript" src="js/directives/click-outside.js"></script>
+ 	<script type="text/javascript" src="js/components/files/FileBrowser.js"></script>
+ 	<script type="text/javascript" src="js/components/files/FileItem.js"></script>
+ 	<script type="text/javascript" src="js/components/files/ItemContextMenu.js"></script>
+ 	<script type="text/javascript" src="js/components/files/Breadcrumb.js"></script>
+ 	<script type="text/javascript" src="js/components/Menu.js"></script>
+ 	<script type="text/javascript" src="js/components/Lightbox.js"></script>
+ 	<script type="text/javascript" src="js/components/Status.js"></script>
+ 	<script type="text/javascript" src="js/components/Search.js"></script>
+ 	<script type="text/javascript" src="js/components/About.js"></script>
+ 	<script type="text/javascript" src="js/components/settings/SecurityAccess.js"></script>
+ 	<script type="text/javascript" src="js/components/settings/ImportFormat.js"></script>
+ 	<script type="text/javascript" src="js/components/settings/CreateThumbnails.js"></script>
+ 	<script type="text/javascript" src="js/components/settings/ChangeStorage.js"></script>
+ 	<script type="text/javascript" src="js/components/settings/Settings.js"></script>
+ 	<script type="text/javascript" src="js/components/Upload.js"></script>
+ 	<script type="text/javascript" src="js/components/dialogs/RenameDialog.js"></script>
+ 	<script type="text/javascript" src="js/components/dialogs/DeleteConfirmDialog.js"></script>
+ 	<script type="text/javascript" src="js/components/dialogs/FavoriteDialog.js"></script>
+ 	<script type="text/javascript" src="js/components/dialogs/TagsDialog.js"></script>
+ 	<script type="text/javascript" src="js/components/album/AlbumBrowser.js"></script>
+ 	<script type="text/javascript" src="js/components/approval/Approval.js"></script>
+
+	<script type="text/javascript" src="js/Router.js"></script>
+	<script type="text/javascript" src="js/App.js"></script>
+
+</body>
+</html>
