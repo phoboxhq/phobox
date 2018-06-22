@@ -10,7 +10,7 @@
           :src="item.thumb"
           v-if="item.type === 'file'" />
 
-      <p v-if="item.thumb==='img/stopwatch.png'" class="reloadInfo">
+      <p v-if="item.thumb==='@/assets/stopwatch.png'" class="reloadInfo">
         {{ Locale.values.pictures.waitforthumb }}
       </p>
 
@@ -22,7 +22,7 @@
   
       <!-- Directory: Show static image if preview not exists-->
       <img class="item_thumb_static" 
-          src="img/directory.png"
+          src="@/assets/directory.png"
           v-on:click="open(item)"                
           v-if="item.type === 'dir' && item.preview == null" />
 
@@ -38,8 +38,15 @@
 </template>
 
 <script>
+import Locale from '@/Locale';
+import ComService from '@/utils/ComService';
+import ItemContextMenu from '@/components/files/ItemContextMenu';
+
 export default {
-  name: "FileItem",
+  name: 'FileItem',
+  components: {
+    ItemContextMenu
+  },
   props: ["item"],
   data: function() {
     return {

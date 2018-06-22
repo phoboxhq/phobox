@@ -19,6 +19,7 @@
 
 <script>
 import Locale from '@/Locale';
+import ComService from '@/utils/ComService';
 import ClickOutside from '@/directives/ClickOutside';
 
 export default {
@@ -39,7 +40,7 @@ export default {
       if (this.item == null) return;
 
       if (this.item.type === "dir") {
-        com = new ComService();
+        let com = new ComService();
         return "api/photos/download/" + com.encodePath(this.item.path);
       } else {
         return this.item.path;

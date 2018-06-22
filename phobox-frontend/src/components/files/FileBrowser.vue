@@ -13,10 +13,10 @@
     <transition name="fade">
         <!-- List all elements as FileItem -->
         <div class="items">
-            <fileitem v-for="item in items"
+            <file-item v-for="item in items"
                 :item="item"
-                :key="item"
-                :selectedItem="selectedItem"></fileitem>
+                :key="item.path"
+                :selectedItem="selectedItem"></file-item>
         </div>
     </transition>
 
@@ -30,7 +30,7 @@
 
     <!-- Loading image -->
     <transition name="fade">
-        <img src="img/loading.gif" v-if="isLoading" class="loading" />
+        <img src="@/assets/loading.gif" v-if="isLoading" class="loading" />
     </transition>
 
     <!-- Include the lightbox -->
@@ -71,6 +71,7 @@
 import Locale from '@/Locale';
 import ComService from '@/utils/ComService';
 import Breadcrumb from '@/components/files/Breadcrumb';
+import FileItem from '@/components/files/FileItem';
 import ItemContextMenu from '@/components/files/ItemContextMenu';
 import RenameDialog from '@/components/dialogs/RenameDialog';
 import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog';
@@ -82,6 +83,7 @@ export default {
   name: "FileBrowser",
   components: {
     Breadcrumb,
+    FileItem,
     ItemContextMenu,
     RenameDialog,
     DeleteConfirmDialog,

@@ -12,7 +12,6 @@
 </template>
 
 <script>
-
 import Menu from '@/components/Menu'
 
 export default {
@@ -24,12 +23,24 @@ export default {
 </script>
 
 <style>
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+body {
+  background-color: #272525;
+  color: #F0F0F0;
+  font-size: 14px;
+  margin-top: 95px;
+  font-family: 'Lato', Arial, Helvetica, sans-serif !important;
+  height: unset !important;
+}
+
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Lato-Black';
 }
 </style>

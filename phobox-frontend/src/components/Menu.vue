@@ -1,10 +1,10 @@
 <template>
-  <div id="menu">
+  <div id="menu2">
     <!-- Head menu -->
     <div class="headmenu" v-on:click="toggle()">
       <i style="font-size: 30px; vertical-align: middle;"
         class="fa fa-camera-retro"></i>
-      <img src="img/logo.png" />
+      <img src="@/assets/logo.png" />
     </div>
 
     <!-- Dark overlay -->

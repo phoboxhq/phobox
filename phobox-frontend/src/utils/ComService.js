@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 export default function () {
-  this.PATH = "localhost:8080";
+  this.PATH = "http://localhost:8080";
 
   this.getData = function (response) {
     return repsonse;
