@@ -3,8 +3,11 @@ package de.milchreis.phobox.server;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map.Entry;
+
+import javax.servlet.DispatcherType;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.jmx.MBeanContainer;
@@ -16,6 +19,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.UserIdentity;
 import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
@@ -26,6 +30,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.config.PreferencesManager;
 import de.milchreis.phobox.server.api.StorageService;
+import de.milchreis.phobox.server.servlets.CrossOriginFilter;
 import de.milchreis.phobox.server.servlets.FileUploadServlet;
 import de.milchreis.phobox.utils.MD5Helper;
 
@@ -44,21 +49,29 @@ public class PhoboxServer {
 		restHandler.setContextPath("/");
         restHandler.setResourceBase("./");
         restHandler.setClassLoader(Thread.currentThread().getContextClassLoader());
-
+        
         ServletHolder restServlet = restHandler.addServlet(ServletContainer.class, "/api/*");
         restServlet.setInitOrder(0);
         restServlet.setInitParameters(new HashMap<String, String>() {{
         	put("jersey.config.server.provider.packages", StorageService.class.getPackage().getName()+
         			";com.myorg.myproj.api;org.codehaus.jackson.jaxrs;com.fasterxml.jackson.jaxrs");
         	put("jersey.config.server.provider.classnames", "org.glassfish.jersey.media.multipart.MultiPartFeature");
+        	put("com.sun.jersey.spi.container.ContainerResponseFilters", "de.milchreis.phobox.server.CORSFilter");
         }});
+        
+        
+        FilterHolder cors = restHandler.addFilter(CrossOriginFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
+        cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
+        cors.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*");
+        cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,POST,HEAD");
+        cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "X-Requested-With,Content-Type,Accept,Origin");
         
 		// FileUpload
         restHandler.addServlet(FileUploadServlet.class, "/api/upload");
         
         // Front-End resources
 		ResourceHandler resourceHandler = new ResourceHandler();
-		resourceHandler.setBaseResource(Resource.newClassPathResource("WebContent"));
+		resourceHandler.setBaseResource(Resource.newClassPathResource("public"));
 		
         // Resource path for files
         ResourceHandler storageHandler = new ResourceHandler();
@@ -70,7 +83,7 @@ public class PhoboxServer {
 //        	put("rootPath", PhoboxModel.getInstance().getStoragePath()); 
 //        	put("storeDebug", "0"); 
 //        }});
-        
+
         HandlerCollection handlerCollection = new HandlerCollection();
         handlerCollection.addHandler(resourceHandler);
         handlerCollection.addHandler(storageHandler);
