@@ -6,6 +6,7 @@
 .classpath
 .project
 .settings
+target/
 
 # Log file
 *.log
@@ -86,3 +87,5 @@ typings/
 # dotenv environment variables file
 .env
 
+# VS Code
+settings.json
