@@ -2,11 +2,16 @@
 export default class Swipe {
 
   constructor(element, onLeft, onRight, onUp, onDown) {
-    element.addEventListener('touchstart', handleTouchStart, false);
-    element.addEventListener('touchmove', handleTouchMove, false);
+    element.addEventListener('touchstart', this.handleTouchStart, false);
+    element.addEventListener('touchmove', this.handleTouchMove, false);
 
     this.xDown = null;
     this.yDown = null;
+
+    this.onLeft = onLeft;
+    this.onRight = onRight;
+    this.onUp = onUp;
+    this.onDown = onDown;
   }
 
   handleTouchStart(evt) {
@@ -27,15 +32,19 @@ export default class Swipe {
 
     if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
       if (xDiff > 0) {
-        onLeft();
+        if(this.onLeft !== null || this.onLeft !== null)
+        this.onLeft();
       } else {
-        onRight();
+        if(this.onRight !== null || this.onRight !== null)
+        this.onRight();
       }
     } else {
       if (yDiff > 0) {
-        onUp();
+        if(this.onUp !== null || this.onUp !== null)
+          this.onUp();
       } else {
-        onDown();
+        if(this.onDown !== null || this.onDown !== null)
+          this.onDown();
       }
     }
     /* reset values */

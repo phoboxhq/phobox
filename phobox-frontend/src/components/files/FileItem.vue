@@ -62,15 +62,15 @@ export default {
       if (item.type === "file") {
         this.$parent.selectedItem = item;
       } else {
-        path = new ComService().encodePath(item.path);
-        router.push({ path: "/photos/" + path });
+        let path = new ComService().encodePath(item.path);
+        this.$router.push({ path: "/photos/" + path });
         window.scrollTo(0, 0);
       }
     },
 
     downloadPath: function() {
       if (this.item.type === "dir") {
-        com = new ComService();
+        let com = new ComService();
         return "api/photos/download/" + com.encodePath(this.item.path);
       } else {
         return this.item.path;

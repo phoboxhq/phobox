@@ -58,6 +58,7 @@ export default {
     onClickOutside: function(e) {
       // Hide menu if no element is clicked and the contextmenu is open
       if (
+        (e.srcElement != undefined || e.srcElement === null) &&
         (e.srcElement.id === "" || e.srcElement.id === "filebrowser") &&
         this.menuShow
       ) {

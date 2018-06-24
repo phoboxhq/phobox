@@ -68,6 +68,7 @@
 <script>
 import $ from 'jquery'
 import Locale from '@/Locale';
+import Swipe from '@/utils/Swipe';
 
 export default {
   name: "Lightbox",
@@ -80,12 +81,12 @@ export default {
   },
   computed: {
     hasNext: function() {
-      index = this.items.indexOf(this.selectedItem);
+      let index = this.items.indexOf(this.selectedItem);
       return index + 1 < this.items.length;
     },
 
     hasPrevious: function() {
-      index = this.items.indexOf(this.selectedItem);
+      let index = this.items.indexOf(this.selectedItem);
       return index - 1 >= 0;
     },
 
@@ -109,7 +110,7 @@ export default {
 
     next: function() {
       if (this.hasNext) {
-        index = this.items.indexOf(this.selectedItem);
+        let index = this.items.indexOf(this.selectedItem);
         this.$parent.selectedItem = this.items[index + 1];
         this.onShow();
       }
@@ -117,7 +118,7 @@ export default {
 
     previous: function() {
       if (this.hasPrevious) {
-        index = this.items.indexOf(this.selectedItem);
+        let index = this.items.indexOf(this.selectedItem);
         this.$parent.selectedItem = this.items[index - 1];
         this.onShow();
       }
@@ -128,8 +129,8 @@ export default {
     },
 
     scrollToItem: function() {
-      var id = this.selectedItem.path.replace(/\//g, "_");
-      var element = document.getElementById(id);
+      let id = this.selectedItem.path.replace(/\//g, "_");
+      let element = document.getElementById(id);
 
       if (element !== undefined && element !== null) {
         element.scrollIntoView();
@@ -141,10 +142,10 @@ export default {
     },
 
     onShow: function() {
-      var img = new Image();
+      let img = new Image();
       img.src = this.selectedItem.thumb;
 
-      var lightboxImage = document.getElementById("lightbox_image");
+      let lightboxImage = document.getElementById("lightbox_image");
 
       if (img.width >= img.height) {
         lightboxImage.style.maxWidth = "100%";
@@ -155,8 +156,8 @@ export default {
         lightboxImage.style.maxWidth = undefined;
       }
 
-      var lightboxWindow = document.getElementById("lightbox_window");
-      var xPos = window.innerWidth / 2 - lightboxImage.width / 2;
+      let lightboxWindow = document.getElementById("lightbox_window");
+      let xPos = window.innerWidth / 2 - lightboxImage.width / 2;
       lightboxWindow.style.left = xPos + "px";
 
       this.scrollToItem();
@@ -167,16 +168,15 @@ export default {
     },
 
     addSwipeListener: function() {
-      var that = this;
       this.swipe = new Swipe(
         document.getElementById("lightbox_window"),
-        function() {
+        () => {
           // on left
-          that.next();
+          this.next();
         },
         function() {
           // on right
-          that.previous();
+          this.previous();
         }
       );
     }
@@ -189,25 +189,23 @@ export default {
   },
 
   created: function() {
-    var that = this;
-
     // Add cursor key listeners for navigation
-    document.onkeydown = function(e) {
+    document.onkeydown = (e) => {
       e = e || window.event;
 
       // Right/Next
-      if (e.keyCode === 39 && that.hasNext) {
-        that.next();
+      if (e.keyCode === 39 && this.hasNext) {
+        this.next();
       }
 
       // Left/Previous
-      if (e.keyCode === 37 && that.hasPrevious) {
-        that.previous();
+      if (e.keyCode === 37 && this.hasPrevious) {
+        this.previous();
       }
     };
 
-    $(window).resize(function() {
-      that.onShow();
+    $(window).resize(() => {
+      this.onShow();
     });
   },
 

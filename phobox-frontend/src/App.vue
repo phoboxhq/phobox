@@ -2,7 +2,7 @@
   <div id="app">
     
 		<!-- Shows the side and top menu -->
-		<menu></menu>
+    <main-menu></main-menu>
 
 		<!-- Shows the directory content -->
 		<transition name="fade">
@@ -12,12 +12,12 @@
 </template>
 
 <script>
-import Menu from '@/components/Menu'
+import MainMenu from '@/components/MainMenu'
 
 export default {
   name: 'App',
   components: {
-    Menu
+   MainMenu
   }
 }
 </script>

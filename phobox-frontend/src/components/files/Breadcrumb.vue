@@ -30,7 +30,7 @@ export default {
         this.$parent.scan(path);
       } else {
         // Navigate to the requested path
-        router.push({ path: "/photos/" + encodedPath });
+        this.$router.push({ path: "/photos/" + encodedPath });
       }
     }
   },

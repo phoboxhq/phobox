@@ -1,5 +1,5 @@
 <template>
-  <div id="menu2">
+  <div id="menu">
     <!-- Head menu -->
     <div class="headmenu" v-on:click="toggle()">
       <i style="font-size: 30px; vertical-align: middle;"
@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  name: "Menu",
+  name: "MainMenu",
   data: function() {
     return {
       show: false,

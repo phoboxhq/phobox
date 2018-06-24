@@ -149,7 +149,7 @@ export default {
   },
   computed: {
     isItemListEmpty () {
-      return true; //this.items === null || this.items.length === 0;
+      return this.items === null || this.items.length === 0;
     }
   },
   watch: {
