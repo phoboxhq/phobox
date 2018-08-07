@@ -23,8 +23,7 @@
 
         <div
           class="menuelement"
-          v-for="entry in menuelements"
-          :key="entry"
+          v-for="(entry, key) in menuelements" :key="key"
           v-on:click="open(entry.address)">
 
           <i :class="entry.icon" style="margin-right:5px"></i>
@@ -40,6 +39,9 @@
 </template>
 
 <script>
+import Locale from '@/Locale';
+Locale.init()
+
 export default {
   name: "MainMenu",
   data: function() {

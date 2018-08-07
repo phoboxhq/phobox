@@ -15,7 +15,7 @@
 import MainMenu from '@/components/MainMenu'
 
 export default {
-  name: 'App',
+  name: 'App', 
   components: {
    MainMenu
   }
@@ -23,9 +23,12 @@ export default {
 </script>
 
 <style>
+@import '../node_modules/lato-webfont/lato.min.css';
+@import '../node_modules/font-awesome/css/font-awesome.min.css';
+@import '../node_modules/bootstrap-css-only/css/bootstrap.min.css';
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Lato', 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -38,7 +41,6 @@ body {
   font-family: 'Lato', Arial, Helvetica, sans-serif !important;
   height: unset !important;
 }
-
 
 h1, h2, h3, h4, h5 {
   font-family: 'Lato-Black';
