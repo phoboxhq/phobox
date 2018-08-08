@@ -23,9 +23,13 @@
 </template>
 
 <script>
+import Locale from '@/Locale';
+import ComService from '@/utils/ComService';
+Locale.init()
+
 export default {
   name: "CreateThumbnails",
-  data: function() {
+  data() {
     return {
       status: null,
       Locale: Locale
@@ -33,16 +37,15 @@ export default {
   },
 
   computed: {
-    isStatusOk: function() {
+    isStatusOk() {
       return this.status === "OK";
     }
   },
 
   methods: {
-    createThumbnails: function() {
-      var that = this;
-      new ComService().createThumbnails(function(data) {
-        that.status = data.status;
+    createThumbnails() {
+      new ComService().createThumbnails(data => {
+        this.status = data.status;
       });
     }
   }

@@ -5,13 +5,13 @@
         <div class="form-group">
             <label for="sel2">{{ Locale.values.album.select }}:</label>
             <select class="form-control" id="sel2" v-model="albumname">
-                <option v-for="a in albums" :value="a" :label="a" :key="a"/>
+                <option v-for="(a, key) in albums" :value="a" :label="a" :key="key"/>
             </select>
         </div>
     </div>
 
     <div id="albumitems">
-        <div class="albumelement item" v-for="item in album.items" :key="item" v-if="album">
+        <div class="albumelement item" v-for="(item, key) in album.items" :key="key" v-if="album">
             <img class="item_thumb" 
                 :src="item.thumb"
                 v-on:click="selectedItem = item"
@@ -27,10 +27,18 @@
 </template>
 
 <script>
+import Locale from '@/Locale';
+import Lightbox from '@/components/Lightbox';
+import ComService from '@/utils/ComService';
+Locale.init()
+
 export default {
   name: "Approval",
   props: [],
-  data: function() {
+  components: {
+    Lightbox
+  },
+  data() {
     return {
       albums: [],
       album: {},
@@ -40,35 +48,33 @@ export default {
     };
   },
   methods: {
-    init: function() {
-      var that = this;
-      new ComService().getAlbums(function(data) {
-        that.albums = data;
+    init() {
+      new ComService().getAlbums(data => {
+        this.albums = data;
       });
     },
 
     refresh() {
-      path = this.$route.params.albumpath;
+      let path = this.$route.params.albumpath;
       if (path !== undefined) {
-        var that = this;
-        new ComService().getAlbum(path, function(data) {
-          that.album = data;
+        new ComService().getAlbum(path, data => {
+          this.album = data;
         });
       }
     },
 
-    open: function(albumName) {
-      router.push({ path: "/albums/" + albumName });
+    open(albumName) {
+      this.$router.push({ path: "/albums/" + albumName });
     },
 
-    goBack: function() {
+    goBack() {
       this.$router.go(-1);
     }
   },
   computed: {},
   watch: {
     $route: "refresh",
-    albumname: function() {
+    albumname() {
       this.open(this.albumname);
     }
   },

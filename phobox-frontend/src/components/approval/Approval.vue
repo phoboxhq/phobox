@@ -14,7 +14,7 @@
         <!-- List all elements -->
         <div class="pictureNavigation">
             <ul>
-                <li v-for="pic in pictures" :key="pic">
+                <li v-for="(pic, key) in pictures" :key="key">
                     <img :src="pic" class="preview" @click="onPictureSelect(pic)" v-bind:class="{ isSelected: pic === selectedPic }" />
                 </li>
             </ul>
@@ -41,15 +41,37 @@
 </template>
 
 <script>
+import Locale from '@/Locale';
+import ComService from '@/utils/ComService';
+import ProductZoomer from 'vue-product-zoomer'
+
+Locale.init()
+
 export default {
   name: "Approval",
   props: [],
+  components: {
+    ProductZoomer
+  },
   data: function() {
     return {
       pictures: [],
       selectedPic: null,
       status: null,
-      Locale: Locale
+      Locale: Locale,
+      images: {
+        normal_size: [
+        ]
+      },
+      zoomerOptions: {
+        'zoomFactor': 4,
+        'pane': 'container',
+        'hoverDelay': 300,
+        'namespace': 'container-zoomer',
+        'move_by_click':true,
+        'scroll_items': 4,
+        'choosed_thumb_border_color': "#ff3d00"
+      }
     };
   },
   methods: {
@@ -57,15 +79,18 @@ export default {
       new ComService().getApprovalPictures(data => {
         this.pictures = data;
         this.selectedPic = this.pictures.length > 0 ? this.pictures[0] : null;
-        this.setMagnification();
+        // this.setMagnification();
       });
     },
 
     onPictureSelect(pic) {
       this.selectedPic = pic;
+      this.images.normal_size = [
+        {'id': this.selectedPic, 'url': this.selectedPic}
+      ]
 
       // Activate maginfication view
-      this.setMagnification();
+//      this.setMagnification();
     },
 
     setMagnification() {
@@ -101,7 +126,7 @@ export default {
 
     next() {
       if (this.hasNext) {
-        index = this.pictures.indexOf(this.selectedPic);
+        let index = this.pictures.indexOf(this.selectedPic);
         this.selectedPic = this.pictures[index + 1];
         this.scrollToPreview();
       }
@@ -109,7 +134,7 @@ export default {
 
     previous() {
       if (this.hasPrevious) {
-        index = this.pictures.indexOf(this.selectedPic);
+        let index = this.pictures.indexOf(this.selectedPic);
         this.selectedPic = this.pictures[index - 1];
         this.scrollToPreview();
       }
@@ -122,12 +147,12 @@ export default {
   },
   computed: {
     hasNext: function() {
-      index = this.pictures.indexOf(this.selectedPic);
+      let index = this.pictures.indexOf(this.selectedPic);
       return index + 1 < this.pictures.length;
     },
 
     hasPrevious: function() {
-      index = this.pictures.indexOf(this.selectedPic);
+      let index = this.pictures.indexOf(this.selectedPic);
       return index - 1 >= 0;
     }
   },
@@ -135,24 +160,22 @@ export default {
   created() {
     this.init();
 
-    var that = this;
-
     // Add cursor key listeners for navigation
-    document.onkeydown = function(e) {
+    document.onkeydown = (e) => {
       e = e || window.event;
 
       // Right/Next
-      if (e.keyCode === 39 && that.hasNext) {
-        that.next();
+      if (e.keyCode === 39 && this.hasNext) {
+        this.next();
       }
 
       // Left/Previous
-      if (e.keyCode === 37 && that.hasPrevious) {
-        that.previous();
+      if (e.keyCode === 37 && this.hasPrevious) {
+        this.previous();
       }
     };
   },
-  beforeDestroy: function() {
+  beforeDestroy() {
     this.stopZoom();
   }
 };

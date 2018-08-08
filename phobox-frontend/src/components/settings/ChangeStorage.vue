@@ -34,9 +34,13 @@
 </template>
 
 <script>
+import Locale from '@/Locale';
+import ComService from '@/utils/ComService';
+Locale.init()
+
 export default {
   name: "ChangeStorage",
-  data: function() {
+  data() {
     return {
       status: null,
       path: null,
@@ -45,16 +49,15 @@ export default {
   },
 
   computed: {
-    isStatusOk: function() {
+    isStatusOk() {
       return this.status === "OK";
     }
   },
 
   methods: {
-    changePath: function() {
-      var that = this;
-      new ComService().changePath(this.path, function(data) {
-        that.status = data.status;
+    changePath() {
+      new ComService().changePath(this.path, data => {
+        this.status = data.status;
       });
     }
   }

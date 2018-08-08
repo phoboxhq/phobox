@@ -1,91 +1,94 @@
 <template>
   <div class="status_panel">
 
-		<div class="batch">
-			<p class="title">{{ Locale.values.status.import_state }}</p>
-			<p class="binfo">{{ statusData.importStatus }}</p>
-		</div>
+    <div class="batch">
+      <p class="title">{{ Locale.values.status.import_state }}</p>
+      <p class="binfo">{{ statusData.importStatus }}</p>
+    </div>
 
-		<div class="batch">
-			<p class="title">{{ Locale.values.status.remaining_files }}</p>
-			<p class="binfo">{{ statusData.remainingfiles }}</p>
-		</div>
+    <div class="batch">
+      <p class="title">{{ Locale.values.status.remaining_files }}</p>
+      <p class="binfo">{{ statusData.remainingfiles }}</p>
+    </div>
 
-		<div class="batch">
-			<p class="title">{{ Locale.values.status.current_file }}</p>
-			<p class="binfo">{{ statusData.file }}</p>
-		</div>
+    <div class="batch">
+      <p class="title">{{ Locale.values.status.current_file }}</p>
+      <p class="binfo">{{ statusData.file }}</p>
+    </div>
 
-		<div class="batch">
-			<p class="title">{{ Locale.values.status.free_space }}</p>
-			<p class="binfo">{{ freespaceInGb }} GB</p>
-		</div>
+    <div class="batch">
+      <p class="title">{{ Locale.values.status.free_space }}</p>
+      <p class="binfo">{{ freespaceInGb }} GB</p>
+    </div>
 
-		<div class="batch">
-			<p class="title">{{ Locale.values.status.max_space }}</p>
-			<p class="binfo">{{ maxspaceInGb }} GB</p>
-		</div>
+    <div class="batch">
+      <p class="title">{{ Locale.values.status.max_space }}</p>
+      <p class="binfo">{{ maxspaceInGb }} GB</p>
+    </div>
 
-		<div class="batch">
-			<p class="title">{{ Locale.values.status.number_of_pictures }}</p>
-			<p class="binfo">{{ numberOfPictures }}</p>
-		</div>
+    <div class="batch">
+      <p class="title">{{ Locale.values.status.number_of_pictures }}</p>
+      <p class="binfo">{{ numberOfPictures }}</p>
+    </div>
 
-	</div>
+  </div>
 </template>
 
 <script>
+import Locale from '@/Locale';
+import ComService from '@/utils/ComService';
+Locale.init()
+
 export default {
   name: "Status",
-  data: function() {
-		return {
-			statusData: {},
-			intervalId: null,
-			Locale: Locale,
-		}
-	},
+  data() {
+    return {
+      statusData: {},
+      intervalId: null,
+      Locale: Locale,
+    }
+  },
   computed: {
-		freespaceInGb: function() {
-			return (this.statusData.freespace / 1024).toFixed(1);
-		},
+    freespaceInGb() {
+      return (this.statusData.freespace / 1024).toFixed(1);
+    },
 
-		maxspaceInGb: function() {
-			return (this.statusData.maxspace / 1024).toFixed(1);
-		},
+    maxspaceInGb() {
+      return (this.statusData.maxspace / 1024).toFixed(1);
+    },
 
-		numberOfPictures: function() {
-			return this.statusData.numberOfPictures;
-		},
-	},
-	
-	methods: {
-		fetchStatus: function() {
-			that = this;
-			new ComService().status(function(data) {
-				that.statusData = data;
-			});
-		}
-	},
-	
-	created: function() {
-		this.fetchStatus();
-		this.intervalId = setInterval(this.fetchStatus, 3000);
-	},
+    numberOfPictures() {
+      return this.statusData.numberOfPictures;
+    },
+  },
+  
+  methods: {
+    fetchStatus() {
+      new ComService().status(data => {
+        this.statusData = data;
+      });
+    }
+  },
+  
+  created() {
+    this.fetchStatus();
+    this.intervalId = setInterval(this.fetchStatus, 3000);
+  },
 
-	beforeDestroy: function() {
-		clearInterval(this.intervalId);
+  beforeDestroy() {
+    clearInterval(this.intervalId);
     }
 };
 </script>
 
 <style>
 .status_panel {
-	margin: 0 auto;
-	max-width: 700px;
+  margin: 0 auto;
+  max-width: 700px;
 }
 
 .status_panel:after {
-	content: "\f05a";
+  content: "\f05a";
     font-family: FontAwesome;
     position: absolute;
     font-size: 800px;
@@ -96,7 +99,7 @@ export default {
 }
 
 .status_panel .batch {
-	width: 200px;
+  width: 200px;
     height: 100px;
     float: left;
     margin: 10px;
@@ -112,12 +115,12 @@ export default {
 }
 
 .status_panel .batch:hover {
-	border: 1px solid rgba(75, 103, 121, 0.77);
+  border: 1px solid rgba(75, 103, 121, 0.77);
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.63);
 }
 
 .status_panel .batch .title {
-	font-weight: bold;
+  font-weight: bold;
     font-size: 16px;
     color: #d4d4d4;
 }

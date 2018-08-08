@@ -31,12 +31,17 @@
 				<strong>{{ Locale.values.settings.failed }}!</strong>
 			</div>
 		</div>
+  </div>
 </template>
 
 <script>
+import Locale from '@/Locale';
+import ComService from '@/utils/ComService';
+Locale.init()
+
 export default {
   name: "ImportFormat",
-  data: function() {
+  data() {
     return {
       format: null,
       status: null,
@@ -45,28 +50,26 @@ export default {
   },
 
   computed: {
-    isStatusOk: function() {
+    isStatusOk() {
       return this.status === "OK";
     }
   },
 
   methods: {
-    fetchImportPattern: function() {
-      var that = this;
-      new ComService().fetchImportPattern(function(data) {
-        that.format = data;
+    fetchImportPattern() {
+      new ComService().fetchImportPattern(data => {
+        this.format = data;
       });
     },
 
-    saveImportPattern: function() {
-      var that = this;
-      new ComService().saveImportPattern(this.format, function(data) {
-        that.status = data.status;
+    saveImportPattern() {
+      new ComService().saveImportPattern(this.format, data => {
+        this.status = data.status;
       });
     }
   },
 
-  created: function() {
+  created() {
     this.fetchImportPattern();
   }
 };

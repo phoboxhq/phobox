@@ -5,17 +5,18 @@
 </template>
 
 <script>
+import Dropzone from 'dropzone';
+
 export default {
   name: "Upload",
   methods: {
-    initDropzone: function() {
-      self = this;
-      self.$nextTick(function() {
-        self.dz = new Dropzone("#dz");
+    initDropzone() {
+      this.$nextTick(() => {
+        this.dz = new Dropzone("#dz");
       });
     }
   },
-  created: function() {
+  created() {
 		// Disable auto initialisation, because a page (router) switch
 		// does not provide the reinitialisation.
 		Dropzone.autoDiscover = false;

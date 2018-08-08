@@ -23,7 +23,7 @@
 		<!-- Result area -->
 		<div id="foundItems">
 				<span v-if="isEmptyResultSet">{{ Locale.values.search.no_results }}</span>
-				<div class="albumelement item" v-for="item in items" :key="item" v-if="items">
+				<div class="albumelement item" v-for="(item, key) in items" :key="key" v-if="items">
 						<img class="item_thumb"
 								:src="item.thumb"
 								v-on:click="selectedItem = item"
@@ -40,8 +40,16 @@
 </template>
 
 <script>
+import Locale from '@/Locale';
+import Lightbox from '@/components/Lightbox';
+import ComService from '@/utils/ComService';
+Locale.init()
+
 export default {
   name: "Search",
+  components: {
+    Lightbox,
+  },
   data: function() {
     return {
       search: null,
@@ -66,12 +74,11 @@ export default {
 
   methods: {
     onSearch: function() {
-      that = this;
       this.isLoading = true;
-      new ComService().search(this.search, function(data) {
-        that.items = data;
-        that.lastSearch = that.search;
-        that.isLoading = false;
+      new ComService().search(this.search, (data) => {
+        this.items = data;
+        this.lastSearch = this.search;
+        this.isLoading = false;
       });
     }
   }

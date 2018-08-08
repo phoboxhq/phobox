@@ -39,12 +39,17 @@
 				<strong>{{ Locale.values.settings.failed }}!</strong>{{ Locale.values.settings.access_auth_failed }}
 			</div>
 		</div>
+	</div>
 </template>
 
 <script>
+import Locale from '@/Locale';
+import ComService from '@/utils/ComService';
+Locale.init()
+
 export default {
   name: "SecurityAccess",
-  data: function() {
+  data() {
     return {
       credentials: {},
       status: null,
@@ -53,40 +58,36 @@ export default {
   },
 
   computed: {
-    isStatusOk: function() {
+    isStatusOk() {
       return this.status === "OK";
     }
   },
 
   methods: {
-    fetchCredentials: function() {
-      var that = this;
-      new ComService().fetchCredentials(function(data) {
-        that.credentials =
-          data === undefined ? { username: "", password: "" } : data;
+    fetchCredentials() {
+      new ComService().fetchCredentials(data => {
+        this.credentials = data === undefined ? { username: "", password: "" } : data;
       });
     },
 
-    saveCredentials: function() {
-      var that = this;
+    saveCredentials() {
       new ComService().saveCredentials(
         this.credentials.username,
         this.credentials.password,
-        function(data) {
-          that.status = data.status;
+        data => {
+          this.status = data.status;
         }
       );
     },
 
-    resetCredentials: function() {
-      var that = this;
-      new ComService().resetCredentials(function(data) {
-        that.status = data.status;
+    resetCredentials() {
+      new ComService().resetCredentials(data => {
+        this.status = data.status;
       });
     }
   },
 
-  created: function() {
+  created() {
     this.fetchCredentials();
   }
 };
