@@ -11,7 +11,7 @@
 
 				<!-- Current position of the picture -->
 				<div class="picture_position">
-					{{ index+1 }} {{ Locale.values.pictures.of }} {{ maxItems }}
+					{{ index+1 }} {{ $t('pictures.of') }} {{ maxItems }}
 				</div>
 
 				<img
@@ -57,7 +57,7 @@
 		        <div v-if="isFragment && !hasNext">
 		            <button type="button" class="btn btn-secondary moreImagesBtn"
 		                v-on:click="onLoadMoreItems()">
-		                {{ Locale.values.pictures.load_more }}
+		                {{ $t('pictures.load_more') }}
 		            </button>
 		        </div>
 			</div>
@@ -67,48 +67,46 @@
 
 <script>
 import $ from 'jquery'
-import Locale from '@/Locale';
 import Swipe from '@/utils/Swipe';
 
 export default {
   name: "Lightbox",
   props: ["items", "selectedItem"],
-  data: function() {
+  data() {
     return {
-      Locale: Locale,
       swipe: null
     };
   },
   computed: {
-    hasNext: function() {
+    hasNext() {
       let index = this.items.indexOf(this.selectedItem);
       return index + 1 < this.items.length;
     },
 
-    hasPrevious: function() {
+    hasPrevious() {
       let index = this.items.indexOf(this.selectedItem);
       return index - 1 >= 0;
     },
 
-    index: function() {
+    index() {
       return this.items.indexOf(this.selectedItem);
     },
 
-    maxItems: function() {
+    maxItems() {
       return this.items.length;
     },
 
-    isFragment: function() {
+    isFragment() {
       return this.$parent.isFragment;
     }
   },
   methods: {
-    close: function() {
+    close() {
       this.$parent.selectedItem = null;
       this.swipe = null;
     },
 
-    next: function() {
+    next() {
       if (this.hasNext) {
         let index = this.items.indexOf(this.selectedItem);
         this.$parent.selectedItem = this.items[index + 1];
@@ -116,7 +114,7 @@ export default {
       }
     },
 
-    previous: function() {
+    previous() {
       if (this.hasPrevious) {
         let index = this.items.indexOf(this.selectedItem);
         this.$parent.selectedItem = this.items[index - 1];
@@ -124,11 +122,11 @@ export default {
       }
     },
 
-    onFavorite: function() {
+    onFavorite() {
       this.$parent.favoriteItem = this.selectedItem;
     },
 
-    scrollToItem: function() {
+    scrollToItem() {
       let id = this.selectedItem.path.replace(/\//g, "_");
       let element = document.getElementById(id);
 
@@ -137,11 +135,11 @@ export default {
       }
     },
 
-    onLoadMoreItems: function() {
+    onLoadMoreItems() {
       this.$parent.onLoadMoreItems();
     },
 
-    onShow: function() {
+    onShow() {
       let img = new Image();
       img.src = this.selectedItem.thumb;
 
@@ -167,7 +165,7 @@ export default {
       }
     },
 
-    addSwipeListener: function() {
+    addSwipeListener() {
       this.swipe = new Swipe(
         document.getElementById("lightbox_window"),
         () => {
@@ -182,13 +180,13 @@ export default {
     }
   },
 
-  updated: function() {
+  updated() {
     if (this.selectedItem !== null) {
       this.onShow();
     }
   },
 
-  created: function() {
+  created() {
     // Add cursor key listeners for navigation
     document.onkeydown = (e) => {
       e = e || window.event;
@@ -210,7 +208,7 @@ export default {
   },
 
   watch: {
-    selectedItem: function() {}
+    selectedItem() {}
   }
 };
 </script>

@@ -2,32 +2,32 @@
   <div class="status_panel">
 
     <div class="batch">
-      <p class="title">{{ Locale.values.status.import_state }}</p>
+      <p class="title">{{ $t('status.import_state') }}</p>
       <p class="binfo">{{ statusData.importStatus }}</p>
     </div>
 
     <div class="batch">
-      <p class="title">{{ Locale.values.status.remaining_files }}</p>
+      <p class="title">{{ $t('status.remaining_files') }}</p>
       <p class="binfo">{{ statusData.remainingfiles }}</p>
     </div>
 
     <div class="batch">
-      <p class="title">{{ Locale.values.status.current_file }}</p>
+      <p class="title">{{ $t('status.current_file') }}</p>
       <p class="binfo">{{ statusData.file }}</p>
     </div>
 
     <div class="batch">
-      <p class="title">{{ Locale.values.status.free_space }}</p>
+      <p class="title">{{ $t('status.free_space') }}</p>
       <p class="binfo">{{ freespaceInGb }} GB</p>
     </div>
 
     <div class="batch">
-      <p class="title">{{ Locale.values.status.max_space }}</p>
+      <p class="title">{{ $t('status.max_space') }}</p>
       <p class="binfo">{{ maxspaceInGb }} GB</p>
     </div>
 
     <div class="batch">
-      <p class="title">{{ Locale.values.status.number_of_pictures }}</p>
+      <p class="title">{{ $t('status.number_of_pictures') }}</p>
       <p class="binfo">{{ numberOfPictures }}</p>
     </div>
 
@@ -35,17 +35,14 @@
 </template>
 
 <script>
-import Locale from '@/Locale';
 import ComService from '@/utils/ComService';
-Locale.init()
 
 export default {
   name: "Status",
   data() {
     return {
       statusData: {},
-      intervalId: null,
-      Locale: Locale,
+      intervalId: null
     }
   },
   computed: {

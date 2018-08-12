@@ -24,7 +24,7 @@
     <div v-if="isFragment" class="moreImagesContainer">
         <button type="button" class="btn btn-secondary moreImagesBtn"
             v-on:click="onLoadMoreItems()">
-            {{ Locale.values.pictures.load_more }}
+            {{ $t('pictures.load_more') }}
         </button>
     </div>
 
@@ -42,19 +42,19 @@
         v-if="isItemListEmpty && !isProcessing">
         <i style="font-size: 20em; color: rgba(0, 0, 0, 0.27);"
             class="fa fa-frown-o" aria-hidden="true"></i>
-        <h4>{{ Locale.values.pictures.not_found }}</h4>
+        <h4>{{ $t('pictures.not_found') }}</h4>
         <a href=""
             v-on:click="goBack()">
-            {{ Locale.values.pictures.go_back }}</a>
+            {{ $t('pictures.go_back') }}</a>
     </div>
 
     <div class="not_found_center"
         v-if="isItemListEmpty && isProcessing">
         <i style="font-size: 20em; color: rgba(0, 0, 0, 0.27);"
             class="fa fa-spinner" aria-hidden="true"></i>
-        <h4>{{ Locale.values.pictures.not_found }}</h4>
+        <h4>{{ $t('pictures.not_found') }}</h4>
         <a v-on:click="refresh()" style="cursor:pointer;">
-            {{ Locale.values.pictures.reload }}</a>
+            {{ $t('pictures.reload') }}</a>
     </div>
 
     <renameDialog :item="renameItem"></renameDialog>
@@ -68,7 +68,6 @@
 </template>
 
 <script>
-import Locale from '@/Locale';
 import ComService from '@/utils/ComService';
 import Breadcrumb from '@/components/files/Breadcrumb';
 import FileItem from '@/components/files/FileItem';
@@ -92,7 +91,7 @@ export default {
     Lightbox
   },
   props: [],
-  data: function() {
+  data() {
     return {
       items: null,
       path: null,
@@ -105,8 +104,7 @@ export default {
       currentItem: null,
       isLoading: true,
       isFragment: false,
-      isProcessing: false,
-      Locale: Locale.init()
+      isProcessing: false
     };
   },
   methods: {

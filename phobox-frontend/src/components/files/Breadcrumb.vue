@@ -20,7 +20,7 @@ export default {
     return {};
   },
   methods: {
-    open: function(path) {
+    open(path) {
       let com = new ComService();
       let encodedUrl = com.encodePath(this.$route.params.path);
       let encodedPath = com.encodePath(path);
@@ -35,7 +35,7 @@ export default {
     }
   },
   computed: {
-    generateElements: function() {
+    generateElements() {
       let path = new ComService()
         .decodePath(this.path)
         .split("/")

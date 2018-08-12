@@ -1,25 +1,21 @@
 <template>
   <div id="about">
 		<div class="about_panel">
-			<h1>{{ Locale.values.about.head }}</h1>
-			<h2>{{ Locale.values.about.background_head }}</h2>
-			<div v-html="Locale.values.about.background_text"></div>
+			<h1>{{ $t('about.head') }}</h1>
+			<h2>{{ $t('about.background_head') }}</h2>
+			<div v-html="$t('about.background_text')"></div>
 		
-			<h2>{{ Locale.values.about.author_and_contact_head }}</h2>
-			<div v-html="Locale.values.about.author_and_contact_text"></div>
+			<h2>{{ $t('about.author_and_contact_head') }}</h2>
+			<div v-html="$t('about.author_and_contact_text')"></div>
 		</div>
 	</div>
 </template>
 
 <script>
-import Locale from '@/Locale';
-Locale.init()
-
 export default {
   name: "About",
-  data: function() {
+  data() {
     return {
-      Locale: Locale
     };
   }
 };

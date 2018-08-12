@@ -5,12 +5,12 @@
         <ul>
           <li class="menu_element" v-on:click="closeMenu()">
             <a class="downloadDirectory" :href="downloadPath()" target="_blank" download>
-              <i class="fa fa-download" aria-hidden="true"></i> {{ Locale.values.pictures.download }}
+              <i class="fa fa-download" aria-hidden="true"></i> {{ $t('pictures.download') }}
             </a>
           </li>
-          <li class="menu_element" v-on:click="onRename"><i class="fa fa-pencil" aria-hidden="true"></i> {{ Locale.values.pictures.rename }}</li>
-          <li class="menu_element" v-on:click="onDelete"><i class="fa fa-trash" aria-hidden="true"></i> {{ Locale.values.pictures.delete }}</li>
-          <li class="menu_element" v-on:click="onTags"><i class="fa fa-tags" aria-hidden="true"></i> {{ Locale.values.pictures.tags }}</li>
+          <li class="menu_element" v-on:click="onRename"><i class="fa fa-pencil" aria-hidden="true"></i> {{ $t('pictures.rename') }}</li>
+          <li class="menu_element" v-on:click="onDelete"><i class="fa fa-trash" aria-hidden="true"></i> {{ $t('pictures.delete') }}</li>
+          <li class="menu_element" v-on:click="onTags"><i class="fa fa-tags" aria-hidden="true"></i> {{ $t('pictures.tags') }}</li>
         </ul>
       </div>
     </transition>
@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import Locale from '@/Locale';
 import ComService from '@/utils/ComService';
 import ClickOutside from '@/directives/ClickOutside';
 
@@ -28,15 +27,14 @@ export default {
   directives: {
     ClickOutside
   },
-  data: function() {
+  data() {
     return {
       contextMenuItem: undefined,
-      menuShow: false,
-      Locale: Locale
+      menuShow: false
     };
   },
   methods: {
-    downloadPath: function() {
+    downloadPath() {
       if (this.item == null) return;
 
       if (this.item.type === "dir") {
@@ -47,15 +45,15 @@ export default {
       }
     },
 
-    toggleMenu: function(id) {
+    toggleMenu(id) {
       this.menuShow = !this.menuShow;
     },
 
-    closeMenu: function() {
+    closeMenu() {
       this.menuShow = false;
     },
 
-    onClickOutside: function(e) {
+    onClickOutside(e) {
       // Hide menu if no element is clicked and the contextmenu is open
       if (
         (e.srcElement != undefined || e.srcElement === null) &&
@@ -66,32 +64,32 @@ export default {
       }
     },
 
-    onDownload: function() {
+    onDownload() {
       this.closeMenu();
     },
 
-    onRename: function() {
+    onRename() {
       this.parent.renameItem = this.item;
       this.closeMenu();
     },
 
-    onDelete: function() {
+    onDelete() {
       this.parent.deleteItem = this.item;
       this.closeMenu();
     },
 
-    onTags: function() {
+    onTags() {
       this.parent.tagsItem = this.item;
       this.closeMenu();
     }
   },
   computed: {
-    encodePath: function() {
+    encodePath() {
       return this.item.path.replace(/\//g, "_");
     }
   },
 
-  created: function() {}
+  created() {}
 };
 </script>
 

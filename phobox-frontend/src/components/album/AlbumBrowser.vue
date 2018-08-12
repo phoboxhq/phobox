@@ -3,7 +3,7 @@
     <!-- Existing album selector -->
     <div id="albumselector">
         <div class="form-group">
-            <label for="sel2">{{ Locale.values.album.select }}:</label>
+            <label for="sel2">{{ $t('album.select') }}:</label>
             <select class="form-control" id="sel2" v-model="albumname">
                 <option v-for="(a, key) in albums" :value="a" :label="a" :key="key"/>
             </select>
@@ -27,10 +27,8 @@
 </template>
 
 <script>
-import Locale from '@/Locale';
 import Lightbox from '@/components/Lightbox';
 import ComService from '@/utils/ComService';
-Locale.init()
 
 export default {
   name: "Approval",
@@ -43,8 +41,7 @@ export default {
       albums: [],
       album: {},
       albumname: null,
-      selectedItem: null,
-      Locale: Locale
+      selectedItem: null
     };
   },
   methods: {

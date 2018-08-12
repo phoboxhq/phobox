@@ -25,7 +25,7 @@
             <!-- Accept -->
             <div class="judgeButton green" @click="onAccept">
                 <i class="fa fa-check-circle" aria-hidden="true"></i>
-                {{ Locale.values.approval.accept }}
+                {{ $t('approval.accept') }}
                 </div>
                 
                 <div class="spacer"></div>
@@ -33,7 +33,7 @@
                 <!-- Decline -->
                 <div class="judgeButton red" @click="onDecline">
                 <i class="fa fa-trash" aria-hidden="true"></i>
-                {{ Locale.values.approval.decline }}
+                {{ $t('approval.decline') }}
             </div>
         </div>
 
@@ -41,11 +41,8 @@
 </template>
 
 <script>
-import Locale from '@/Locale';
 import ComService from '@/utils/ComService';
 import ProductZoomer from 'vue-product-zoomer'
-
-Locale.init()
 
 export default {
   name: "Approval",
@@ -53,12 +50,11 @@ export default {
   components: {
     ProductZoomer
   },
-  data: function() {
+  data() {
     return {
       pictures: [],
       selectedPic: null,
       status: null,
-      Locale: Locale,
       images: {
         normal_size: [
         ]

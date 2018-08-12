@@ -12,17 +12,17 @@
 					type="text" class="form-control"
 					v-model="search"
 					v-on:keyup.enter="onSearch()"
-					:placeholder="Locale.values.search.searchbar">
+					:placeholder="$t('search.searchbar')">
 
 			<span class="input-group-btn">
 				<button class="btn btn-secondary" type="button"
-					v-on:click="onSearch()">{{ Locale.values.search.search_button }}</button>
+					v-on:click="onSearch()">{{ $t('search.search_button') }}</button>
 			</span>
 		</div>
 
 		<!-- Result area -->
 		<div id="foundItems">
-				<span v-if="isEmptyResultSet">{{ Locale.values.search.no_results }}</span>
+				<span v-if="isEmptyResultSet">{{ $t('search.no_results') }}</span>
 				<div class="albumelement item" v-for="(item, key) in items" :key="key" v-if="items">
 						<img class="item_thumb"
 								:src="item.thumb"
@@ -40,24 +40,21 @@
 </template>
 
 <script>
-import Locale from '@/Locale';
 import Lightbox from '@/components/Lightbox';
 import ComService from '@/utils/ComService';
-Locale.init()
 
 export default {
   name: "Search",
   components: {
     Lightbox,
   },
-  data: function() {
+  data() {
     return {
       search: null,
       selectedItem: null,
       items: [],
       lastSearch: null,
-      isLoading: false,
-      Locale: Locale
+      isLoading: false
     };
   },
 

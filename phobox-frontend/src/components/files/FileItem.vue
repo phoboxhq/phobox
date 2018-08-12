@@ -11,7 +11,7 @@
           v-if="item.type === 'file'" />
 
       <p v-if="item.thumb==='@/assets/stopwatch.png'" class="reloadInfo">
-        {{ Locale.values.pictures.waitforthumb }}
+        {{ $t('pictures.waitforthumb') }}
       </p>
 
       <!-- Directory: Show preview if exists-->
@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import Locale from '@/Locale';
 import ComService from '@/utils/ComService';
 import ItemContextMenu from '@/components/files/ItemContextMenu';
 
@@ -51,12 +50,11 @@ export default {
   data: function() {
     return {
       menuShow: false,
-      contextMenuItem: undefined,
-      Locale: Locale
+      contextMenuItem: undefined
     };
   },
   methods: {
-    open: function(item) {
+    open(item) {
       // Set selected item to parent component
       // if it's a file, otherwise open directory
       if (item.type === "file") {
@@ -68,7 +66,7 @@ export default {
       }
     },
 
-    downloadPath: function() {
+    downloadPath() {
       if (this.item.type === "dir") {
         let com = new ComService();
         return "api/photos/download/" + com.encodePath(this.item.path);
@@ -77,18 +75,18 @@ export default {
       }
     },
 
-    toggleMenu: function(id) {
+    toggleMenu(id) {
       let contextMenu = this.$refs.dirContextMenu;
       contextMenu.toggleMenu();
     }
   },
   computed: {
-    encodePath: function() {
+    encodePath() {
       return this.item.path.replace(/\//g, "_");
     }
   },
 
-  created: function() {}
+  created() {}
 };
 </script>
 

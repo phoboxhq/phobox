@@ -1,7 +1,7 @@
 
 export default {
 	
-	languages: {
+	messages: {
 		en: {
 			menu: {
 				pictures: 'Pictures',
@@ -245,35 +245,9 @@ export default {
 		},
 	},
 
-
-	values: undefined,
-
-	init: function() {
-		this.__detectLang(navigator.language || navigator.userlanguage);
-		return this;
+	getBrowserLocale () {
+		let localekey = navigator.language || navigator.userlanguage;
+		return localekey.substring(0, 2)
 	},
-
-	setLanguage: function(localekey) {
-		this.__detectLang(localekey);
-	},
-
-	get: function(key) {
-		return this.values.key;
-	},
-
-	__detectLang: function(localekey) {
-
-		// Default is english
-		this.values = this.languages.en;
-
-		// Extract short localekey (firefox and chrome are different)
-		let shortKey = localekey.substring(0, 2);
-
-		if(shortKey in this.languages) {
-			this.values = this.languages[shortKey];
-		} else {
-			this.values = this.languages.en;
-		}
-	}
 }
 

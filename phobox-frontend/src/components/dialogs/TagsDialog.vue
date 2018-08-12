@@ -9,7 +9,7 @@
 			<!-- TagsDialog -->
 			<div id="renameDialog" class="dialog">
 				<div class="head">
-					{{ Locale.values.pictures.tags}} {{ getName() }}
+					{{ $t('pictures.tags') }} {{ getName() }}
 				</div>
 
 				<div class="content">
@@ -21,13 +21,13 @@
 
 					<div class="alert alert-danger alert-dismissible" role="alert" v-show="status === 'ERROR'">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close" v-on:click="status = null"><span aria-hidden="true">&times;</span></button>
-						<strong>{{ Locale.values.settings.failed }}!</strong> {{ Locale.values.pictures.rename_dialog_failed }}
+						<strong>{{ $t('settings.failed') }}!</strong> {{ $t('pictures.rename_dialog_failed') }}
 					</div>
 				</div>
 			
 				<div class="footer">
-					<button type="button" class="btn btn-default" v-on:click="save()">{{ Locale.values.pictures.rename_dialog_save }}</button>
-					<button type="button" class="btn btn-default" v-on:click="close()">{{ Locale.values.pictures.rename_dialog_cancel }}</button>
+					<button type="button" class="btn btn-default" v-on:click="save()">{{ $t('pictures.rename_dialog_save') }}</button>
+					<button type="button" class="btn btn-default" v-on:click="close()">{{ $t('pictures.rename_dialog_cancel') }}</button>
 				</div>
 			</div>
 		</div>
@@ -36,28 +36,25 @@
 </template>
 
 <script>
-import Locale from '@/Locale';
-
 export default {
   name: "TagsDialog",
   props: ["item"],
-  data: function() {
+  data() {
     return {
       name: this.item !== null ? this.item.name : null,
       status: null,
       tags: [],
-      Locale: Locale
     };
   },
   methods: {
-    getName: function() {
+    getName() {
       if (this.item !== null) {
         return this.item.name;
       }
       return "";
     },
 
-    save: function() {
+    save() {
       var that = this;
       this.tags = $("#tagsInput").tagsinput("items");
 
@@ -69,7 +66,7 @@ export default {
       });
     },
 
-    onShow: function() {
+    onShow() {
       var that = this;
       $("#tagsInput").tagsinput("removeAll");
 
@@ -81,12 +78,12 @@ export default {
       });
     },
 
-    close: function() {
+    close() {
       this.$parent.tagsItem = null;
     }
   },
   watch: {
-    item: function() {
+    item() {
       this.name = this.getName();
 
       if (this.item !== null) {

@@ -1,6 +1,6 @@
 <template>
   <div id="settings_panel">
-    <h1>{{ Locale.values.menu.settings }}</h1>
+    <h1>{{ $t('menu.settings') }}</h1>
     <security-access></security-access>
     <import-format></import-format>
     <create-thumbnails></create-thumbnails>
@@ -9,13 +9,11 @@
 </template>
 
 <script>
-import Locale from '@/Locale';
 import ChangeStorage from '@/components/settings/ChangeStorage';
 import CreateThumbnails from '@/components/settings/CreateThumbnails';
 import ImportFormat from '@/components/settings/ImportFormat';
 import SecurityAccess from '@/components/settings/SecurityAccess';
 import ComService from '@/utils/ComService';
-Locale.init()
 
 export default {
   name: "Settings",
@@ -27,7 +25,6 @@ export default {
   },
   data() {
     return {
-      Locale: Locale
     };
   },
   computed: {},

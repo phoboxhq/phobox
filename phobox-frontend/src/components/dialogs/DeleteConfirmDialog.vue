@@ -9,22 +9,22 @@
 			<!-- DeleteConfirmDialog -->
 			<div id="deleteConfirmDialog" class="dialog">
 				<div class="head">
-					{{ Locale.values.pictures.delete_dialog_head }} {{ getName() }}
+					{{ $t('pictures.delete_dialog_head') }} {{ getName() }}
 				</div>
 
 				<div class="content">
-					{{ Locale.values.pictures.delete_dialog_content }}
+					{{ $t('pictures.delete_dialog_content') }}
 					<p><strong>'{{ getPath() }}'</strong></p>
 
 					<div class="alert alert-danger alert-dismissible" role="alert" v-show="status === 'ERROR'">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close" v-on:click="status = null"><span aria-hidden="true">&times;</span></button>
-						<strong>{{ Locale.values.settings.failed }}!</strong> {{ Locale.values.pictures.delete_dialog_failed }}
+						<strong>{{ $t('settings.failed') }}!</strong> {{ $t('pictures.delete_dialog_failed') }}
 					</div>
 				</div>
 			
 				<div class="footer">
-					<button type="button" class="btn btn-danger" v-on:click="deleteItem()">{{ Locale.values.pictures.delete_dialog_delete }}</button>
-					<button type="button" class="btn btn-default" v-on:click="close()">{{ Locale.values.pictures.delete_dialog_cancel }}</button>
+					<button type="button" class="btn btn-danger" v-on:click="deleteItem()">{{ $t('pictures.delete_dialog_delete') }}</button>
+					<button type="button" class="btn btn-default" v-on:click="close()">{{ $t('pictures.delete_dialog_cancel') }}</button>
 				</div>
 			</div>
 		</div>
@@ -33,34 +33,31 @@
 </template>
 
 <script>
-import Locale from '@/Locale';
-
 export default {
   name: "DeleteConfirmDialog",
   props: ["item"],
-  data: function() {
+  data() {
     return {
       name: this.item !== null ? this.item.name : null,
-      status: null,
-      Locale: Locale
+      status: null
     };
   },
   methods: {
-    getName: function() {
+    getName() {
       if (this.item !== null) {
         return this.item.name;
       }
       return "";
     },
 
-    getPath: function() {
+    getPath() {
       if (this.item !== null) {
         return this.item.path;
       }
       return "";
     },
 
-    deleteItem: function() {
+    deleteItem() {
       var that = this;
       new ComService().delete(this.item.path, function(data) {
         that.status = data.status;
@@ -77,12 +74,12 @@ export default {
       });
     },
 
-    close: function() {
+    close() {
       this.$parent.deleteItem = null;
     }
   },
   watch: {
-    item: function() {
+    item() {
       this.name = this.getName();
     }
   }

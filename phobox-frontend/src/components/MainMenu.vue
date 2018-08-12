@@ -39,9 +39,6 @@
 </template>
 
 <script>
-import Locale from '@/Locale';
-Locale.init()
-
 export default {
   name: "MainMenu",
   data: function() {
@@ -49,42 +46,42 @@ export default {
       show: false,
       menuelements: [
         {
-          title: Locale.values.menu.pictures,
+          title: this.$t('menu.pictures'),
           address: "#/photos",
           icon: "fa fa-folder-open"
         },
         {
-          title: Locale.values.menu.approval,
+          title: this.$t('menu.approval'),
           address: "#/approval",
           icon: "fa fa-gavel"
         },
         {
-          title: Locale.values.menu.search,
+          title: this.$t('menu.search'),
           address: "#/search",
           icon: "fa fa-search"
         },
         {
-          title: Locale.values.menu.albums,
+          title: this.$t('menu.albums'),
           address: "#/albums",
           icon: "fa fa-star"
         },
         {
-          title: Locale.values.menu.status,
+          title: this.$t('menu.status'),
           address: "#/status",
           icon: "fa fa-heartbeat"
         },
         {
-          title: Locale.values.menu.upload,
+          title: this.$t('menu.upload'),
           address: "#/upload",
           icon: "fa fa-upload"
         },
         {
-          title: Locale.values.menu.settings,
+          title: this.$t('menu.settings'),
           address: "#/settings",
           icon: "fa fa-wrench"
         },
         {
-          title: Locale.values.menu.about,
+          title: this.$t('menu.about'),
           address: "#/about",
           icon: "fa fa-info-circle"
         }
@@ -92,11 +89,11 @@ export default {
     };
   },
   methods: {
-    toggle: function() {
+    toggle() {
       this.show = !this.show;
     },
 
-    open: function(address) {
+    open(address) {
       this.show = false;
       window.location = address;
     }
