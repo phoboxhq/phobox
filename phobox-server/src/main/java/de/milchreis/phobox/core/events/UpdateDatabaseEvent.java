@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.Logger;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -13,11 +12,12 @@ import com.j256.ormlite.dao.DaoManager;
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.db.DBManager;
-import de.milchreis.phobox.db.ItemAccess;
 import de.milchreis.phobox.db.entities.Item;
+import de.milchreis.phobox.db.repositories.ItemRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class UpdateDatabaseEvent implements IEvent {
-	private static final Logger log = Logger.getLogger(UpdateDatabaseEvent.class);
 
 	private PhoboxOperations ops = Phobox.getOperations();
 
@@ -26,14 +26,14 @@ public class UpdateDatabaseEvent implements IEvent {
 		String subpath = ops.getWebPath(incomingfile);
 		
 		try {
-			Item item = ItemAccess.getItem(subpath);
+			Item item = ItemRepository.getItem(subpath);
 			
 			if(item == null) {
 				item = new Item();
 				item.setFound(new Date(System.currentTimeMillis()));
 				item.setName(incomingfile.getName());
 				item.setPath(FilenameUtils.getFullPath(subpath));
-				ItemAccess.store(item);
+				ItemRepository.store(item);
 			}
 
 		} catch (Exception e) {
@@ -46,8 +46,8 @@ public class UpdateDatabaseEvent implements IEvent {
 		String subpath = ops.getWebPath(file);
 
 		try {
-			Item item = ItemAccess.getItem(subpath);
-			ItemAccess.deleteItem(item);
+			Item item = ItemRepository.getItem(subpath);
+			ItemRepository.deleteItem(item);
 			
 		} catch (Exception e) {
 			log.error("Error while deleting file in database", e);

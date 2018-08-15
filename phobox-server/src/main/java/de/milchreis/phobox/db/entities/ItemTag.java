@@ -1,45 +1,29 @@
 package de.milchreis.phobox.db.entities;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
-@DatabaseTable(tableName = "item_tag")
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemTag {
 	
-	@DatabaseField(columnName = "id", generatedId = true, allowGeneratedIdInsert = true)
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	
-	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, foreignColumnName = "id", columnName="id_item")
+	@NotNull
 	private Item item;
 	
-	@DatabaseField(canBeNull = false, columnName="tag_value")
+	@NotNull
 	private String tagValue;
 
-	public ItemTag() {
-	}
-
-	public Item getItem() {
-		return item;
-	}
-
-	public void setItem(Item item) {
-		this.item = item;
-	}
-
-	public String getTagValue() {
-		return tagValue;
-	}
-
-	public void setTagValue(String tagValue) {
-		this.tagValue = tagValue;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
 }

@@ -2,8 +2,6 @@ package de.milchreis.phobox.core;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
-
 import de.milchreis.phobox.core.events.EventRegistry;
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.model.PhoboxModel;
@@ -12,9 +10,12 @@ import de.milchreis.phobox.core.schedules.CopyScheduler;
 import de.milchreis.phobox.core.schedules.ImportScheduler;
 import de.milchreis.phobox.core.schedules.StorageScanScheduler;
 import de.milchreis.phobox.server.PhoboxServer;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Phobox {
-	private static final Logger log = Logger.getLogger(Phobox.class);
 
 	private PhoboxConfigs configs;
 	private PhoboxModel model;
@@ -25,9 +26,13 @@ public class Phobox {
 	private FileProcessor importProcessor;
 	private EventRegistry eventRegistry;
 	
-	private ImportScheduler 	importScheduler;
+	@Getter @Setter
+	private ImportScheduler importScheduler;
+	@Getter @Setter
 	private CopyScheduler copyScheduler;
+	@Getter @Setter
 	private StorageScanScheduler storageScanScheduler;
+	@Getter @Setter
 	private StorageScanQueue scanQueue;
 	
 	private static Phobox instance;
@@ -105,30 +110,6 @@ public class Phobox {
 
 	public static EventRegistry getEventRegistry() {
 		return getInstance().eventRegistry;
-	}
-
-	public ImportScheduler getImportScheduler() {
-		return importScheduler;
-	}
-
-	public void setImportScheduler(ImportScheduler importScheduler) {
-		this.importScheduler = importScheduler;
-	}
-
-	public CopyScheduler getCopyScheduler() {
-		return copyScheduler;
-	}
-
-	public void setCopyScheduler(CopyScheduler copyScheduler) {
-		this.copyScheduler = copyScheduler;
-	}
-
-	public StorageScanScheduler getStorageScanScheduler() {
-		return storageScanScheduler;
-	}
-
-	public void setStorageScanScheduler(StorageScanScheduler storageScanScheduler) {
-		this.storageScanScheduler = storageScanScheduler;
 	}
 
 }

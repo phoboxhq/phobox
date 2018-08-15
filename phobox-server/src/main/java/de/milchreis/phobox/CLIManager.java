@@ -8,13 +8,13 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.log4j.Logger;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.model.PhoboxModel;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CLIManager {
-	private static final Logger log = Logger.getLogger(CLIManager.class);
 	
 	public static void parse(String[] args) throws ParseException {
 

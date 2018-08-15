@@ -23,9 +23,9 @@ import de.milchreis.phobox.core.model.Status;
 import de.milchreis.phobox.core.model.StorageItem;
 import de.milchreis.phobox.core.model.TagOperation;
 import de.milchreis.phobox.db.DBManager;
-import de.milchreis.phobox.db.ItemAccess;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.db.entities.ItemTag;
+import de.milchreis.phobox.db.repositories.ItemRepository;
 import de.milchreis.phobox.utils.PathConverter;
 
 @Path("/tags/")
@@ -46,10 +46,10 @@ public class TagService {
 			List<Item> items = new ArrayList<>();
 			
 			if(physicalFile.isDirectory()) {
-				items = ItemAccess.getItemsByPath(path);
+				items = ItemRepository.getItemsByPath(path);
 				
 			} else {
-				items.add(ItemAccess.getItem(path));
+				items.add(ItemRepository.getItem(path));
 			}
 			
 			
@@ -57,7 +57,7 @@ public class TagService {
 			for(Item item : items) {	
 				
 				// Delete old tags
-				ItemAccess.deleteTagsForItem(item);
+				ItemRepository.deleteTagsForItem(item);
 
 				for(String tag : tagOps.getTags()) {
 					
@@ -84,7 +84,7 @@ public class TagService {
 	throws SQLException, IOException {
 	
 		String path = Phobox.getOperations().getWebPath(PathConverter.decode(imagepath));
-		return ItemAccess.getTagsForItem(path)
+		return ItemRepository.getTagsForItem(path)
 				.stream()
 				.map(t -> t.getTagValue())
 				.collect(Collectors.toList());
@@ -99,7 +99,7 @@ public class TagService {
 		PhoboxOperations ops = Phobox.getOperations();
 		PhotoService ps = new PhotoService();
 		
-		return ItemAccess.getItemsForTag(tag)
+		return ItemRepository.getItemsForTag(tag)
 				.stream()
 				.map(i -> ps.getItem(ops.getPhysicalFile(i.getPath())))
 				.collect(Collectors.toList());

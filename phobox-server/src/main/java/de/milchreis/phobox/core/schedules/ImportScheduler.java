@@ -4,16 +4,15 @@ import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.apache.log4j.Logger;
-
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxConfigs;
 import de.milchreis.phobox.core.actions.FileMoveAction;
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.model.PhoboxModel;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ImportScheduler extends TimerTask {
-	private static final Logger log = Logger.getLogger(ImportScheduler.class);
 		
 	private Timer timer;
 	private int intervallInMillis;

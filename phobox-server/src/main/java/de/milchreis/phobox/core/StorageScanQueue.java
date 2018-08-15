@@ -4,12 +4,11 @@ import java.io.File;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.apache.log4j.Logger;
-
 import de.milchreis.phobox.core.schedules.StorageScanScheduler;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class StorageScanQueue implements Runnable {
-	private static final Logger log = Logger.getLogger(StorageScanQueue.class);
 	
 	private Queue<String> queue;
 	private Thread thread;

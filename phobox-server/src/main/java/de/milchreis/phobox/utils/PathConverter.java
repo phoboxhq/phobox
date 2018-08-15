@@ -4,10 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class PathConverter {
-	private static Logger log = Logger.getLogger(PathConverter.class);
 
 	public static String encode(String imagepath) {
 		try {

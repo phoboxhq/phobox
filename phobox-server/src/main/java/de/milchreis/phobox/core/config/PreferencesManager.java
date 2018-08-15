@@ -10,16 +10,15 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
-
 import de.milchreis.phobox.utils.MD5Helper;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The PrefernencesManager provides methods to save the user preferences to the local
  * file system.
  */
+@Slf4j
 public class PreferencesManager {
-	private static Logger log = Logger.getLogger(PreferencesManager.class);
 
 	public static final String STORAGE_PATH = "storage.path";
 	public static final String USERS 		= "users";

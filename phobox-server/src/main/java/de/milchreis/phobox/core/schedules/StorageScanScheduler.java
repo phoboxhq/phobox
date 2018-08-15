@@ -18,11 +18,12 @@ import de.milchreis.phobox.core.PhoboxConfigs;
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.file.LoopInfo;
-import de.milchreis.phobox.db.ItemAccess;
 import de.milchreis.phobox.db.entities.Item;
+import de.milchreis.phobox.db.repositories.ItemRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class StorageScanScheduler extends TimerTask implements FileAction {
-	private static final Logger log = Logger.getLogger(StorageScanScheduler.class);
 	
 	public static final int IMMEDIATELY = 0;
 	
@@ -62,7 +63,7 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 		
 		// Check the database
 		try {
-			CloseableIterator<Item> iterator = ItemAccess.getItems();
+			CloseableIterator<Item> iterator = ItemRepository.getItems();
 			
 			while(iterator.hasNext()) {
 				Item item = iterator.next();

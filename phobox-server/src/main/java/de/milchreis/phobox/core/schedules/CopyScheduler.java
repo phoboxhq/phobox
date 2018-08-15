@@ -6,7 +6,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxConfigs;
@@ -14,9 +13,10 @@ import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.file.LoopInfo;
 import de.milchreis.phobox.core.model.PhoboxModel;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CopyScheduler extends TimerTask implements FileAction {
-	private static final Logger log = Logger.getLogger(CopyScheduler.class);
 
 	private int lastSize = 0;
 	private int intervallInMillis;

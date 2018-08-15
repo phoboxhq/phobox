@@ -4,10 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class EventRegistry implements IEvent {
-	private static final Logger log = Logger.getLogger(EventRegistry.class);
 
 	private List<IEvent> eventRegistry;
 

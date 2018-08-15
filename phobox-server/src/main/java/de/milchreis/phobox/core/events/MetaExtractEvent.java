@@ -5,16 +5,15 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.sql.Date;
 
-import org.apache.log4j.Logger;
-
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxOperations;
-import de.milchreis.phobox.db.ItemAccess;
 import de.milchreis.phobox.db.entities.Item;
+import de.milchreis.phobox.db.repositories.ItemRepository;
 import de.milchreis.phobox.utils.ExifHelper;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MetaExtractEvent implements IEvent {
-	private static final Logger log = Logger.getLogger(MetaExtractEvent.class);
 
 	private PhoboxOperations ops = Phobox.getOperations();
 
@@ -28,7 +27,7 @@ public class MetaExtractEvent implements IEvent {
 		}
 		
 		try {
-			Item item = ItemAccess.getItem(subpath);
+			Item item = ItemRepository.getItem(subpath);
 			
 			try {
 				item.setRotation(ExifHelper.getOrientation(file));
@@ -51,7 +50,7 @@ public class MetaExtractEvent implements IEvent {
 				item.setHeight(img.getHeight(null));
 			}
 			
-			ItemAccess.store(item);
+			ItemRepository.store(item);
 			
 		} catch (Exception e) {
 			log.error("Error while saving new file in database", e);

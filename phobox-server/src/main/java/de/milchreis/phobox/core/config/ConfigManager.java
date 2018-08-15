@@ -3,14 +3,14 @@ package de.milchreis.phobox.core.config;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The ConfigManager is a convince class to access the predefined configurations for the 
  * this application.
  */
+@Slf4j
 public class ConfigManager {
-	private static Logger log = Logger.getLogger(ConfigManager.class);
 
 	public static final String STORAGE_INCOMING = "storage.incomingDirName";
 	public static final String STORAGE_APPROVAL = "storage.approval";

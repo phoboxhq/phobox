@@ -14,8 +14,8 @@ import javax.ws.rs.core.MediaType;
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.core.model.StorageItem;
-import de.milchreis.phobox.db.ItemAccess;
 import de.milchreis.phobox.db.entities.Item;
+import de.milchreis.phobox.db.repositories.ItemRepository;
 
 
 @Path("/search/")
@@ -30,8 +30,8 @@ public class SearchService {
 		PhotoService photoService = new PhotoService();
 		PhoboxOperations ops = Phobox.getOperations();	
 		
-		List<Item> items = ItemAccess.getItemsWhereMetaLike(searchString);
-		items.addAll(ItemAccess.getItemsWhereTagsLike(searchString));
+		List<Item> items = ItemRepository.getItemsWhereMetaLike(searchString);
+		items.addAll(ItemRepository.getItemsWhereTagsLike(searchString));
 
 		return items.stream()
 				.map(i -> photoService.getItem(ops.getPhysicalFile(i.getPath() + i.getName())))

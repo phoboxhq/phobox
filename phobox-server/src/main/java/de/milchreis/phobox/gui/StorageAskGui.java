@@ -4,8 +4,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.apache.log4j.Logger;
-
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.config.PreferencesManager;
 import de.milchreis.phobox.core.schedules.CopyScheduler;
@@ -24,10 +22,10 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 public class StorageAskGui extends Application implements Initializable {
-	private static final Logger log = Logger.getLogger(StorageAskGui.class);
 	
 	private Stage stage;
 	private @FXML Button storageButton;

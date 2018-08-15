@@ -9,17 +9,17 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.Logger;
 
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.file.filter.ImageFileFilter;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.SystemStatus;
-import de.milchreis.phobox.db.ItemAccess;
+import de.milchreis.phobox.db.repositories.ItemRepository;
 import de.milchreis.phobox.utils.SpaceInfo;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class PhoboxOperations {
-	private static Logger log = Logger.getLogger(PhoboxOperations.class);
 
 	private PhoboxModel model;
 	private ImageFileFilter fileFilter;
@@ -162,7 +162,7 @@ public class PhoboxOperations {
 		status.setMaxspace(SpaceInfo.getMaxSpaceMB(model.getStoragePath()));
 		status.setRemainingfiles(getRemainingFiles().size());
 		try {
-			status.setNumberOfPictures(ItemAccess.getItemCount());
+			status.setNumberOfPictures(ItemRepository.getItemCount());
 		} catch (SQLException | IOException e) {
 			log.error("Error while counting number of images", e);
 		}

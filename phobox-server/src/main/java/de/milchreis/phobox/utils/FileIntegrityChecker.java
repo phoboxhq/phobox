@@ -3,11 +3,10 @@ package de.milchreis.phobox.utils;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class FileIntegrityChecker {
-	private static final Logger log = Logger.getLogger(FileIntegrityChecker.class);
-	
 
 	public static void checkFile(File f, long waitTimeInMillis) {
 		try {

@@ -2,45 +2,26 @@ package de.milchreis.phobox.db.entities;
 
 import java.sql.Date;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
-@DatabaseTable(tableName = "album")
+import lombok.Data;
+
+@Data
+@Entity
 public class Album {
 	
-	@DatabaseField(columnName = "id", generatedId = true, allowGeneratedIdInsert = true)
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
-	@DatabaseField(canBeNull = false)
+	@Null
 	private String name;
 	
-	@DatabaseField
+	@NotNull
 	private Date creation;
-	
-	public Album() {
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Date getCreation() {
-		return creation;
-	}
-
-	public void setCreation(Date creation) {
-		this.creation = creation;
-	}
 }

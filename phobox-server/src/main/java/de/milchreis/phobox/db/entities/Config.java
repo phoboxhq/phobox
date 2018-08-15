@@ -1,34 +1,23 @@
 package de.milchreis.phobox.db.entities;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
-@DatabaseTable(tableName = "config")
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Config {
 
-	@DatabaseField(id = true)
+	@Id
 	private String key;
 
-	@DatabaseField(canBeNull = false)
+	@NotNull
 	private String value;
-	
-	public Config() {
-	}
 
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
 }

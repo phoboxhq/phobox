@@ -25,8 +25,8 @@ import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.core.file.filter.DirectoryFilter;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.StorageStatus;
-import de.milchreis.phobox.db.ItemAccess;
 import de.milchreis.phobox.db.entities.Item;
+import de.milchreis.phobox.db.repositories.ItemRepository;
 import de.milchreis.phobox.utils.FilesystemHelper;
 import de.milchreis.phobox.utils.ListHelper;
 import de.milchreis.phobox.utils.PathConverter;
@@ -114,7 +114,7 @@ public class PhotosService {
 		// Scan files from database
 		try {
 						
-			List<Item> items = ItemAccess.getItemsByPath(directory, lastIndex, model.getImgPageSize() + 1); 
+			List<Item> items = ItemRepository.getItemsByPath(directory, lastIndex, model.getImgPageSize() + 1); 
 
 			for(Item item : items) {
 				File file = ops.getPhysicalFile(item.getPath() + item.getName());

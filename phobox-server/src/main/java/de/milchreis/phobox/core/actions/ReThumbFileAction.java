@@ -3,16 +3,15 @@ package de.milchreis.phobox.core.actions;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
-
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.LoopInfo;
 import de.milchreis.phobox.utils.ExifHelper;
 import de.milchreis.phobox.utils.ImageProcessing;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ReThumbFileAction implements FileAction {
-	private static final Logger log = Logger.getLogger(ReThumbFileAction.class);
 
 	private int width;
 	private int height;

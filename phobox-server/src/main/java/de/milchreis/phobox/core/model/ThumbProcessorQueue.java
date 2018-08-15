@@ -4,13 +4,12 @@ import java.io.File;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.apache.log4j.Logger;
-
 import de.milchreis.phobox.core.actions.ReThumbFileAction;
 import de.milchreis.phobox.utils.ThumbHelper;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ThumbProcessorQueue implements Runnable {
-	private static final Logger log = Logger.getLogger(ThumbProcessorQueue.class);
 	
 	private Queue<File> thumbQueue;
 	

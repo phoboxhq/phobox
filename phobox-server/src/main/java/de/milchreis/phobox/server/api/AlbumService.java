@@ -21,11 +21,11 @@ import de.milchreis.phobox.core.model.Album;
 import de.milchreis.phobox.core.model.AlbumOperation;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.Status;
-import de.milchreis.phobox.db.AlbumAccess;
 import de.milchreis.phobox.db.DBManager;
-import de.milchreis.phobox.db.ItemAccess;
 import de.milchreis.phobox.db.entities.AlbumItem;
 import de.milchreis.phobox.db.entities.Item;
+import de.milchreis.phobox.db.repositories.AlbumRepository;
+import de.milchreis.phobox.db.repositories.ItemRepository;
 
 
 @Path("/album/")
@@ -37,7 +37,7 @@ public class AlbumService {
 	public List<String> getAlbums() {
 		
 		try {
-			return AlbumAccess.getAlbums().stream()
+			return AlbumRepository.getAlbums().stream()
 					.map(a -> a.getName())
 					.collect(Collectors.toList());
 		
@@ -58,7 +58,7 @@ public class AlbumService {
 		Album album = new Album(albumName);
 
 		try {
-			List<AlbumItem> albumItems = AlbumAccess.getAlbumItemsByAlbumName(albumName);
+			List<AlbumItem> albumItems = AlbumRepository.getAlbumItemsByAlbumName(albumName);
 			for(AlbumItem dbAlbum : albumItems) {
 				Item item = dbAlbum.getItem();
 				album.addItem(photoService.getItem(new File(model.getStoragePath(), item.getPath() + item.getName())));
@@ -80,20 +80,20 @@ public class AlbumService {
 		Status status = new Status(Status.OK);
 
 		try {
-			de.milchreis.phobox.db.entities.Album album = AlbumAccess.getAlbumByName(albumname);
+			de.milchreis.phobox.db.entities.Album album = AlbumRepository.getAlbumByName(albumname);
 			
 			// Create if not exists
 			if(album == null) {
 				album = new de.milchreis.phobox.db.entities.Album();
 				album.setName(albumname);
 				DBManager.store(album, de.milchreis.phobox.db.entities.Album.class);
-				album = AlbumAccess.getAlbumByName(albumname);
+				album = AlbumRepository.getAlbumByName(albumname);
 			}
 			
-			Item item = ItemAccess.getItem(op.getItem());
+			Item item = ItemRepository.getItem(op.getItem());
 			if(item == null) {
 				Phobox.getEventRegistry().onNewFile(new File(Phobox.getModel().getStoragePath(), op.getItem()));
-				item = ItemAccess.getItem(op.getItem());
+				item = ItemRepository.getItem(op.getItem());
 			}
 			
 			AlbumItem albumItem = new AlbumItem();

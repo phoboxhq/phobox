@@ -4,13 +4,13 @@ import java.io.File;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.Logger;
 
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.LoopInfo;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SyncAction implements FileAction {
-	private static final Logger log = Logger.getLogger(SyncAction.class);
 	
 	private File source;
 	private File target;

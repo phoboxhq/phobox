@@ -12,13 +12,12 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import de.milchreis.phobox.core.file.filter.ImageFileFilter;
 import de.milchreis.phobox.utils.FileIntegrityChecker;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class FileProcessor {
-	private static Logger log = Logger.getLogger(FileProcessor.class);
 	
 	public static final String WAITING = "ready";
 	public static final String PROCESSING = "processing";

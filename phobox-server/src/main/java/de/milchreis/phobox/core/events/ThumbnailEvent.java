@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxOperations;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ThumbnailEvent implements IEvent {
-	private static final Logger log = Logger.getLogger(ThumbnailEvent.class);
 
 	private PhoboxOperations ops = Phobox.getOperations();
 

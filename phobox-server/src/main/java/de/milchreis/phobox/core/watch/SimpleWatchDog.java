@@ -16,10 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SimpleWatchDog implements Runnable {
-	private static final Logger log = Logger.getLogger(SimpleWatchDog.class);
 	
 	private Path path;
 	private WatchService watcher;

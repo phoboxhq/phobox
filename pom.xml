@@ -11,6 +11,13 @@
 	<name>Phobox</name>
 	<description>Import, organize and provide your pictures</description>
 
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.4.RELEASE</version>
+		<relativePath/> 
+	</parent>
+
 	<properties>
 		<main.basedir>${project.basedir}</main.basedir>
 		<build-plugin.jacoco.version>0.7.9</build-plugin.jacoco.version>

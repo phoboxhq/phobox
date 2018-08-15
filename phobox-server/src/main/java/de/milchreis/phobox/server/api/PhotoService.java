@@ -23,8 +23,8 @@ import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.Status;
 import de.milchreis.phobox.core.model.StorageItem;
-import de.milchreis.phobox.db.ItemAccess;
 import de.milchreis.phobox.db.entities.Item;
+import de.milchreis.phobox.db.repositories.ItemRepository;
 import de.milchreis.phobox.utils.ExifHelper;
 import de.milchreis.phobox.utils.FilesystemHelper;
 import de.milchreis.phobox.utils.ListHelper;
@@ -167,7 +167,7 @@ public class PhotoService {
 		
 		Item dbItem = null;
 		try {
-			dbItem = ItemAccess.getItem(item.getPath());
+			dbItem = ItemRepository.getItem(item.getPath());
 		} catch (SQLException | IOException e) {
 		}
 		

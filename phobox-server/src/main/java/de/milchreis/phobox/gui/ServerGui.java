@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.Logger;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxConfigs;
@@ -36,10 +35,10 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 public class ServerGui extends Application implements Initializable {
-	private static final Logger log = Logger.getLogger(ServerGui.class);
 	
 	public static void scale(File original, File target, int sizeW, int sizeH) throws IOException {
 		String format = FilenameUtils.getExtension(target.getName()).toLowerCase();

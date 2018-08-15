@@ -8,7 +8,6 @@ import org.apache.commons.io.FileExistsException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
-import org.apache.log4j.Logger;
 
 import com.drew.imaging.ImageProcessingException;
 
@@ -19,9 +18,10 @@ import de.milchreis.phobox.core.file.LoopInfo;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.utils.ImportFormatter;
 import de.milchreis.phobox.utils.ListHelper;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class FileMoveAction implements FileAction {
-	private static final Logger log = Logger.getLogger(FileMoveAction.class);
 	
 	public static String[] MOVIE_FORMATS = {"mp4", "mov", "avi"};
 	
