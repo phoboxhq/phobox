@@ -5,7 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.PhoboxConfigs;
+import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.actions.FileMoveAction;
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.model.PhoboxModel;
@@ -35,7 +35,7 @@ public class ImportScheduler extends TimerTask {
 			log.debug("Start importing files");
 			importProcessor.foreachFile(
 					incoming, 
-					PhoboxConfigs.SUPPORTED_IMPORT_FORMATS, 
+					PhoboxDefinitions.SUPPORTED_IMPORT_FORMATS, 
 					new FileMoveAction());
 			
 			// TODO: Here remove empty directories

@@ -7,7 +7,7 @@
     <div class="item" v-on:click="open(item)" :id="encodePath">
       <!-- File: Show-->
       <img class="item_thumb" 
-          :src="item.thumb"
+          :src="SERVER_PATH + item.thumb"
           v-if="item.type === 'file'" />
 
       <p v-if="item.thumb==='@/assets/stopwatch.png'" class="reloadInfo">
@@ -16,7 +16,7 @@
 
       <!-- Directory: Show preview if exists-->
       <img class="item_thumb" 
-          :src="item.preview"
+          :src="SERVER_PATH + item.preview"
           v-on:click="open(item)"
           v-if="item.type === 'dir' && item.preview != null" />
   
@@ -50,7 +50,8 @@ export default {
   data: function() {
     return {
       menuShow: false,
-      contextMenuItem: undefined
+      contextMenuItem: undefined,
+      SERVER_PATH: process.env.SERVER_PATH
     };
   },
   methods: {

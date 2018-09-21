@@ -43,7 +43,7 @@
         <i style="font-size: 20em; color: rgba(0, 0, 0, 0.27);"
             class="fa fa-frown-o" aria-hidden="true"></i>
         <h4>{{ $t('pictures.not_found') }}</h4>
-        <a href=""
+        <a href="#"
             v-on:click="goBack()">
             {{ $t('pictures.go_back') }}</a>
     </div>

@@ -9,7 +9,7 @@ import de.milchreis.phobox.core.config.PreferencesManager;
 import de.milchreis.phobox.core.schedules.CopyScheduler;
 import de.milchreis.phobox.core.schedules.ImportScheduler;
 import de.milchreis.phobox.core.schedules.StorageScanScheduler;
-import de.milchreis.phobox.server.api.StorageService;
+import de.milchreis.phobox.server.api.StorageController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -83,10 +83,9 @@ public class StorageAskGui extends Application implements Initializable {
 		stage.close();
 
 		Platform.runLater(() -> new ServerGui().start(new Stage()));
-		Phobox.startServer();
 		
 		if(createThumbs.isSelected()) {
-			new StorageService().rethumb();
+			new StorageController().rethumb();
 		}
 		
 		// Initialize the scheduler for importing and scanning new files

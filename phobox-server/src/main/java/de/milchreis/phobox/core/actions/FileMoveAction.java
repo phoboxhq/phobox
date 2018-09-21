@@ -12,7 +12,7 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import com.drew.imaging.ImageProcessingException;
 
 import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.config.ConfigManager;
+import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.LoopInfo;
 import de.milchreis.phobox.core.model.PhoboxModel;
@@ -32,7 +32,7 @@ public class FileMoveAction implements FileAction {
 		File storage = new File(model.getStoragePath());
 		
 		if(ListHelper.endsWith(file.getName(), MOVIE_FORMATS)) {
-			File movies = new File(storage, ConfigManager.get(ConfigManager.STORAGE_MOVIES));
+			File movies = new File(storage, PhoboxDefinitions.STORAGE_MOVIES);
 			silentMove(file, movies, false);
 			return;
 		}
@@ -43,7 +43,7 @@ public class FileMoveAction implements FileAction {
 			File target = new File(storage, dirStructure.toString());
 			
 			if(!silentMove(file, target, true)) {
-				target = new File(storage, ConfigManager.get(ConfigManager.STORAGE_DOUBLES));
+				target = new File(storage, PhoboxDefinitions.STORAGE_DOUBLES);
 				silentMove(file, target, false);
 			}
 			
@@ -60,7 +60,7 @@ public class FileMoveAction implements FileAction {
 		// Move file to unsorted
 		File target = new File(
 				storage, 
-				ConfigManager.get(ConfigManager.STORAGE_UNSORTED));
+				PhoboxDefinitions.STORAGE_UNSORTED);
 		
 		silentMove(file, target, false);
 		

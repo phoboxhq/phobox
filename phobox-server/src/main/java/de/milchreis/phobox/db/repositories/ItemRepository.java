@@ -1,29 +1,46 @@
 package de.milchreis.phobox.db.repositories;
 
 import java.util.List;
+import java.util.UUID;
+
+import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import de.milchreis.phobox.db.entities.Item;
 
-public interface ItemRepository extends CrudRepository<Item, Integer>{
-
-	
-	List<Item> findByPathAndName(String path, String name);
+public interface ItemRepository extends JpaRepository<Item, UUID> {
 
 	List<Item> findByPath(String path);
-	
-	List<Item> findByPath(String path, Pageable pageRequest);
-	
-	@Query("SELECT i FROM Item i JOIN ItemTag t ON t.idItem = i.id WHERE t.tagValue :tag")
-	List<Item> findByTag(String tag);
-	
-	@Query("SELECT i FROM Item i WHERE i.path LIKE '%:searchString%' OR i.name LIKE '%:searchString%'")
-	List<Item> findBySearchStringInNameAndPath(String searchString);
 
-	@Query("SELECT t FROM ItemTag t, Item i WHERE t.tagValue LIKE '%:searchString%' AND i.id = t.idItem")
-	List<Item> findBySearchStringInTags(String searchString);
+	Item findByFullPath(String subpath);
+
+	List<Item> findByPath(String path, Pageable pageRequest);
+
+	@Query("SELECT i FROM Item i JOIN ItemTag t WHERE t.name = :tag")
+	List<Item> findByTag(@Param("tag") String tag);
+
+	@Query("SELECT i FROM Item i WHERE i.path LIKE CONCAT('%', :searchString, '%') OR i.fileName LIKE CONCAT('%', :searchString, '%')")
+	List<Item> findBySearchStringInNameAndPath(@Param("searchString") String searchString);
+
+	@Query("SELECT i FROM ItemTag t JOIN t.items i WHERE t.name LIKE CONCAT('%', :searchString, '%')")
+	List<Item> findBySearchStringInTags(@Param("searchString") String searchString);
+
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM Item WHERE path LIKE CONCAT(:subpath, '%')")
+	void deleteBySubpath(@Param("subpath") String subpath);
+
+	@Transactional
+	@Modifying
+	@Query("UPDATE Item SET " +
+			"path = REPLACE(path, :subpath, :newsubpath), " +
+			"full_path = REPLACE(full_path, :subpath, :newsubpath) " +
+			"WHERE full_path LIKE CONCAT(:subpath, '%')")
+	void replaceSubpath(@Param("subpath") String subpath, @Param("newsubpath") String newsubpath);
 
 }

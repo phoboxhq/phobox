@@ -4,13 +4,15 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.stereotype.Component;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxOperations;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ThumbnailEvent implements IEvent {
+@Component
+public class ThumbnailEvent extends BasicEvent {
 
 	private PhoboxOperations ops = Phobox.getOperations();
 
@@ -20,6 +22,8 @@ public class ThumbnailEvent implements IEvent {
 		if(file.isDirectory()) {
 			return;
 		}
+		
+		log.debug("Start ThumbnailEvent for " + file.getAbsolutePath());
 		
 		File thumbnail = ops.getThumb(file);
 		

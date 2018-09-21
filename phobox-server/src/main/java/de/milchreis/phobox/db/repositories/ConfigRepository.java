@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import de.milchreis.phobox.db.entities.Config;
 
@@ -14,6 +15,6 @@ public interface ConfigRepository extends CrudRepository<Config, String>{
 	}
 	
 	@Query("SELECT c.value FROM Config c WHERE c.key = :key")
-	String findValue(String key);
+	String findValue(@Param("key") String key);
 
 }

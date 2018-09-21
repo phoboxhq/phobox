@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.config.ConfigManager;
+import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.LoopInfo;
 import de.milchreis.phobox.core.model.PhoboxModel;
@@ -56,7 +56,7 @@ public class ThumbFileAction implements FileAction {
 			
 		} catch (Exception e) {
 			log.info("Could not create thumbnail by date for " + file.getAbsolutePath());
-			thumbPath = new File(thumbPath, ConfigManager.get(ConfigManager.STORAGE_UNSORTED));
+			thumbPath = new File(thumbPath, PhoboxDefinitions.STORAGE_UNSORTED);
 			thumb = new File(thumbPath, file.getName());
 			thumbPath.mkdirs();
 		}

@@ -1,11 +1,16 @@
 package de.milchreis.phobox.db.entities;
 
 import java.sql.Date;
+import java.util.Set;
+import java.util.UUID;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -19,25 +24,48 @@ import lombok.NoArgsConstructor;
 public class Item {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id;
+	@GeneratedValue
+	@Column(name = "uid", unique = true)
+	private UUID uid;
 	
+	@NotNull
+	@Column(name="full_path")
+	private String fullPath;
+	
+	@NotNull
+	@Column
 	private String path;
 	
-	private String name;
+	@NotNull
+	@Column(name = "file_name")
+	private String fileName;
 	
 	@NotNull
+	@Column(name = "file_extension")
+	private String fileExtension;
+	
+	@Column
 	private Integer rotation;
 
+	@Column
 	private Integer width;
 
+	@Column
 	private Integer height;
 	
+	@Column
 	private String description;
 
+	@Column
 	private Date creation;
 	
-	@NotNull
-	private Date found;
+	@Column
+	private Date imported;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Album> albums;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<ItemTag> tags;
 	
 }

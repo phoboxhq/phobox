@@ -30,7 +30,6 @@ export default {
   data() {
     return {
       status: null,
-      Locale: Locale
     };
   },
 

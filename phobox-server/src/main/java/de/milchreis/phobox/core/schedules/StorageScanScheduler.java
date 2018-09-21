@@ -1,24 +1,17 @@
 package de.milchreis.phobox.core.schedules;
 
 import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.apache.log4j.Logger;
-
-import com.j256.ormlite.dao.CloseableIterator;
-
 import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.PhoboxConfigs;
+import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.file.LoopInfo;
-import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.db.repositories.ItemRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +25,8 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 	private int timeInHours;
 	private File directory;
 	private boolean ready;
-
+	private ItemRepository itemRepository;
+	
 	
 	public StorageScanScheduler(int timeInHours) {
 		timer = new Timer();
@@ -40,10 +34,11 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 		recursive = true;
 	}
 	
-	public StorageScanScheduler(int timeInHours, File directory, boolean recursive) {
+	public StorageScanScheduler(int timeInHours, File directory, ItemRepository itemRepository, boolean recursive) {
 		this(timeInHours);
 		this.directory = directory;
 		this.recursive = recursive;
+		this.itemRepository = itemRepository;
 	}
 
 	
@@ -57,29 +52,19 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 		
 		new FileProcessor().foreachFile(
 				directory, 
-				PhoboxConfigs.SUPPORTED_VIEW_FORMATS, 
+				PhoboxDefinitions.SUPPORTED_VIEW_FORMATS, 
 				this,
 				recursive);
 		
 		// Check the database
-		try {
-			CloseableIterator<Item> iterator = ItemRepository.getItems();
+		itemRepository.findAll().forEach(item -> {
 			
-			while(iterator.hasNext()) {
-				Item item = iterator.next();
-				
-				File originalfile = Phobox.getOperations().getPhysicalFile(item.getPath());
-				
-				if(!originalfile.exists()) {
-					Phobox.getEventRegistry().onDeleteFile(originalfile);
-				}
+			File originalfile = Phobox.getOperations().getPhysicalFile(item.getPath());
+			
+			if(!originalfile.exists()) {
+				Phobox.getEventRegistry().onDeleteFile(originalfile);
 			}
-
-			iterator.close();
-			
-		} catch (IOException | SQLException e) {
-			log.error("Error while scanning database", e);
-		}
+		});
 		
 		ready = true;
 	}

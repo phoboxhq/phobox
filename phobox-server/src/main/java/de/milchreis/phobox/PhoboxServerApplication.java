@@ -1,15 +1,18 @@
 package de.milchreis.phobox;
 
+import java.util.List;
+
+import org.apache.commons.cli.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.config.PreferencesManager;
-import de.milchreis.phobox.core.events.MetaExtractEvent;
-import de.milchreis.phobox.core.events.ThumbnailEvent;
+import de.milchreis.phobox.core.events.BasicEvent;
 import de.milchreis.phobox.core.events.UpdateDatabaseEvent;
 import de.milchreis.phobox.core.model.PhoboxModel;
-import de.milchreis.phobox.db.DBManager;
 import de.milchreis.phobox.gui.ServerGui;
 import de.milchreis.phobox.gui.StorageAsk;
 import de.milchreis.phobox.gui.StorageAskGui;
@@ -18,8 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SpringBootApplication
-public class PhoboxServerApplication {
-
+public class PhoboxServerApplication implements CommandLineRunner {
+	
+	@Autowired private UpdateDatabaseEvent updateDatabaseEvent;
+	@Autowired private List<BasicEvent> events;
+	
 	public static void main(String[] args) {
 				
 		// CLI
@@ -33,8 +39,6 @@ public class PhoboxServerApplication {
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run() {
 				Phobox.getEventRegistry().onStop();
-				Phobox.getSever().stop();
-				DBManager.dispose();
 			}
 		});
 		
@@ -60,27 +64,6 @@ public class PhoboxServerApplication {
 			Application.launch(ServerGui.class);
 		}).start();
 		
-		// Initialize database if not existing
-		DBManager.init();
-		
-		// Start the web server (for REST and static web files) 
-		Phobox.startServer();
-		
-		// Start an embedded database browser
-		if(model.isDatabasebrowser()) {
-			Server.createWebServer("-webAllowOthers").start();
-		}
-		
-		// Start all implemented background tasks
-		Phobox.startSchedules();
-		
-		// Set up the EventRegistry
-		Phobox.getEventRegistry().addEvent(new UpdateDatabaseEvent());
-		Phobox.getEventRegistry().addEvent(new MetaExtractEvent());
-		Phobox.getEventRegistry().addEvent(new ThumbnailEvent());
-
-		Phobox.getEventRegistry().onCreation();
-		
 		SpringApplication.run(PhoboxServerApplication.class, args);
 	}
 	
@@ -90,5 +73,18 @@ public class PhoboxServerApplication {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		
+		// Start all implemented background tasks
+		Phobox.startSchedules();
+		
+		// Set up the EventRegistry
+		Phobox.getEventRegistry().addEvent(updateDatabaseEvent);
+		events.forEach(Phobox.getEventRegistry()::addEvent);
+
+		Phobox.getEventRegistry().onCreation();
 	}
 }

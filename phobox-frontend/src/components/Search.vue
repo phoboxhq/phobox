@@ -23,12 +23,10 @@
 		<!-- Result area -->
 		<div id="foundItems">
 				<span v-if="isEmptyResultSet">{{ $t('search.no_results') }}</span>
-				<div class="albumelement item" v-for="(item, key) in items" :key="key" v-if="items">
-						<img class="item_thumb"
-								:src="item.thumb"
-								v-on:click="selectedItem = item"
-								v-if="item.type === 'file'" />
-				</div>
+          <file-item v-for="item in items"
+                :item="item"
+                :key="item.path"
+                :selectedItem="selectedItem"></file-item>
 		</div>
 
 		<!-- Include the lightbox -->
@@ -42,11 +40,13 @@
 <script>
 import Lightbox from '@/components/Lightbox';
 import ComService from '@/utils/ComService';
+import FileItem from '@/components/files/FileItem';
 
 export default {
   name: "Search",
   components: {
     Lightbox,
+    FileItem
   },
   data() {
     return {
@@ -54,7 +54,8 @@ export default {
       selectedItem: null,
       items: [],
       lastSearch: null,
-      isLoading: false
+      isLoading: false,
+      SERVER_PATH: process.env.SERVER_PATH
     };
   },
 
@@ -84,10 +85,9 @@ export default {
 
 <style>
 .search_panel {
-  max-width: 700px;
+  max-width: 80%;
   margin: 0 auto;
   margin-top: -30px;
-
   padding: 0px 10px;
 }
 

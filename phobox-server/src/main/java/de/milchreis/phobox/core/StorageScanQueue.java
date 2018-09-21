@@ -5,6 +5,7 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import de.milchreis.phobox.core.schedules.StorageScanScheduler;
+import de.milchreis.phobox.db.repositories.ItemRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -12,11 +13,13 @@ public class StorageScanQueue implements Runnable {
 	
 	private Queue<String> queue;
 	private Thread thread;
+	private ItemRepository itemRepository;
 	
-	public StorageScanQueue() {
+	public StorageScanQueue(ItemRepository itemRepository) {
 		queue = new LinkedBlockingQueue<>();
 		thread = new Thread(this);
 		thread.start();
+		this.itemRepository = itemRepository;
 	}
 	
 	public void putScan(File path) {
@@ -34,7 +37,7 @@ public class StorageScanQueue implements Runnable {
 				String path = queue.poll();
 				log.debug("Start scan: " + path);
 				
-				StorageScanScheduler scheduler = new StorageScanScheduler(StorageScanScheduler.IMMEDIATELY, new File(path), false);
+				StorageScanScheduler scheduler = new StorageScanScheduler(StorageScanScheduler.IMMEDIATELY, new File(path), itemRepository, false);
 				scheduler.start();
 				
 				while(!scheduler.isReady()) {

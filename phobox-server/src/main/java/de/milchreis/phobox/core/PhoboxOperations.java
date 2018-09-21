@@ -2,7 +2,6 @@ package de.milchreis.phobox.core;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,12 +9,8 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
-import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.file.filter.ImageFileFilter;
 import de.milchreis.phobox.core.model.PhoboxModel;
-import de.milchreis.phobox.core.model.SystemStatus;
-import de.milchreis.phobox.db.repositories.ItemRepository;
-import de.milchreis.phobox.utils.SpaceInfo;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,7 +21,7 @@ public class PhoboxOperations {
 	
 	public PhoboxOperations(PhoboxModel model) {
 		this.model = model;
-		fileFilter = new ImageFileFilter(PhoboxConfigs.SUPPORTED_VIEW_FORMATS);
+		fileFilter = new ImageFileFilter(PhoboxDefinitions.SUPPORTED_VIEW_FORMATS);
 	}
 	
 	public void rename(File dir, String targetname) throws Exception {
@@ -133,6 +128,16 @@ public class PhoboxOperations {
 		return files;
 	}
 
+	public String getStaticResourcePath(File basicpath, String path) {
+		
+		String webpath = getWebPath(basicpath);
+		webpath = !webpath.startsWith("/") ? "/" + webpath : webpath;
+		webpath = !webpath.endsWith("/") ? webpath + "/" : webpath;
+		
+		String subpath = path.startsWith("/") ? path.substring(1) : path; 
+		
+		return "ext" + webpath + subpath;
+	}
 	
 	public File getThumb(File image) {
 		File thumbpath = model.getThumbPath();
@@ -152,23 +157,6 @@ public class PhoboxOperations {
 		return FilenameUtils.getBaseName(element.getAbsolutePath());
 	}
 
-	public SystemStatus getStatus() {
-		FileProcessor fileProcessor = Phobox.getImportProcessor();
-		SystemStatus status = new SystemStatus();
-		status.setImportStatus(fileProcessor.getStatus());
-		status.setState(fileProcessor.getState());
-		status.setFile(FilenameUtils.getName(fileProcessor.getCurrentfile()));
-		status.setFreespace(SpaceInfo.getFreeSpaceMB(model.getStoragePath()));
-		status.setMaxspace(SpaceInfo.getMaxSpaceMB(model.getStoragePath()));
-		status.setRemainingfiles(getRemainingFiles().size());
-		try {
-			status.setNumberOfPictures(ItemRepository.getItemCount());
-		} catch (SQLException | IOException e) {
-			log.error("Error while counting number of images", e);
-		}
-		return status;
-	}
-
 	public String getWebPath(File file) {
 		return getWebPath(file.toString());
 	}
@@ -176,7 +164,7 @@ public class PhoboxOperations {
 	public String getWebPath(String file) {
 		String path = file;
 		path = path.replace(model.getStoragePath(), "");
-		path = path.replace(File.separatorChar, '/');		
+		path = path.replace(File.separatorChar, '/');
 		return path;
 	}
 

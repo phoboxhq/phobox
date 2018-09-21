@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import ComService from '@/utils/ComService';
+
 export default {
   name: "RenameDialog",
   props: ["item"],
@@ -43,7 +45,6 @@ export default {
     return {
       name: this.item !== null ? this.item.name : null,
       status: null,
-      Locale: Locale
     };
   },
   methods: {
@@ -55,36 +56,35 @@ export default {
     },
 
     save() {
-      var that = this;
-      new ComService().rename(this.item.path, this.name, function(data) {
-        that.status = data.status;
+      new ComService().rename(this.item.path, this.name, data => {
+        this.status = data.status;
 
-        if (that.status === "OK") {
-          oldname = that.item.name;
+        if (this.status === "OK") {
+          let oldname = this.item.name;
 
-          if (that.item.name != null)
-            that.item.name = that.item.name.replaceAll(oldname, that.name);
-          if (that.item.path != null)
-            that.item.path = that.item.path.replaceAll(oldname, that.name);
-          if (that.item.preview != null)
-            that.item.preview = that.item.preview.replaceAll(
+          if (this.item.name != null)
+            this.item.name = this.item.name.replaceAll(oldname, this.name);
+          if (this.item.path != null)
+            this.item.path = this.item.path.replaceAll(oldname, this.name);
+          if (this.item.preview != null)
+            this.item.preview = this.item.preview.replaceAll(
               oldname,
-              that.name
+              this.name
             );
-          if (that.item.raw != null)
-            that.item.raw = that.item.raw.replaceAll(oldname, that.name);
-          if (that.item.thumbHigh != null)
-            that.item.thumbHigh = that.item.thumbHigh.replaceAll(
+          if (this.item.raw != null)
+            this.item.raw = this.item.raw.replaceAll(oldname, this.name);
+          if (this.item.thumbHigh != null)
+            this.item.thumbHigh = this.item.thumbHigh.replaceAll(
               oldname,
-              that.name
+              this.name
             );
-          if (that.item.thumbLow != null)
-            that.item.thumbLow = that.item.thumbLow.replaceAll(
+          if (this.item.thumbLow != null)
+            this.item.thumbLow = this.item.thumbLow.replaceAll(
               oldname,
-              that.name
+              this.name
             );
 
-          that.close();
+          this.close();
         }
       });
     },

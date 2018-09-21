@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       format: null,
-      status: null
+      status: null,
     };
   },
 

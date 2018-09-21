@@ -29,7 +29,7 @@
           <div class="form-group" v-if="albumSwitch === 'existingAlbum'">
             <label for="sel2">{{ $t('pictures.favorite_dialog_select') }}:</label>
               <select class="form-control" id="sel2" v-model="albumname">
-                <option v-for="a in albums" :value="a" :label="a" :key="a" />
+                <option v-for="a in albums" :value="a" :label="a" :key="a">{{a}}</option>
               </select>
           </div>
 
@@ -74,13 +74,13 @@ export default {
     },
 
     loadAlbums () {
-      new ComService().getAlbums((data) => {
+      new ComService().getAlbums(data => {
         this.albums = data;
       });
     },
 
     save () {
-      new ComService().addToAlbum(this.item.path, this.albumname, (data) => {
+      new ComService().addToAlbum(this.item.path, this.albumname, data => {
         this.status = data.status;
 
         if (this.status === "OK") {

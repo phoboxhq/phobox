@@ -8,7 +8,7 @@ import java.util.TimerTask;
 import org.apache.commons.io.FileUtils;
 
 import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.PhoboxConfigs;
+import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.file.LoopInfo;
@@ -42,7 +42,7 @@ public class CopyScheduler extends TimerTask implements FileAction {
 			log.debug("Files found... will co importing files");
 			new FileProcessor().foreachFile(
 					watchDir, 
-					PhoboxConfigs.SUPPORTED_IMPORT_FORMATS, 
+					PhoboxDefinitions.SUPPORTED_IMPORT_FORMATS, 
 					this,
 					true);
 			

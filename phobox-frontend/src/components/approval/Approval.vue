@@ -3,7 +3,7 @@
         <!-- Show selected picture -->
         <div class="picPanel">
             <transition name="fadeIn">
-                <img :src="selectedPic" id="mainPic" 
+                <img :src="SERVER_PATH + selectedPic" id="mainPic" 
                     :data-zoom-image="selectedPic"
                     :key="selectedPic" 
                     v-if="selectedPic" 
@@ -15,7 +15,7 @@
         <div class="pictureNavigation">
             <ul>
                 <li v-for="(pic, key) in pictures" :key="key">
-                    <img :src="pic" class="preview" @click="onPictureSelect(pic)" v-bind:class="{ isSelected: pic === selectedPic }" />
+                    <img :src="SERVER_PATH + pic" class="preview" @click="onPictureSelect(pic)" v-bind:class="{ isSelected: pic === selectedPic }" />
                 </li>
             </ul>
         </div>
@@ -67,7 +67,8 @@ export default {
         'move_by_click':true,
         'scroll_items': 4,
         'choosed_thumb_border_color': "#ff3d00"
-      }
+      },
+      SERVER_PATH: process.env.SERVER_PATH
     };
   },
   methods: {
@@ -105,7 +106,8 @@ export default {
     onAccept() {
       if (this.selectedPic === null) return;
 
-      new ComService().acceptApprovalPicture(this.selectedPic, data => {
+      let pathWithOutExtPrefix = this.selectedPic.substr(3, this.selectedPic.length);
+      new ComService().acceptApprovalPicture(pathWithOutExtPrefix, data => {
         this.status = data.status;
         this.init();
       });
@@ -114,7 +116,8 @@ export default {
     onDecline() {
       if (this.selectedPic === null) return;
 
-      new ComService().declineApprovalPicture(this.selectedPic, data => {
+      let pathWithOutExtPrefix = this.selectedPic.substr(3, this.selectedPic.length);
+      new ComService().declineApprovalPicture(pathWithOutExtPrefix, data => {
         this.status = data.status;
         this.init();
       });

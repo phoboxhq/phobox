@@ -30,22 +30,7 @@
     </modules>
 
 	<build>
-		<defaultGoal>clean compile assembly:single</defaultGoal>
 		<plugins>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>de.milchreis.phobox.Main</mainClass>
-						</manifest>
-					</archive>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-				</configuration>
-			</plugin>
-			
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -76,6 +61,8 @@
 				<artifactId>coveralls-maven-plugin</artifactId>
 				<version>${build-plugin.coveralls.version}</version>
 			</plugin>
+			
+			
 		</plugins>
 	</build>
 

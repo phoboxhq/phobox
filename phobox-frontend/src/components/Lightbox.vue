@@ -17,7 +17,7 @@
 				<img
 					id="lightbox_image"
 					class="preview"
-					:src="selectedItem.thumb" />
+					:src="SERVER_PATH + selectedItem.thumb" />
 
 				<div class="window_buttons">
 					<!-- Close window -->
@@ -41,7 +41,7 @@
 					</button>
 
 					<!-- Download picture -->
-					<a :href="selectedItem.path"
+					<a :href="'ext' + selectedItem.path"
 						class="close window_button" target="_blank" download>
 						<i class="fa fa-download" aria-hidden="true"></i>
 					</a>
@@ -74,7 +74,8 @@ export default {
   props: ["items", "selectedItem"],
   data() {
     return {
-      swipe: null
+      swipe: null,
+      SERVER_PATH: process.env.SERVER_PATH
     };
   },
   computed: {

@@ -36,6 +36,10 @@
 </template>
 
 <script>
+import $ from 'jquery';
+import TagsInputComponents from 'bootstrap-tagsinput';
+import ComService from '@/utils/ComService';
+
 export default {
   name: "TagsDialog",
   props: ["item"],
@@ -55,24 +59,22 @@ export default {
     },
 
     save() {
-      var that = this;
       this.tags = $("#tagsInput").tagsinput("items");
 
-      new ComService().setTags(this.item.path, this.tags, function(data) {
-        that.status = data.status;
-        if (that.status === "OK") {
-          that.close();
+      new ComService().setTags(this.item.path, this.tags, (data) => {
+        this.status = data.status;
+        if (this.status === "OK") {
+          this.close();
         }
       });
     },
 
     onShow() {
-      var that = this;
       $("#tagsInput").tagsinput("removeAll");
 
-      new ComService().getTags(this.item.path, function(data) {
-        that.tags = data;
-        that.tags.forEach(function(entry) {
+      new ComService().getTags(this.item.path, (data) => {
+        this.tags = data;
+        this.tags.forEach((entry) => {
           $("#tagsInput").tagsinput("add", entry);
         });
       });
@@ -95,6 +97,8 @@ export default {
 </script>
 
 <style>
+@import '../../../node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css';
+
 .dialog {
   position: fixed;
   z-index: 100;
@@ -124,8 +128,11 @@ export default {
   text-align: right;
 }
 
-.bootstrap-tagsinput .tag {
-  color: #151414;
+.tag {
   font-size: 13px;
+  background-color: #3898ff;
+  color: #FFFFFF;
+  padding: 5px;
+  border-radius: 3px;
 }
 </style>

@@ -56,7 +56,17 @@ export default {
       new ComService().changePath(this.path, data => {
         this.status = data.status;
       });
-    }
+		},
+		
+		fetchCurrentPath() {
+			new ComService().getPath(data => {
+        this.path = data;
+      });
+		}
+	},
+	
+	created() {
+    this.fetchCurrentPath();
   }
 };
 </script>

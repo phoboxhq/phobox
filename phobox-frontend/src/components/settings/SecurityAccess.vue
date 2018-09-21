@@ -49,7 +49,10 @@ export default {
   name: "SecurityAccess",
   data() {
     return {
-      credentials: {},
+      credentials: {
+				username: "",
+				password: ""
+			},
       status: null
     };
   },
@@ -63,7 +66,12 @@ export default {
   methods: {
     fetchCredentials() {
       new ComService().fetchCredentials(data => {
-        this.credentials = data === undefined ? { username: "", password: "" } : data;
+				if(data) {
+					this.credentials = data;
+				} else {
+					this.credentials.username = "";
+					this.credentials.password = "";
+				}
       });
     },
 

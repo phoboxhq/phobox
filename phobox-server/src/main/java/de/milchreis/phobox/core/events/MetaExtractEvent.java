@@ -5,18 +5,20 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.sql.Date;
 
+import org.springframework.stereotype.Component;
+
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.db.entities.Item;
-import de.milchreis.phobox.db.repositories.ItemRepository;
 import de.milchreis.phobox.utils.ExifHelper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MetaExtractEvent implements IEvent {
+@Component
+public class MetaExtractEvent extends BasicEvent {
 
 	private PhoboxOperations ops = Phobox.getOperations();
-
+	
 	@Override
 	public void onNewFile(File file) {
 		String subpath = ops.getWebPath(file);
@@ -27,7 +29,10 @@ public class MetaExtractEvent implements IEvent {
 		}
 		
 		try {
-			Item item = ItemRepository.getItem(subpath);
+			Item item = itemRepository.findByFullPath(subpath);
+			
+			if(item == null)
+				throw new IllegalStateException("Item not found in database: " + subpath);
 			
 			try {
 				item.setRotation(ExifHelper.getOrientation(file));
@@ -50,7 +55,7 @@ public class MetaExtractEvent implements IEvent {
 				item.setHeight(img.getHeight(null));
 			}
 			
-			ItemRepository.store(item);
+			itemRepository.save(item);
 			
 		} catch (Exception e) {
 			log.error("Error while saving new file in database", e);

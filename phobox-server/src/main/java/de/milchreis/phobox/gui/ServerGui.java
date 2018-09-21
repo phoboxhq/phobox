@@ -13,7 +13,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.PhoboxConfigs;
+import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.config.PreferencesManager;
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.FileProcessor;
@@ -124,7 +124,7 @@ public class ServerGui extends Application implements Initializable {
 
 			for (File file : db.getFiles()) {
 				if (file.isDirectory()) {
-					new FileProcessor().foreachFile(file, PhoboxConfigs.SUPPORTED_IMPORT_FORMATS, new FileAction() {
+					new FileProcessor().foreachFile(file, PhoboxDefinitions.SUPPORTED_IMPORT_FORMATS, new FileAction() {
 						@Override
 						public void process(File file, LoopInfo info) {
 							try {

@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import de.milchreis.phobox.core.PhoboxConfigs;
+import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.file.filter.ImageFileFilter;
 
 public class FilesystemHelper {
@@ -43,7 +43,7 @@ public class FilesystemHelper {
 	}
 	
 	public static boolean isDirEmpty(final Path directory) throws IOException {
-		try(DirectoryStream<Path> dirStream = Files.newDirectoryStream(directory, new ImageFileFilter(PhoboxConfigs.SUPPORTED_VIEW_FORMATS))) {
+		try(DirectoryStream<Path> dirStream = Files.newDirectoryStream(directory, new ImageFileFilter(PhoboxDefinitions.SUPPORTED_VIEW_FORMATS))) {
 	        return !dirStream.iterator().hasNext();
 	    }
 	}

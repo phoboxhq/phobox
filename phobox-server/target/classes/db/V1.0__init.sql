@@ -1,49 +1,62 @@
--- Storage item
-CREATE TABLE IF NOT EXISTS `item` (
-	`id` BIGINT NOT NULL auto_increment,
-	`path` VARCHAR_IGNORECASE(500) NOT NULL,
-	`name` VARCHAR_IGNORECASE(100) NOT NULL,
-	`rotation` int(10) DEFAULT 0,
-	`width` int(10),
-	`height` int(10),
-	`creation` datetime,
-	`description` varchar(500),
-	`found` datetime DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY( `id` ),
-	UNIQUE INDEX (path, name)
-);
-
--- Storage item tagging
-CREATE TABLE IF NOT EXISTS `item_tag` (
-	`id` BIGINT NOT NULL auto_increment,
-	`id_item` BIGINT NOT NULL,
-	`tag_value` VARCHAR_IGNORECASE(255) NOT NULL,
-	FOREIGN KEY(id_item) REFERENCES item(id),
-	PRIMARY KEY( `id` )
+-- Album
+CREATE TABLE album (
+    `id` INTEGER NOT NULL auto_increment,
+    `creation` DATE NOT NULL,
+    `name` VARCHAR_IGNORECASE(255) NOT NULL,
+    PRIMARY KEY( `id` )
 );
 
 -- Config
-CREATE TABLE IF NOT EXISTS `config` (
-	`key` varchar(500) NOT NULL,
-	`value` varchar(1000),
-	PRIMARY KEY( `key` )
+CREATE TABLE config (
+    `key` VARCHAR_IGNORECASE(255) NOT NULL,
+    `value` VARCHAR_IGNORECASE(255) NOT NULL,
+    PRIMARY KEY( `key` )
 );
 
--- Album
-CREATE TABLE IF NOT EXISTS `album` (
-	`id` int(10) NOT NULL auto_increment,
-	`name` varchar(255),
-	`creation` datetime DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY( `id` )
+-- Item
+CREATE TABLE item(
+    `uid` VARCHAR_IGNORECASE(255) NOT NULL,
+    `full_path` VARCHAR_IGNORECASE(255) NOT NULL,
+    `path` VARCHAR_IGNORECASE(255) NOT NULL,
+    `file_name` VARCHAR_IGNORECASE(255) NOT NULL,
+    `file_extension` VARCHAR_IGNORECASE(255) NOT NULL,
+    `description` VARCHAR_IGNORECASE(255),
+    `width` INTEGER,
+    `height` INTEGER,
+    `rotation` INTEGER,
+    `creation` DATE,
+    `imported` DATE,
+    PRIMARY KEY( `uid` )
 );
 
--- Album Item
-CREATE TABLE IF NOT EXISTS `album_item` (
-	`id` int(10) NOT NULL auto_increment,
-	`id_album` int(10) NOT NULL,
-	`id_item` BIGINT NOT NULL,
-	`order` int(10),
-	FOREIGN KEY(id_album) REFERENCES album(id),
-	FOREIGN KEY(id_item) REFERENCES item(id),
-	PRIMARY KEY( `id` )
+-- TAG 
+CREATE TABLE item_tag (
+    `name` VARCHAR_IGNORECASE(255) NOT NULL,
+    `type` VARCHAR_IGNORECASE(255),
+    PRIMARY KEY( `name` )
 );
+
+-- Item album relation
+CREATE TABLE item_albums (
+    `items_uid` VARCHAR_IGNORECASE(255) NOT NULL,
+    `albums_id` INTEGER NOT NULL,
+    FOREIGN KEY(albums_id) REFERENCES album(id) NOCHECK,
+    FOREIGN KEY(items_uid) REFERENCES item(`uid`) NOCHECK
+);
+
+-- Item tag relation
+CREATE TABLE item_tags (
+    `items_uid` VARCHAR_IGNORECASE(255) NOT NULL,
+    `tags_name` VARCHAR_IGNORECASE(255) NOT NULL,
+    FOREIGN KEY(tags_name) REFERENCES item_tag(name) NOCHECK,
+    FOREIGN KEY(items_uid) REFERENCES item(`uid`) NOCHECK
+);
+
+
+
+
+
+
+
+
+

@@ -1,7 +1,6 @@
 import $ from 'jquery';
 
 export default function () {
-  this.PATH = "http://localhost:8080";
 
   this.getData = function (response) {
     return repsonse;
@@ -22,36 +21,36 @@ export default function () {
   /** Requests the backend for a given directory */
   this.scan = function (path, callback) {
     var p = this.encodePath(path);
-    return $.get(this.PATH+"/api/photos/scan/" + p).done(callback);
+    return $.get(process.env.SERVER_PATH+"api/photos/scan/" + p).done(callback);
   };
 
   /** Requests the backend for a given directory with last item as marker for pagination */
   this.loadMore = function (path, lastItemIndex, callback) {
     var p = this.encodePath(path);
-    return $.get(this.PATH+"/api/photos/scan/" + p + "/" + lastItemIndex).done(callback);
+    return $.get(process.env.SERVER_PATH+"api/photos/scan/" + p + "/" + lastItemIndex).done(callback);
   };
 
   /** Requests the backend for the current status of the system */
   this.status = function (callback) {
-    return $.get(this.PATH+"/api/storage/status").done(callback);
+    return $.get(process.env.SERVER_PATH+"api/storage/status").done(callback);
   };
 
   /** Rename item (image/directory) */
   this.rename = function (itemPath, newName, callback) {
     var p = this.encodePath(itemPath);
-    return $.get(this.PATH+"/api/photo/rename/" + p + "/" + newName).done(callback);
+    return $.get(process.env.SERVER_PATH+"api/photo/rename/" + p + "/" + newName).done(callback);
   };
 
   /** Delete item (image/directory) */
   this.delete = function (itemPath, callback) {
     var p = this.encodePath(itemPath);
-    return $.get(this.PATH+"/api/photo/delete/" + p).done(callback);
+    return $.get(process.env.SERVER_PATH+"api/photo/delete/" + p).done(callback);
   };
 
   /** Save the login credentials for a secure storage access */
   this.saveCredentials = function (user, pass, callback) {
     return $.ajax({
-      url: this.PATH+"/api/settings/credentials/",
+      url: process.env.SERVER_PATH+"api/settings/credentials/",
       type: "post",
       contentType: "application/json",
       data: JSON.stringify({ username: user, password: pass }),
@@ -63,7 +62,7 @@ export default function () {
   /** Deletes the current access credentials */
   this.resetCredentials = function (callback) {
     return $.ajax({
-      url: this.PATH+'/api/settings/credentials/',
+      url: process.env.SERVER_PATH+'/api/settings/credentials/',
       type: 'DELETE',
       success: callback
     });
@@ -71,18 +70,18 @@ export default function () {
 
   /** Get the currently configured access credentials */
   this.fetchCredentials = function (callback) {
-    return $.get(this.PATH+"/api/settings/credentials/").done(callback);
+    return $.get(process.env.SERVER_PATH+"api/settings/credentials/").done(callback);
   };
 
   /** Get the currently configured import pattern for directories */
   this.fetchImportPattern = function (callback) {
-    return $.get(this.PATH+"/api/settings/importPattern/").done(callback);
+    return $.get(process.env.SERVER_PATH+"api/settings/importPattern/").done(callback);
   };
 
   /** Save an other import pattern for directories */
   this.saveImportPattern = function (pattern, callback) {
     return $.ajax({
-      url: this.PATH+"/api/settings/importPattern/",
+      url: process.env.SERVER_PATH+"api/settings/importPattern/",
       type: "post",
       contentType: "application/json",
       data: pattern,
@@ -92,21 +91,21 @@ export default function () {
 
   /** Get the avialable album names */
   this.getAlbums = function (callback) {
-    return $.get(this.PATH+"/api/album/").done(callback);
+    return $.get(process.env.SERVER_PATH+"api/album/").done(callback);
   };
 
   /** Get the content for the given album */
   this.getAlbum = function (albumNane, callback) {
-    return $.get(this.PATH+"/api/album/" + albumNane).done(callback);
+    return $.get(process.env.SERVER_PATH+"api/album/" + albumNane).done(callback);
   };
 
   /** Add element to album */
   this.addToAlbum = function (itemPath, album, callback) {
     return $.ajax({
-      url: this.PATH+"/api/album/",
+      url: process.env.SERVER_PATH+"api/album",
       type: "put",
       contentType: "application/json",
-      data: JSON.stringify({ 'name': album, 'item': itemPath }),
+      data: JSON.stringify({ 'albumName': album, 'itemPath': itemPath }),
       dataType: "json",
       success: callback,
     });
@@ -114,12 +113,20 @@ export default function () {
 
   /** Check current state of all thumbnails and possible recreate is again */
   this.createThumbnails = function (callback) {
-    return $.get(this.PATH+"/api/storage/rethumb/").done(callback);
+    return $.get(process.env.SERVER_PATH+"api/storage/rethumb/").done(callback);
+  };
+
+  this.getPath = function (callback) {
+    return $.ajax({
+      url: process.env.SERVER_PATH+"api/settings/path",
+      type: "get",
+      success: callback,
+    });
   };
 
   this.changePath = function (newpath, callback) {
     return $.ajax({
-      url: this.PATH+"/api/settings/path/",
+      url: process.env.SERVER_PATH+"api/settings/path/",
       type: "post",
       contentType: "application/json",
       data: newpath,
@@ -129,31 +136,30 @@ export default function () {
 
   this.getExif = function (itemPath) {
     var p = this.encodePath(itemPath);
-    return $.get(this.PATH+"/api/photo/exif/" + p).done(function (response) {
+    return $.get(process.env.SERVER_PATH+"api/photo/exif/" + p).done(function (response) {
       return response.data;
     });
   };
 
   this.getItem = function (itemPath) {
     var p = this.encodePath(itemPath);
-    return $.get(this.PATH+"/api/photo/" + p).done(function (response) {
+    return $.get(process.env.SERVER_PATH+"api/photo/" + p).done(function (response) {
       return response.data;
     });
   };
 
   this.getTags = function (itemPath, callback) {
     var p = this.encodePath(itemPath);
-    return $.get(this.PATH+"/api/tags/item/" + p).done(callback);
+    return $.get(process.env.SERVER_PATH+"api/tags/item/" + p).done(callback);
   };
 
   this.getApprovalPictures = function (callback) {
-    return $.get(this.PATH+"/api/approval/scan/").done(callback);
+    return $.get(process.env.SERVER_PATH+"api/approval/scan/").done(callback);
   };
 
   this.acceptApprovalPicture = function (picture, callback) {
-    var p = this.encodePath(picture);
     return $.ajax({
-      url: this.PATH+"/api/approval/accept/",
+      url: process.env.SERVER_PATH+"api/approval/accept/",
       type: "post",
       contentType: "application/json",
       data: picture,
@@ -162,9 +168,8 @@ export default function () {
   };
 
   this.declineApprovalPicture = function (picture, callback) {
-    var p = this.encodePath(picture);
     return $.ajax({
-      url: this.PATH+"/api/approval/decline/",
+      url: process.env.SERVER_PATH+"api/approval/decline/",
       type: "post",
       contentType: "application/json",
       data: picture,
@@ -175,7 +180,7 @@ export default function () {
   this.setTags = function (itemPath, tags, callback) {
     var p = this.encodePath(itemPath);
     return $.ajax({
-      url: this.PATH+"/api/tags/",
+      url: process.env.SERVER_PATH+"api/tags/",
       type: "put",
       contentType: "application/json",
       data: JSON.stringify({ 'tags': tags, 'item': itemPath }),
@@ -185,6 +190,6 @@ export default function () {
   };
 
   this.search = function (searchString, callback) {
-    return $.get(this.PATH+"/api/search/" + searchString).done(callback);
+    return $.get(process.env.SERVER_PATH+"api/search/" + searchString).done(callback);
   };
 }

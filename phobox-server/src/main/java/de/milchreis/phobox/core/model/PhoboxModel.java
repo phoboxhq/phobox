@@ -2,7 +2,7 @@ package de.milchreis.phobox.core.model;
 
 import java.io.File;
 
-import de.milchreis.phobox.core.config.ConfigManager;
+import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.config.PreferencesManager;
 import lombok.Data;
 
@@ -26,12 +26,12 @@ public class PhoboxModel {
 	public void setStoragePath(String storagePath) {
 		this.storagePath = storagePath;
 		phoboxPath = new File(storagePath, "phobox");
-		incomingPath = new File(phoboxPath, ConfigManager.get(ConfigManager.STORAGE_INCOMING));
+		incomingPath = new File(phoboxPath, PhoboxDefinitions.STORAGE_INCOMING);
 		
-		thumbPath = new File(phoboxPath, ConfigManager.get(ConfigManager.STORAGE_THUMBS));
+		thumbPath = new File(phoboxPath, PhoboxDefinitions.STORAGE_THUMBS);
 		thumbPath.mkdirs();
 		
-		approvalPath = new File(phoboxPath, ConfigManager.get(ConfigManager.STORAGE_APPROVAL));
+		approvalPath = new File(phoboxPath, PhoboxDefinitions.STORAGE_APPROVAL);
 		approvalPath.mkdirs();
 		
 		databasePath = new File(phoboxPath, "phobox");

@@ -5,18 +5,22 @@
         <div class="form-group">
             <label for="sel2">{{ $t('album.select') }}:</label>
             <select class="form-control" id="sel2" v-model="albumname">
-                <option v-for="(a, key) in albums" :value="a" :label="a" :key="key"/>
+                <option v-for="(a, key) in albums" :value="a" :label="a" :key="key">{{ a }}</option>
             </select>
         </div>
     </div>
 
     <div id="albumitems">
-        <div class="albumelement item" v-for="(item, key) in album.items" :key="key" v-if="album">
+      <file-item v-for="item in album.items"
+        :item="item"
+        :key="item.path"
+        :selectedItem="selectedItem"></file-item>
+        <!-- <div class="albumelement item" v-for="(item, key) in album.items" :key="key" v-if="album">
             <img class="item_thumb" 
                 :src="item.thumb"
                 v-on:click="selectedItem = item"
                 v-if="item.type === 'file'" />
-        </div>
+        </div> -->
     </div>
 
     <!-- Include the lightbox -->
@@ -28,13 +32,15 @@
 
 <script>
 import Lightbox from '@/components/Lightbox';
+import FileItem from '@/components/files/FileItem';
 import ComService from '@/utils/ComService';
 
 export default {
   name: "Approval",
   props: [],
   components: {
-    Lightbox
+    Lightbox,
+    FileItem
   },
   data() {
     return {

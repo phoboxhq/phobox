@@ -10,7 +10,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
-import de.milchreis.phobox.utils.MD5Helper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -104,10 +105,12 @@ public class PreferencesManager {
 			users += "," + username;
 		}
 
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
 		if(passwords == null) {
-			passwords = MD5Helper.getMD5(password);
+			passwords = bCryptPasswordEncoder.encode(password);
 		} else {
-			passwords += "," + MD5Helper.getMD5(password);
+			passwords += "," + bCryptPasswordEncoder.encode(password);
 		}
 		
 		set(USERS, users);

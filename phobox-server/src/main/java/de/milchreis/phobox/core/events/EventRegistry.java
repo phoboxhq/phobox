@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Data
 public class EventRegistry implements IEvent {
 
 	private List<IEvent> eventRegistry;
@@ -58,14 +60,6 @@ public class EventRegistry implements IEvent {
 	
 	public void addEvent(IEvent plugin) {
 		eventRegistry.add(plugin);
-	}
-	
-	public List<IEvent> getEventRegistry() {
-		return eventRegistry;
-	}
-
-	public void setEventRegistry(List<IEvent> eventRegistry) {
-		this.eventRegistry = eventRegistry;
 	}
 	
 }
