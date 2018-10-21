@@ -1,13 +1,18 @@
 package de.milchreis.phobox.core.actions;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
+
+import org.apache.commons.io.FilenameUtils;
 
 import de.milchreis.phobox.core.Phobox;
+import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.LoopInfo;
-import de.milchreis.phobox.utils.ExifHelper;
 import de.milchreis.phobox.utils.ImageProcessing;
+import de.milchreis.phobox.utils.ListHelper;
+import de.milchreis.phobox.utils.exif.ExifHelper;
+import de.milchreis.phobox.utils.exif.RawToJpg;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -40,11 +45,20 @@ public class ReThumbFileAction implements FileAction {
 			} catch(Exception ee) {
 				log.info("Could not find orientation flag for " + file.getAbsolutePath());
 			}
-			
+
 			try {
-				ImageProcessing.scale(file, target, width, height);
+				BufferedImage image = null;
+
+				if (ListHelper.endsWith(file.getName(), PhoboxDefinitions.SUPPORTED_RAW_FORMATS)) {
+					image = RawToJpg.getJpg(file);
+					target = new File(target.getParentFile(), FilenameUtils.getBaseName(target.getName()) + ".jpg");
+				} else {
+					image = ImageProcessing.getImage(file);
+				}
+				
+				ImageProcessing.scale(image, target, width, height);
 				ImageProcessing.rotate(target, target, ExifHelper.ORIENTATION_ROTATION_MAP.get(orientation));
-			} catch (IOException e) {
+			} catch (Exception e) {
 				log.info("Could not create thumb for " + file.getAbsolutePath());
 			}
 		}

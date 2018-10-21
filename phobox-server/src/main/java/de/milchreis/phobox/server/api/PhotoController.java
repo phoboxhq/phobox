@@ -24,10 +24,10 @@ import de.milchreis.phobox.core.model.Status;
 import de.milchreis.phobox.core.model.StorageItem;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.db.repositories.ItemRepository;
-import de.milchreis.phobox.utils.ExifHelper;
 import de.milchreis.phobox.utils.FilesystemHelper;
 import de.milchreis.phobox.utils.ListHelper;
 import de.milchreis.phobox.utils.PathConverter;
+import de.milchreis.phobox.utils.exif.ExifHelper;
 
 @RestController
 @RequestMapping("/api/photo")
@@ -150,6 +150,11 @@ public class PhotoController {
 		String filename = file.getName();
 		String directory = ops.getWebPath(file).replace(filename, "");
 		
+		String extention = FilenameUtils.getExtension(file.getName());
+		extention = ListHelper.endsWith(extention.toLowerCase(), PhoboxDefinitions.SUPPORTED_VIEW_FORMATS) ? extention : "jpg";
+		
+		File thumbnail = ops.getThumb(new File(file.getParentFile(), FilenameUtils.getBaseName(file.getName()) + "." + extention));
+		
 		StorageItem item = new StorageItem();
 
 		item.setName(FilenameUtils.getBaseName(file.getName()));
@@ -165,7 +170,6 @@ public class PhotoController {
 			item.setRaw(ops.getWebPath(raw));
 		} 
 
-		String fileExtension = FilenameUtils.getExtension(file.getName()).toLowerCase();
 		
 		if(file.isDirectory()) {
 			List<String> previewFiles = ops.getFiles(file, 1);
@@ -180,14 +184,13 @@ public class PhotoController {
 					Phobox.getEventRegistry().onNewFile(previewFile);
 					
 					// Set waiting icon
-					item.setPreview("img/stopwatch.png");
-					item.setThumb("img/stopwatch.png");
+					item.setGeneratingThumb(true);
 				}
 			}
 			
-		} else if(ListHelper.endsWith(fileExtension, PhoboxDefinitions.SUPPORTED_VIEW_FORMATS)) {
+		} else {
 			
-			item.setThumb(ops.getStaticResourcePath(model.getThumbPath(), item.getPath()));
+			item.setThumb(ops.getStaticResourcePath(thumbnail));
 
 			// Add landscape/portrait information by database item
 			if(dbItem != null && Objects.nonNull(dbItem.getWidth()) && Objects.nonNull(dbItem.getHeight())) {
@@ -195,13 +198,13 @@ public class PhotoController {
 			}
 			
 			// Check existence of the thumbnails
-			if(!ops.getThumb(file).exists()) {
+			if(!thumbnail.exists()) {
 				
 				// Add to database and create thumbnail
 				Phobox.getEventRegistry().onNewFile(file);
 				
 				// Set waiting icon
-				item.setThumb("img/stopwatch.png");
+				item.setGeneratingThumb(true);
 			}
 		}
 		

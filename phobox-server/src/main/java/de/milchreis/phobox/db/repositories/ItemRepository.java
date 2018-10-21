@@ -3,8 +3,10 @@ package de.milchreis.phobox.db.repositories;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.OrderBy;
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,19 +17,20 @@ import de.milchreis.phobox.db.entities.Item;
 
 public interface ItemRepository extends JpaRepository<Item, UUID> {
 
+	Page<Item> findByPath(String path, Pageable pageable);
+	
+	@OrderBy("creation ASC, file_name ASC")
 	List<Item> findByPath(String path);
 
 	Item findByFullPath(String subpath);
 
-	List<Item> findByPath(String path, Pageable pageRequest);
-
-	@Query("SELECT i FROM Item i JOIN ItemTag t WHERE t.name = :tag")
+	@Query("SELECT i FROM Item i JOIN ItemTag t WHERE t.name = :tag ORDER BY creation ASC, file_name ASC")
 	List<Item> findByTag(@Param("tag") String tag);
 
-	@Query("SELECT i FROM Item i WHERE i.path LIKE CONCAT('%', :searchString, '%') OR i.fileName LIKE CONCAT('%', :searchString, '%')")
+	@Query("SELECT i FROM Item i WHERE i.path LIKE CONCAT('%', :searchString, '%') OR i.fileName LIKE CONCAT('%', :searchString, '%') ORDER BY creation ASC, file_name ASC")
 	List<Item> findBySearchStringInNameAndPath(@Param("searchString") String searchString);
 
-	@Query("SELECT i FROM ItemTag t JOIN t.items i WHERE t.name LIKE CONCAT('%', :searchString, '%')")
+	@Query("SELECT i FROM ItemTag t JOIN t.items i WHERE t.name LIKE CONCAT('%', :searchString, '%') ORDER BY creation ASC, file_name ASC" )
 	List<Item> findBySearchStringInTags(@Param("searchString") String searchString);
 
 	@Transactional

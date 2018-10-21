@@ -16,6 +16,7 @@ import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.gui.ServerGui;
 import de.milchreis.phobox.gui.StorageAsk;
 import de.milchreis.phobox.gui.StorageAskGui;
+import de.milchreis.phobox.utils.Browser;
 import javafx.application.Application;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,13 +46,14 @@ public class PhoboxServerApplication implements CommandLineRunner {
 		PhoboxModel model = Phobox.getModel();
 
 		// Ask for default Storage-Path on first run (no properties file found)
-		if(isFirstRun()) {
-			if(model.isActiveGui()) {
-				Application.launch(StorageAskGui.class);
-			} else {
-				StorageAsk.askWithCLI();
-			}
-		}
+		// TODO:
+//		if(isFirstRun()) {
+//			if(model.isActiveGui()) {
+//				Application.launch(StorageAskGui.class);
+//			} else {
+//				StorageAsk.askWithCLI();
+//			}
+//		}
 
 		// Update the storage path
 		model.setStoragePath(PreferencesManager.get(PreferencesManager.STORAGE_PATH));
@@ -60,9 +62,9 @@ public class PhoboxServerApplication implements CommandLineRunner {
 		// Initialize an application instance for JavaFX (for scaling and window)
 		// JavaFX is used for scaling and rotating images, because is much faster
 		// than other implementations (also on embedded devices like the raspberry pi).
-		new Thread(() -> {
-			Application.launch(ServerGui.class);
-		}).start();
+//		new Thread(() -> {
+//			Application.launch(ServerGui.class);
+//		}).start();
 		
 		SpringApplication.run(PhoboxServerApplication.class, args);
 	}
@@ -86,5 +88,7 @@ public class PhoboxServerApplication implements CommandLineRunner {
 		events.forEach(Phobox.getEventRegistry()::addEvent);
 
 		Phobox.getEventRegistry().onCreation();
+		
+		Browser.open("http://localhost:"+Phobox.getModel().getPort());
 	}
 }

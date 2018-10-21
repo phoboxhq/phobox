@@ -1,24 +1,25 @@
 package de.milchreis.phobox.core.actions;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
+
+import org.apache.commons.io.FilenameUtils;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.LoopInfo;
 import de.milchreis.phobox.core.model.PhoboxModel;
-import de.milchreis.phobox.utils.ExifHelper;
 import de.milchreis.phobox.utils.ImageProcessing;
 import de.milchreis.phobox.utils.ImportFormatter;
 import de.milchreis.phobox.utils.ListHelper;
+import de.milchreis.phobox.utils.exif.ExifHelper;
+import de.milchreis.phobox.utils.exif.RawToJpg;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ThumbFileAction implements FileAction {
 	
-	public static String[] IMAGE_FORMATS = {"jpg", "jpeg", "png", "bmp"};
-
 	private int width;
 	private int height;
 	
@@ -27,11 +28,10 @@ public class ThumbFileAction implements FileAction {
 		height = maxImgHeight;
 	}
 	
-	
 	@Override
 	public void process(File file, LoopInfo info) {
 		
-		if(!ListHelper.endsWith(file.getName(), IMAGE_FORMATS)) {
+		if(!ListHelper.endsWith(file.getName(), PhoboxDefinitions.SUPPORTED_THUMBNAIL_FORMATS)) {
 			log.info("Skipped, because no supported image file " + file.getAbsolutePath());
 			return;
 		}
@@ -63,8 +63,17 @@ public class ThumbFileAction implements FileAction {
 			
 		try {
 			if(!thumb.exists()) {
+				BufferedImage image = null;
+				
+				if(ListHelper.endsWith(file.getName(), PhoboxDefinitions.SUPPORTED_RAW_FORMATS)) {
+					image = RawToJpg.getJpg(file);
+					thumb = new File(thumb.getAbsolutePath(), FilenameUtils.getBaseName(thumb.getName()) + ".jpg");
+				} else {
+					image = ImageProcessing.getImage(file);
+				}
+				
 				long t0 = System.currentTimeMillis();
-				ImageProcessing.scale(file, thumb, width, height);
+				ImageProcessing.scale(image, thumb, width, height);
 				long t1 = System.currentTimeMillis();
 				log.debug((t1-t0)/1000.0 + " secs for scale");
 
@@ -73,7 +82,7 @@ public class ThumbFileAction implements FileAction {
 				t1 = System.currentTimeMillis();
 				log.debug((t1-t0)/1000.0 + " secs for rotate");
 			}
-		} catch(IOException e) {
+		} catch(Exception e) {
 			log.warn("Could not create thumbnail for " + file.getAbsolutePath());
 		}
 		

@@ -104,7 +104,8 @@ export default {
       currentItem: null,
       isLoading: true,
       isFragment: false,
-      isProcessing: false
+      isProcessing: false,
+      page: 1
     };
   },
   methods: {
@@ -122,17 +123,19 @@ export default {
         this.currentPath = data.path;
         this.isProcessing = data.processing;
         this.currentItem = data;
+        this.page = 1;
       });
     },
 
     onLoadMoreItems () {
       this.isLoading = true;
-      new ComService().loadMore(this.currentPath, this.items.length, (data) => {
+      new ComService().loadMore(this.currentPath, this.page, 30, (data) => {
         this.items = this.items.concat(data.items);
         this.isLoading = false;
         this.isFragment = data.fragment;
         this.currentPath = data.path;
         this.currentItem = data;
+        this.page += 1;
       });
     },
 

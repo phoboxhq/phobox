@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,23 +39,14 @@ public class PhotosController {
 	@Autowired private PhotoController photoController;
 
 	@RequestMapping(value = "scan", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public StorageStatus scanDirectory() {
-		return scanDirectory("");
+	public StorageStatus scanDirectory(Pageable pageable) {
+		return scanDirectory("", pageable);
 	}
 	
 	@RequestMapping(value = "scan/{dir}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public StorageStatus scanDirectory(@PathVariable("dir") String directory) {
-		return scanDirectory(directory, null);
-	}
-	
-	@RequestMapping(value = "scan/{dir}/{lastItemIndex}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public StorageStatus scanDirectory( 
-			@PathVariable("dir") String directory, 
-			@PathVariable("lastItemIndex") Integer lastIndex ) 
-	{
-
+	public StorageStatus scanDirectory(@PathVariable("dir") String directory, Pageable pageable) {
+		
 		directory = PathConverter.decode(directory);
-		lastIndex = lastIndex == null ? 0 : lastIndex;
 
 		PhoboxModel model = Phobox.getModel();
 		PhoboxOperations ops = Phobox.getOperations();
@@ -67,7 +59,7 @@ public class PhotosController {
 			dir = storage;
 		
 		// Update directory on database if it is no fragment
-		if(lastIndex == 0) {
+		if(pageable == null || pageable.getPageNumber() == 0) {
 			Phobox.addPathToScanQueue(dir);
 		}
 		
@@ -82,7 +74,7 @@ public class PhotosController {
 		}
 	
 		// Find including directories (but add it not by fragment scan)
-		if(lastIndex == 0) {
+		if(pageable == null || pageable.getPageNumber() == 0) {
 			DirectoryStream<java.nio.file.Path> stream = null;
 			try {
 				stream = Files.newDirectoryStream(dir.toPath(), new DirectoryFilter());
@@ -106,18 +98,17 @@ public class PhotosController {
 		}
 		
 		// Scan files from database
-		// TODO: Pagination
-		List<Item> items = itemRepository.findByPath(directory+"/");//, lastIndex, model.getImgPageSize() + 1); 
+		List<Item> items;
+		if(pageable != null) {
+			items = itemRepository.findByPath(directory+"/", pageable).getContent();
+			response.setFragment(items.size() > 0);
+		} else {
+			items = itemRepository.findByPath(directory+"/");
+		}
 
 		for(Item item : items) {
 			File file = ops.getPhysicalFile(item.getFullPath());
 			response.add(photoController.getItem(file));
-		}
-		
-		// More images available
-		if(items.size() == model.getImgPageSize() + 1) {
-			response.setFragment(true);
-			items.remove(items.size()-1);
 		}
 		
 		try {

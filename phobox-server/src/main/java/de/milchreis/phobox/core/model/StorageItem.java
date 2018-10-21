@@ -19,6 +19,7 @@ public class StorageItem {
 	private String preview;
 	private String thumb;
 	private String raw;
+	private boolean generatingThumb = false;
 	private Boolean landscape;
 	
 }

@@ -21,13 +21,19 @@ export default function () {
   /** Requests the backend for a given directory */
   this.scan = function (path, callback) {
     var p = this.encodePath(path);
-    return $.get(process.env.SERVER_PATH+"api/photos/scan/" + p).done(callback);
+    return $.get(process.env.SERVER_PATH+"api/photos/scan/" + p + 
+      "/?page=0&size=30&sort=creation&creation.dir=asc")
+      .done(callback);
   };
 
   /** Requests the backend for a given directory with last item as marker for pagination */
-  this.loadMore = function (path, lastItemIndex, callback) {
+  this.loadMore = function (path, lastItemIndex, amountOfItems, callback) {
     var p = this.encodePath(path);
-    return $.get(process.env.SERVER_PATH+"api/photos/scan/" + p + "/" + lastItemIndex).done(callback);
+    return $.get(
+      process.env.SERVER_PATH+"api/photos/scan/" + p + 
+        "/?page=" + lastItemIndex+"&size="+amountOfItems+
+        "&sort=creation&creation.dir=asc")
+        .done(callback);
   };
 
   /** Requests the backend for the current status of the system */

@@ -26,12 +26,15 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 	private File directory;
 	private boolean ready;
 	private ItemRepository itemRepository;
+	private File currentFile;
+	private FileProcessor fileProcessor;
 	
 	
 	public StorageScanScheduler(int timeInHours) {
 		timer = new Timer();
 		this.setTimeInHours(timeInHours);
 		recursive = true;
+		fileProcessor = new FileProcessor();
 	}
 	
 	public StorageScanScheduler(int timeInHours, File directory, ItemRepository itemRepository, boolean recursive) {
@@ -50,7 +53,7 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 			directory = new File(Phobox.getModel().getStoragePath());
 		}
 		
-		new FileProcessor().foreachFile(
+		fileProcessor.foreachFile(
 				directory, 
 				PhoboxDefinitions.SUPPORTED_VIEW_FORMATS, 
 				this,
@@ -60,6 +63,7 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 		itemRepository.findAll().forEach(item -> {
 			
 			File originalfile = Phobox.getOperations().getPhysicalFile(item.getPath());
+			currentFile = originalfile;
 			
 			if(!originalfile.exists()) {
 				Phobox.getEventRegistry().onDeleteFile(originalfile);
@@ -112,6 +116,12 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 		cal.set(Calendar.HOUR_OF_DAY, 23);
 		cal.set(Calendar.MINUTE, 0);
 		return cal.getTime();
+	}
+
+	public File getCurrentFile() {
+		String storageFile = fileProcessor.getCurrentfile();
+		File dbFile = currentFile;
+		return storageFile == null || storageFile.isEmpty() ? dbFile : new File(storageFile);
 	}
 	
 }

@@ -8,9 +8,14 @@
       <!-- File: Show-->
       <img class="item_thumb" 
           :src="SERVER_PATH + item.thumb"
-          v-if="item.type === 'file'" />
+          v-if="item.type === 'file' && item.generatingThumb === false" />
 
-      <p v-if="item.thumb==='@/assets/stopwatch.png'" class="reloadInfo">
+      <!-- File: Show waiting image if the preview is not available-->
+      <img class="item_thumb" 
+          src="@/assets/stopwatch.png"
+          v-if="item.generatingThumb" />
+
+      <p v-if="item.generatingThumb" class="reloadInfo">
         {{ $t('pictures.waitforthumb') }}
       </p>
 

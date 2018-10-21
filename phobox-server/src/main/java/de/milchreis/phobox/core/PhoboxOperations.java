@@ -128,6 +128,12 @@ public class PhoboxOperations {
 		return files;
 	}
 
+	public String getStaticResourcePath(File path) {
+		String webpath = getWebPath(path);
+		webpath = webpath.startsWith("/") ? webpath : "/" + webpath;
+		return "ext" + webpath;
+	}
+	
 	public String getStaticResourcePath(File basicpath, String path) {
 		
 		String webpath = getWebPath(basicpath);

@@ -1,7 +1,8 @@
-package de.milchreis.phobox.core;
+package de.milchreis.phobox.core.storage;
 
 import java.io.File;
 import java.util.Queue;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import de.milchreis.phobox.core.schedules.StorageScanScheduler;
@@ -12,24 +13,26 @@ import lombok.extern.slf4j.Slf4j;
 public class StorageScanQueue implements Runnable {
 	
 	private Queue<String> queue;
-	private Thread thread;
 	private ItemRepository itemRepository;
+	private StorageScanScheduler scheduler;
 	
 	public StorageScanQueue(ItemRepository itemRepository) {
-		queue = new LinkedBlockingQueue<>();
-		thread = new Thread(this);
-		thread.start();
+		this.queue = new LinkedBlockingQueue<>();
 		this.itemRepository = itemRepository;
+		
+		Executors.newFixedThreadPool(1).execute(this);
 	}
 	
 	public void putScan(File path) {
 		if(!queue.contains(path.getAbsolutePath())) {
 			queue.add(path.getAbsolutePath());
 		}
+		log.debug(getInfo().toString());
 	}
 
 	@Override
 	public void run() {
+		
 		while(true) {
 				
 			if(queue.size() > 0) {
@@ -37,7 +40,7 @@ public class StorageScanQueue implements Runnable {
 				String path = queue.poll();
 				log.debug("Start scan: " + path);
 				
-				StorageScanScheduler scheduler = new StorageScanScheduler(StorageScanScheduler.IMMEDIATELY, new File(path), itemRepository, false);
+				scheduler = new StorageScanScheduler(StorageScanScheduler.IMMEDIATELY, new File(path), itemRepository, false);
 				scheduler.start();
 				
 				while(!scheduler.isReady()) {
@@ -50,6 +53,13 @@ public class StorageScanQueue implements Runnable {
 				sleep(3000);
 			}
 		}
+	}
+	
+	public StorageScanQueueInfo getInfo() {
+		return new StorageScanQueueInfo(
+				new File(queue.peek()),
+				scheduler != null ? scheduler.getCurrentFile() : null,
+				queue.size());
 	}
 	
 	private void sleep(int millis) {

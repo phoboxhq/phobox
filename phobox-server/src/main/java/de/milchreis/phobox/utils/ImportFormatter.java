@@ -7,6 +7,8 @@ import java.util.Date;
 
 import com.drew.imaging.ImageProcessingException;
 
+import de.milchreis.phobox.utils.exif.ExifHelper;
+
 public class ImportFormatter {
 
 	public static final String CREATION_YEAR = "%Y";

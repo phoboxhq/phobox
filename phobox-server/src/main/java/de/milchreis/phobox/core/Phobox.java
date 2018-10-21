@@ -10,6 +10,7 @@ import de.milchreis.phobox.core.model.ThumbProcessorQueue;
 import de.milchreis.phobox.core.schedules.CopyScheduler;
 import de.milchreis.phobox.core.schedules.ImportScheduler;
 import de.milchreis.phobox.core.schedules.StorageScanScheduler;
+import de.milchreis.phobox.core.storage.StorageScanQueue;
 import de.milchreis.phobox.db.repositories.ItemRepository;
 import de.milchreis.phobox.utils.BeanUtil;
 import lombok.Getter;

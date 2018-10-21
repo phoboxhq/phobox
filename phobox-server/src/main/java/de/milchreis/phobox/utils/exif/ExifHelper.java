@@ -1,4 +1,4 @@
-package de.milchreis.phobox.utils;
+package de.milchreis.phobox.utils.exif;
 
 import java.io.File;
 import java.io.IOException;

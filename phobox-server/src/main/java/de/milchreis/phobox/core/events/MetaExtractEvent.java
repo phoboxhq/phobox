@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.db.entities.Item;
-import de.milchreis.phobox.utils.ExifHelper;
+import de.milchreis.phobox.utils.exif.ExifHelper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
