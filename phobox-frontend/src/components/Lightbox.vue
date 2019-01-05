@@ -141,6 +141,9 @@ export default {
     },
 
     onShow() {
+      if(!this.selectedItem)
+        return;
+
       let img = new Image();
       img.src = this.selectedItem.thumb;
 

@@ -34,7 +34,7 @@ export default {
 }
 
 body {
-  background-color: #272525;
+  background-color: #212121;
   color: #F0F0F0;
   font-size: 14px;
   margin-top: 95px;

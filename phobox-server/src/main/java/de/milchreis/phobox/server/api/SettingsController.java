@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import de.milchreis.phobox.exceptions.InvalidFormatException;
+import de.milchreis.phobox.server.services.ISettingsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,81 +24,54 @@ import de.milchreis.phobox.utils.ImportFormatter;
 @RestController
 @RequestMapping("/api/settings")
 public class SettingsController {
-	
+
+	@Autowired private ISettingsService settingsService;
+
 	@RequestMapping(value = "credentials", 
 			method = RequestMethod.POST, 
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE, 
 			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Status setUserCrendentials(@RequestBody UserCredentials cred) {
-		
-		// Remove existing users
-		PreferencesManager.unset(PreferencesManager.USERS);
-		PreferencesManager.unset(PreferencesManager.PASSWORDS);
-		
-		// Set up the new user
-		PreferencesManager.addUser(cred.getUsername(), cred.getPassword());
-		
+		settingsService.setUserCrendentials(cred);
 		return new Status(Status.OK);
 	}
 	
 	@RequestMapping(value = "credentials", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Status unsetUserCrendentials() {
-		
-		// Remove existing users
-		PreferencesManager.unset(PreferencesManager.USERS);
-		PreferencesManager.unset(PreferencesManager.PASSWORDS);
-		
+		settingsService.unsetUserCrendentials();
 		return new Status(Status.OK);
 	}
 	
 	@RequestMapping(value = "credentials", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public UserCredentials getUserCrendentials() {
 		// TODO: Security Issue
-		
-		List<UserCredentials> list = new ArrayList<>();
-		Map<String, String> userMap = PreferencesManager.getUserMap();
-		
-		if(userMap.size() > 0) {
-			userMap.entrySet().forEach(e -> list.add(new UserCredentials(e.getKey(), e.getValue())));
-			return list.get(0);
-		
-		} else { 
-			return null;
-		}
+		return settingsService.getUserCrendentials();
 	}
 	
 	@RequestMapping(value = "importPattern", method = RequestMethod.GET)
 	public String getImportPattern() {
-		PhoboxModel model = Phobox.getModel();
-		return model.getImportFormat();
+		return settingsService.getImportPattern();
 	}
 	
 	@RequestMapping(value = "importPattern", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Status setImportPattern(@RequestBody String pattern) {
-		
-		PhoboxModel model = Phobox.getModel();
-		ImportFormatter importFormatter = new ImportFormatter(pattern);
-		
-		if(importFormatter.isValid()) {
-			model.setImportFormat(pattern);
-			PreferencesManager.set(PreferencesManager.IMPORT_FORMAT, pattern);
+		try {
+			settingsService.setImportPattern(pattern);
 			return new Status(Status.OK);
-			
-		} else {
+		} catch (InvalidFormatException e) {
 			return new Status(Status.ERROR);
 		}
 	}
 	
 	@RequestMapping(value = "path", method = RequestMethod.GET)
 	public String getStoragePath() {
-		PhoboxModel model = Phobox.getModel();
-		return model.getStoragePath();
+		return settingsService.getStoragePath();
 	}
 	
 	@RequestMapping(value = "path", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Status setStoragePath(@RequestBody String path) {
 		try {
-			Phobox.changeStoragePath(new File(path));
+			settingsService.setStoragePath(new File(path));
 			return new Status(Status.OK);
 		} catch(Exception e) {
 			return new Status(Status.ERROR);

@@ -9,7 +9,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="490.0" style="-fx-background-color: linear-gradient(to bottom right, derive(black, 20%), derive(black, -40%));;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.milchreis.phobox.gui.ServerGui">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="490.0" style="-fx-background-color: #2a2a2a;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.milchreis.phobox.gui.UploadController">
    <top>
       <ImageView pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_LEFT">
          <image>
@@ -43,7 +43,7 @@
                   <Blend />
                </effect>
                <children>
-                  <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Drop files here" textAlignment="CENTER" StackPane.alignment="CENTER">
+                  <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="%upload.dropfiles" textAlignment="CENTER" StackPane.alignment="CENTER">
                      <font>
                         <Font name="Open Sans Extrabold" size="24.0" />
                      </font>
@@ -53,8 +53,8 @@
                   </Label>
                </children>
             </StackPane>
-            <Label text="Storage" textFill="#ffffffb8" GridPane.rowIndex="3" />
-            <Label text="Address" textFill="#ffffffb8" GridPane.rowIndex="4" />
+            <Label text="%upload.storage" textFill="#ffffffb8" GridPane.rowIndex="3" />
+            <Label text="%upload.address" textFill="#ffffffb8" GridPane.rowIndex="4" />
             <GridPane hgap="10.0" vgap="10.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -64,12 +64,12 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onOpenGUI" text="Open phobox" />
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onClose" text="Stop phobox" GridPane.columnIndex="1" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onOpenGUI" text="%upload.openbrowser" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onClose" text="%upload.stopPhobox" GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <Button fx:id="storageButton" mnemonicParsing="false" onAction="#onChangeStoragePath" text="Change storage path" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="addressLabel" text="Label" textFill="#ffffffb8" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button fx:id="storageButton" mnemonicParsing="false" onAction="#onChangeStoragePath" text="%upload.changeStorage" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="addressLabel" text="" textFill="#ffffffb8" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
          <padding>
             <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />

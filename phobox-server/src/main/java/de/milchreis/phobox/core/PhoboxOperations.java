@@ -11,6 +11,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import de.milchreis.phobox.core.file.filter.ImageFileFilter;
 import de.milchreis.phobox.core.model.PhoboxModel;
+import de.milchreis.phobox.utils.PathConverter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -156,7 +157,8 @@ public class PhoboxOperations {
 	}
 	
 	public File getPhysicalFile(String webfile) {
-		return new File(model.getStoragePath(), webfile);
+		String webFilePath = PathConverter.decode(webfile);
+		return new File(model.getStoragePath(), webFilePath);
 	}
 	
 	public String getElementName(File element) {

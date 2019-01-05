@@ -112,7 +112,7 @@ export default {
   position: fixed;
   top: 0px;
   padding: 8px;
-  background-color: #191717;
+  background-color: #171717;
   width: 100%;
   cursor: pointer;
 }

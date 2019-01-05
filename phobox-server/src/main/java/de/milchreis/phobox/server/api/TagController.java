@@ -24,6 +24,7 @@ import de.milchreis.phobox.db.entities.ItemTag;
 import de.milchreis.phobox.db.repositories.ItemRepository;
 import de.milchreis.phobox.db.repositories.ItemTagRepository;
 import de.milchreis.phobox.server.api.requestmodel.TagOperation;
+import de.milchreis.phobox.server.services.IPhotoService;
 import de.milchreis.phobox.utils.PathConverter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +35,7 @@ public class TagController {
 	
 	@Autowired private ItemRepository itemRepository;
 	@Autowired private ItemTagRepository tagRepository;
+	@Autowired private IPhotoService photoService;
 	
 	@RequestMapping(value = "", 
 			method = RequestMethod.PUT, 
@@ -93,11 +95,10 @@ public class TagController {
 	throws SQLException, IOException {
 	
 		PhoboxOperations ops = Phobox.getOperations();
-		PhotoController ps = new PhotoController();
 		
 		return itemRepository.findByTag(tag)
 				.stream()
-				.map(i -> ps.getItem(ops.getPhysicalFile(i.getPath())))
+				.map(i -> photoService.getItem(ops.getPhysicalFile(i.getPath())))
 				.collect(Collectors.toList());
 	}
 	

@@ -13,8 +13,6 @@ import org.imgscalr.Scalr.Rotation;
 
 import com.mortennobel.imagescaling.MultiStepRescaleOp;
 
-import de.milchreis.phobox.gui.ServerGui;
-
 public class ImageProcessing {
 
 	public static BufferedImage getImage(File imageFile) throws IOException {
@@ -50,14 +48,14 @@ public class ImageProcessing {
 	@Deprecated
 	public static void scale(File original, File target, int sizeW, int sizeH) throws IOException {
 
-		if(JavaFXDetector.isAvailable()) {
-			ServerGui.scale(original, target, sizeW, sizeH);
-			
-		} else {
+//		if(JavaFXDetector.isAvailable()) {
+//			UploadController.scale(original, target, sizeW, sizeH);
+//
+//		} else {
 			String format = FilenameUtils.getExtension(target.getName()).toLowerCase();
 			BufferedImage img = Scalr.resize(ImageIO.read(original), sizeW, sizeH);
 			ImageIO.write(img, format, target);
-		}
+//		}
 	}
 	
 	public static void rotate(File original, File target, Rotation degree) throws IOException {

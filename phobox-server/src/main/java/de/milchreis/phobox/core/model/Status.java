@@ -14,9 +14,8 @@ public class Status {
 	public Status(String status) {
 		setStatus(status);
 	}
-	
-	
-	public String getStatus() {
+
+    public String getStatus() {
 		return status;
 	}
 

@@ -77,7 +77,7 @@ public class Phobox {
 		Phobox phobox = getInstance();
 		
 		// Initialize the scheduler for importing and scanning new files
-		phobox.importScheduler = new ImportScheduler(3000);
+		phobox.importScheduler = new ImportScheduler(3000, 100);
 		phobox.copyScheduler = new CopyScheduler(3000);
 		phobox.storageScanScheduler = new StorageScanScheduler(24);
 		phobox.scanQueue = new StorageScanQueue(BeanUtil.getBean(ItemRepository.class));

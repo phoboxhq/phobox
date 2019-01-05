@@ -5,15 +5,28 @@ import java.net.URI;
 
 public class Browser {
 
-	public static void open(String url) throws Exception {
+    public static void open(String url) {
 
-		if (Desktop.isDesktopSupported()) {
-			Desktop desktop = Desktop.getDesktop();
-			desktop.browse(new URI(url));
-			
-		} else {
-			Runtime runtime = Runtime.getRuntime();
-			runtime.exec("xdg-open " + url);
-		}
-	}
+        String os = System.getProperty("os.name").toLowerCase();
+        Runtime runtime = Runtime.getRuntime();
+
+        try {
+            if (os.indexOf("win") >= 0) {
+                runtime.exec("rundll32 url.dll,FileProtocolHandler " + url);
+
+            } else if (os.indexOf("mac") >= 0) {
+                runtime.exec("open " + url);
+
+            } else if (os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0) {
+                runtime.exec("xdg-open " + url);
+
+            } else {
+                return;
+            }
+        } catch (Exception e) {
+            return;
+        }
+        return;
+
+    }
 }

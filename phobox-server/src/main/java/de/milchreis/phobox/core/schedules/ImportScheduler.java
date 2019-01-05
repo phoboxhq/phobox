@@ -12,19 +12,23 @@ import de.milchreis.phobox.core.model.PhoboxModel;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ImportScheduler extends TimerTask {
+public class ImportScheduler extends TimerTask implements Schedulable {
 		
 	private Timer timer;
-	private int intervallInMillis;
+	private int intervalInMillis;
+	private int delay;
+	private boolean ready = false;
 	
-	public ImportScheduler(int intervallInMillis) {
-		this.setIntervallInMillis(intervallInMillis);
+	public ImportScheduler(int intervalInMillis, int delay) {
+		this.intervalInMillis = intervalInMillis;
+		this.delay = delay;
 		timer = new Timer();
 	}
 
 	@Override
 	public void run() {
-	
+		ready = false;
+
 		PhoboxModel model = Phobox.getModel();
 		FileProcessor importProcessor = Phobox.getImportProcessor();
 		
@@ -40,22 +44,23 @@ public class ImportScheduler extends TimerTask {
 			
 			// TODO: Here remove empty directories
 		}
-		
+
+		ready = true;
 	}
-	
+
+	@Override
 	public void start() {
-		timer.schedule(this, 100, getIntervallInMillis());
+		timer.schedule(this, delay, intervalInMillis);
 	}
-	
+
+	@Override
 	public void stop() {
 		timer.cancel();
 	}
 
-	public int getIntervallInMillis() {
-		return intervallInMillis;
+	@Override
+	public boolean isReady() {
+		return ready;
 	}
 
-	public void setIntervallInMillis(int intervallInMillis) {
-		this.intervallInMillis = intervallInMillis;
-	}
 }

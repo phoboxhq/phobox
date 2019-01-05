@@ -17,13 +17,14 @@ import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.core.model.StorageItem;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.db.repositories.ItemRepository;
+import de.milchreis.phobox.server.services.IPhotoService;
 
 @RestController
 @RequestMapping("/api/search")
 public class SearchController {
 	
 	@Autowired private ItemRepository itemRepository;
-	@Autowired private PhotoController photoController;
+	@Autowired private IPhotoService photoService;
 	
 	@RequestMapping(value = "{search}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<StorageItem> getAlbums(@PathVariable("search") String searchString) throws SQLException, IOException {
@@ -35,7 +36,7 @@ public class SearchController {
 		items.addAll(itemRepository.findBySearchStringInTags(searchString));
 
 		return items.stream()
-				.map(i -> photoController.getItem(ops.getPhysicalFile(i.getFullPath())))
+				.map(i -> photoService.getItem(ops.getPhysicalFile(i.getFullPath())))
 				.collect(Collectors.toList());
 	}
 		
