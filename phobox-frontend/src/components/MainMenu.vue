@@ -61,6 +61,11 @@ export default {
           icon: "fa fa-search"
         },
         {
+          title: this.$t('menu.statistics'),
+          address: "#/statistics",
+          icon: "fa fa-pie-chart"
+        },
+        {
           title: this.$t('menu.albums'),
           address: "#/albums",
           icon: "fa fa-star"

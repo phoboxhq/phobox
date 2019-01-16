@@ -1,12 +1,13 @@
 
 export default {
-	
+
 	messages: {
 		en: {
 			menu: {
 				pictures: 'Pictures',
 				approval: 'Picture approval',
 				search: 'Search for pictures',
+				statistics: 'Statistics',
 				albums: 'Albums',
 				status: 'Status',
 				upload: 'Upload',
@@ -58,6 +59,26 @@ export default {
 				searchbar: 'Search for name, TAG, date ...',
 				search_button: 'Search',
 				no_results: 'No files found.',
+			},
+
+			statistics: {
+				headline: 'Statistics',
+				month_names: [
+					"January",
+					"February",
+					"March",
+					"April",
+					"May",
+					"June",
+					"July",
+					"August",
+					"September",
+					"October",
+					"November",
+					"December"
+				],
+				overview_year: 'year overview',
+				load: 'load'
 			},
 
 			status: {
@@ -128,6 +149,7 @@ export default {
 				pictures: 'Bilder',
 				approval: 'Bilder prüfen',
 				search: 'Bildersuche',
+				statistics: 'Statistiken',
 				albums: 'Alben',
 				status: 'Status',
 				upload: 'Upload',
@@ -179,6 +201,26 @@ export default {
 				searchbar: 'Suche nach Namen, Schlagworten, Datum ...',
 				search_button: 'Suchen',
 				no_results: 'Keine Dateien gefunden.',
+			},
+
+			statistics: {
+				headline: 'Statistiken',
+				month_names: [
+					"Januar",
+					"Februar",
+					"März",
+					"April",
+					"Mai",
+					"Juni",
+					"Juli",
+					"August",
+					"September",
+					"Oktober",
+					"November",
+					"Dezember"
+				],
+				overview_year: 'Jahresübersicht',
+				load: 'Laden'
 			},
 
 			status: {
@@ -245,7 +287,7 @@ export default {
 		},
 	},
 
-	getBrowserLocale () {
+	getBrowserLocale() {
 		let localekey = navigator.language || navigator.userlanguage;
 		return localekey.substring(0, 2)
 	},
