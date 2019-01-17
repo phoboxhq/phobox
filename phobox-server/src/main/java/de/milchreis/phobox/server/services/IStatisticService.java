@@ -1,6 +1,7 @@
 package de.milchreis.phobox.server.services;
 
 import de.milchreis.phobox.core.model.statistics.CountByYearItem;
+import de.milchreis.phobox.core.model.statistics.ItemTagRatio;
 import de.milchreis.phobox.core.model.statistics.ItemsInPeriod;
 import de.milchreis.phobox.db.entities.Item;
 
@@ -25,4 +26,7 @@ public interface IStatisticService {
     LocalDate convertToLocalDate(String dateStamp) throws ParseException;
 
     List<CountByYearItem> countItemsByYear(Integer year);
+
+    ItemTagRatio countItems();
+
 }

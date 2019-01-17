@@ -78,7 +78,10 @@ export default {
 					"December"
 				],
 				overview_year: 'year overview',
-				load: 'load'
+				load: 'load',
+				tagging_state: 'Tagging state',
+				tagged: 'Images with TAGs',
+				untagged: 'Images without TAGs',
 			},
 
 			status: {
@@ -220,7 +223,10 @@ export default {
 					"Dezember"
 				],
 				overview_year: 'Jahresübersicht',
-				load: 'Laden'
+				load: 'Laden',
+				tagging_state: 'Verschlagwortung',
+				tagged: 'Bilder mit Schlagworten',
+				untagged: 'Bilder ohne Schlagworte',
 			},
 
 			status: {

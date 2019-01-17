@@ -1,7 +1,5 @@
 package de.milchreis.phobox.db.repositories;
 
-import de.milchreis.phobox.core.model.statistics.CountByYearItem;
-import de.milchreis.phobox.core.model.statistics.CountedByCameraAndYear;
 import de.milchreis.phobox.db.entities.Item;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,10 +1,12 @@
 package de.milchreis.phobox.server.services;
 
 import de.milchreis.phobox.core.model.statistics.CountByYearItem;
+import de.milchreis.phobox.core.model.statistics.ItemTagRatio;
 import de.milchreis.phobox.core.model.statistics.ItemsInPeriod;
 import de.milchreis.phobox.db.StatisticsDAO;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.db.repositories.ItemRepository;
+import de.milchreis.phobox.db.repositories.ItemTagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ import java.util.List;
 public class StatisticService implements IStatisticService {
 
     @Autowired private ItemRepository itemRepository;
+    @Autowired private ItemTagRepository itemTagRepository;
     @Autowired private StatisticsDAO statisticsDAO;
 
     @Override
@@ -65,6 +68,11 @@ public class StatisticService implements IStatisticService {
     @Override
     public List<CountByYearItem> countItemsByYear(Integer year) {
         return statisticsDAO.countByYear(year);
+    }
+
+    @Override
+    public ItemTagRatio countItems() {
+        return new ItemTagRatio(itemRepository.count(), itemTagRepository.countTaggedItems());
     }
 
     public Date convertToDate(LocalDate localDate) {

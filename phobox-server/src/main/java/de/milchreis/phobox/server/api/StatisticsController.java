@@ -1,6 +1,7 @@
 package de.milchreis.phobox.server.api;
 
 import de.milchreis.phobox.core.model.statistics.CountByYearItem;
+import de.milchreis.phobox.core.model.statistics.ItemTagRatio;
 import de.milchreis.phobox.core.model.statistics.ItemsInPeriod;
 import de.milchreis.phobox.server.services.IStatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,11 @@ public class StatisticsController {
                 camera,
                 statisticService.convertToLocalDate(start),
                 statisticService.convertToLocalDate(end));
+    }
+
+    @RequestMapping(value = "tagging", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ItemTagRatio getTaggingState() {
+        return statisticService.countItems();
     }
 
 }
