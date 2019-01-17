@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.sql.Date;
 
+import de.milchreis.phobox.utils.CameraNameFormatter;
 import org.springframework.stereotype.Component;
 
 import de.milchreis.phobox.core.Phobox;
@@ -37,13 +38,22 @@ public class MetaExtractEvent extends BasicEvent {
 			try {
 				item.setRotation(ExifHelper.getOrientation(file));
 			} catch(Exception e) {
+				log.warn("Could not read rotation information of " + item.getFileName());
 			}
-			
+
 			try {
 				item.setCreation(new Date(ExifHelper.getCreationDate(file).getTime()));
 			} catch(Exception e) {
+				log.warn("Could not read creation information of " + item.getFileName());
 			}
-			
+
+			try {
+				String[] exifData = ExifHelper.getCamera(file);
+				item.setCamera(CameraNameFormatter.getFormattedCameraName(exifData));
+			} catch(Exception e) {
+				log.warn("Could not read camera vendor of " + item.getFileName());
+			}
+
 			try {
 				int[] dimension = ExifHelper.getDimension(file);
 				item.setWidth(dimension[0]);

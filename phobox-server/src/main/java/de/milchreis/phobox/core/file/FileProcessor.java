@@ -34,19 +34,20 @@ public class FileProcessor {
 	public void foreachFile(File path, String[] format, FileAction action, boolean recursivly) {
 		List<FileAction> list = new ArrayList<FileAction>();
 		list.add(action);
-		foreachFile(path, format, list, recursivly);
+		foreachFile(path, format, list, recursivly, WAIT_TIME_IN_MILLIS);
 	}
 	
 	public void foreachFile(File path, String[] format, List<FileAction> actions) {
-		foreachFile(path, format, actions, false);
+		foreachFile(path, format, actions, false, WAIT_TIME_IN_MILLIS);
 	}
 	
-	public void foreachFile(File path, String[] format, List<FileAction> actions,  boolean recursivly) {
+	public void foreachFile(File path, String[] format, List<FileAction> actions,  boolean recursivly, Integer waitTimeInMillis) {
 		
 		status = PROCESSING;
 
 		final ImageFileFilter filter = new ImageFileFilter(format);
 		final LoopInfo info = new LoopInfo();
+		final int waiting = waitTimeInMillis == null ? WAIT_TIME_IN_MILLIS : waitTimeInMillis;
 
 		try {
 			Files.walkFileTree(
@@ -63,9 +64,11 @@ public class FileProcessor {
 								return FileVisitResult.CONTINUE;
 							}
 							currentfile = f.getAbsolutePath();
-					
-							FileIntegrityChecker.checkFile(f, WAIT_TIME_IN_MILLIS);
-							
+
+							if(waiting > 0) {
+								FileIntegrityChecker.checkFile(f, waiting);
+							}
+
 							actions.stream().forEach(action -> {
 								
 								state = action.getClass().getSimpleName();

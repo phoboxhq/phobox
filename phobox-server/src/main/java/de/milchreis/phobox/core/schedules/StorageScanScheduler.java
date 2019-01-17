@@ -1,11 +1,7 @@
 package de.milchreis.phobox.core.schedules;
 
 import java.io.File;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxDefinitions;
@@ -16,7 +12,7 @@ import de.milchreis.phobox.db.repositories.ItemRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class StorageScanScheduler extends TimerTask implements FileAction {
+public class StorageScanScheduler extends TimerTask implements FileAction, Schedulable {
 	
 	public static final int IMMEDIATELY = 0;
 	
@@ -52,12 +48,13 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 		if(directory == null) {
 			directory = new File(Phobox.getModel().getStoragePath());
 		}
-		
+
 		fileProcessor.foreachFile(
 				directory, 
-				PhoboxDefinitions.SUPPORTED_VIEW_FORMATS, 
-				this,
-				recursive);
+				PhoboxDefinitions.SUPPORTED_VIEW_FORMATS,
+				Arrays.asList(this),
+				recursive,
+				0);
 		
 		// Check the database
 		itemRepository.findAll().forEach(item -> {
@@ -85,6 +82,7 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 		Phobox.getEventRegistry().onNewFile(file);
 	}
 
+	@Override
 	public void start() {
 		if (timeInHours == IMMEDIATELY) {
 			timer.schedule(this, 1);
@@ -94,10 +92,12 @@ public class StorageScanScheduler extends TimerTask implements FileAction {
 		}
 	}
 
+	@Override
 	public void stop() {
 		timer.cancel();
 	}
 
+	@Override
 	public boolean isReady() {
 		return ready;
 	}

@@ -61,6 +61,11 @@ export default {
           icon: "fa fa-search"
         },
         {
+          title: this.$t('menu.statistics'),
+          address: "#/statistics",
+          icon: "fa fa-pie-chart"
+        },
+        {
           title: this.$t('menu.albums'),
           address: "#/albums",
           icon: "fa fa-star"
@@ -112,7 +117,7 @@ export default {
   position: fixed;
   top: 0px;
   padding: 8px;
-  background-color: #191717;
+  background-color: #171717;
   width: 100%;
   cursor: pointer;
 }

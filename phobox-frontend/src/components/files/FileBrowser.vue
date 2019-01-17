@@ -167,7 +167,7 @@ export default {
   position: fixed;
   z-index: 80;
   top: 46px;
-  background-color: #1d1b1b;
+  background-color: #1b1b1b;
   width: 100%;
   height: 45px;
   padding: 5px;
@@ -181,7 +181,6 @@ export default {
   margin-right: 3px;
   border-radius: 2px;
   color: #b5b5b5;
-  border: 1px solid #2a2929;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.68, 0.97);
   cursor: pointer;
 }
@@ -192,7 +191,8 @@ export default {
 }
 
 .pbreadcrumb .bc_element:hover {
-  border: 1px solid rgba(75, 103, 121, 0.77);
+  background-color: rgba(82, 82, 82, 0.35);
+  box-shadow: 0px 0px 0px 4px rgba(41, 41, 41, 0.25);
 }
 
 .items {

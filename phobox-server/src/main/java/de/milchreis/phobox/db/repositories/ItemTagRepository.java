@@ -13,4 +13,7 @@ public interface ItemTagRepository extends CrudRepository<ItemTag, String>{
 	@Query("SELECT t FROM ItemTag t JOIN t.items i WHERE i.fullPath = :path")
 	List<ItemTag> findByItemPath(@Param("path") String path);
 
+	@Query("select count(distinct i.uid) from ItemTag t JOIN t.items i")
+	long countTaggedItems();
+
 }

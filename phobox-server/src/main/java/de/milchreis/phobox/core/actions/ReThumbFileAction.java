@@ -58,6 +58,7 @@ public class ReThumbFileAction implements FileAction {
 				
 				ImageProcessing.scale(image, target, width, height);
 				ImageProcessing.rotate(target, target, ExifHelper.ORIENTATION_ROTATION_MAP.get(orientation));
+
 			} catch (Exception e) {
 				log.info("Could not create thumb for " + file.getAbsolutePath());
 			}

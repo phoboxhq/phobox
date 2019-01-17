@@ -85,7 +85,5 @@ public class ThumbFileAction implements FileAction {
 		} catch(Exception e) {
 			log.warn("Could not create thumbnail for " + file.getAbsolutePath());
 		}
-		
-		return;
 	}
 }

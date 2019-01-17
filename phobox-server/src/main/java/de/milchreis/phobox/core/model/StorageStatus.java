@@ -16,6 +16,10 @@ public class StorageStatus extends StorageItem {
 	}
 	
 	public void add(StorageItem item) {
+		if(item == null) {
+			return;
+		}
+
 		if(item.getType().equals(StorageItem.TYPE_DIRECTORY)) {
 			items.put(item.getPath().toString(), item);
 		} else {

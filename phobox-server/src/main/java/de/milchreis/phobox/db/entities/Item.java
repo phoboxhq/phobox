@@ -57,6 +57,9 @@ public class Item {
 	private String description;
 
 	@Column
+	private String camera;
+
+	@Column
 	private Date creation;
 	
 	@Column

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import de.milchreis.phobox.server.services.IFileStorageService;
+import de.milchreis.phobox.server.services.IPhotoService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -19,17 +20,15 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/upload")
 public class UploadController {
 
-	@Autowired
-	private IFileStorageService fileStorageService;
-	@Autowired
-	private PhotoController photoController;
+	@Autowired private IFileStorageService fileStorageService;
+	@Autowired private IPhotoService photoService;
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) {
 		
 		try {
 			File savedFile = fileStorageService.storeFile(file);
-			return new ResponseEntity<>(photoController.getItem(savedFile), HttpStatus.CREATED);
+			return new ResponseEntity<>(photoService.getItem(savedFile), HttpStatus.CREATED);
 		} catch (Exception e) {
 			log.debug("file store exception", e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

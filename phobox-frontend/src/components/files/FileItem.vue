@@ -116,15 +116,12 @@ export default {
   width: 150px;
   height: 150px;
   overflow: hidden;
-  border: 1px solid #1d1b1b;
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.63);
   transition: all 0.5s cubic-bezier(0.4, 0, 0.68, 0.97);
   cursor: pointer;
 }
 
 .item:hover {
-  border: 1px solid rgba(75, 103, 121, 0.77);
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.63);
+  box-shadow: 0px 0px 0px 4px rgba(75, 103, 121, 0.3);
 }
 .item:hover > .menu_button {
   transition: display 0.5s;
@@ -173,7 +170,7 @@ export default {
 
 .menu {
   position: absolute;
-  background-color: #1d1b1b;
+  background-color: #1b1b1b;
   bottom: -165px;
   right: 10px;
   z-index: 40;

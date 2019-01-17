@@ -1,7 +1,9 @@
 package de.milchreis.phobox.server.api;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
+import de.milchreis.phobox.server.services.IStorageService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,77 +28,37 @@ import de.milchreis.phobox.utils.SpaceInfo;
 @RequestMapping("/api/storage")
 public class StorageController {
 	
-	@Autowired private ItemRepository itemRepository;
+	@Autowired private IStorageService storageService;
 
 	@RequestMapping(value = "backup/{dir}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Status backup( @PathVariable("dir") String directory ) {
+		try {
+			storageService.backupDirectory(new File(directory));
+			return new Status(Status.OK);
 
-		Status response = new Status();
-		PhoboxModel model = Phobox.getModel();
-		File target = new File(directory);
-		
-		if(!target.isDirectory()) {
-			response.setStatus(Status.DIRECTORY_NOT_FOUND);			
-		} else {
-			new Thread(() -> {
-				File storage = new File(model.getStoragePath());
-				new FileProcessor().foreachFile(
-						storage,
-						null, 
-						new SyncAction(
-								storage, 
-								model.getBackupPath()),
-						true);	
-			}).start();
-
-			response.setStatus(Status.OK);
+		} catch (FileNotFoundException e) {
+			return new Status(Status.DIRECTORY_NOT_FOUND);
 		}
-		
-		return response;
 	}
 
 	@RequestMapping(value = "reimport", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Status reimport() {
-		
-		Status resp = new Status();
-		
 		if(Phobox.getImportProcessor().isActive()) {
-			resp.setStatus(Status.IS_RUNNING);
-			
+			return new Status(Status.IS_RUNNING);
 		} else {
-			new ImportScheduler(1).run();
-			resp.setStatus(Status.OK);
+			storageService.reimportIncomingFiles();
+			return new Status(Status.OK);
 		}
-		
-		return resp;
 	}
 	
 	@RequestMapping(value = "rethumb", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Status rethumb() {
-		
-		Status resp = new Status();
-		PhoboxModel model = Phobox.getModel();
-		
-		new StorageScanScheduler(StorageScanScheduler.IMMEDIATELY, new File(model.getStoragePath()), itemRepository, true).start();
-		
-		resp.setStatus(Status.OK);
-		return resp;
+		storageService.startThumbnailing();
+		return new Status(Status.OK);
 	}
 	
 	@RequestMapping(value = "status", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Status status() {
-		PhoboxModel model = Phobox.getModel();
-		PhoboxOperations operations = Phobox.getOperations();
-		
-		FileProcessor fileProcessor = Phobox.getImportProcessor();
-		SystemStatus status = new SystemStatus();
-		status.setImportStatus(fileProcessor.getStatus());
-		status.setState(fileProcessor.getState());
-		status.setFile(FilenameUtils.getName(fileProcessor.getCurrentfile()));
-		status.setFreespace(SpaceInfo.getFreeSpaceMB(model.getStoragePath()));
-		status.setMaxspace(SpaceInfo.getMaxSpaceMB(model.getStoragePath()));
-		status.setRemainingfiles(operations.getRemainingFiles().size());
-		status.setNumberOfPictures(itemRepository.count());
-		return status;
+		return storageService.getSystemStatus();
 	}
 }

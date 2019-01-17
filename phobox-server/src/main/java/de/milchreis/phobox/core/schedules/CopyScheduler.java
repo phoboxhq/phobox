@@ -16,20 +16,22 @@ import de.milchreis.phobox.core.model.PhoboxModel;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CopyScheduler extends TimerTask implements FileAction {
+public class CopyScheduler extends TimerTask implements FileAction, Schedulable {
 
 	private int lastSize = 0;
-	private int intervallInMillis;
+	private int intervalInMillis;
 	private Timer timer;
+	private boolean ready;
 	
-	public CopyScheduler(int intervallInMillis) {
+	public CopyScheduler(int intervalInMillis) {
 		timer = new Timer();
-		this.intervallInMillis = intervallInMillis;
+		this.intervalInMillis = intervalInMillis;
 	}
 
 	@Override
 	public void run() {
-	
+		ready = false;
+
 		PhoboxModel model = Phobox.getModel();
 		File watchDir = model.getWatchPath();
 		
@@ -48,6 +50,8 @@ public class CopyScheduler extends TimerTask implements FileAction {
 			
 			lastSize = numOfFiles;
 		}
+
+		ready = true;
 	}
 	
 	@Override
@@ -60,19 +64,16 @@ public class CopyScheduler extends TimerTask implements FileAction {
 	}
 
 	public void start() {
-		timer.schedule(this, 100, getIntervallInMillis());
+		timer.schedule(this, 100, intervalInMillis);
 	}
 	
 	public void stop() {
 		timer.cancel();
 	}
 
-	public int getIntervallInMillis() {
-		return intervallInMillis;
+	@Override
+	public boolean isReady() {
+		return ready;
 	}
 
-	public void setIntervallInMillis(int intervallInMillis) {
-		this.intervallInMillis = intervallInMillis;
-	}
-	
 }

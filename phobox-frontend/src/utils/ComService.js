@@ -198,4 +198,8 @@ export default function () {
   this.search = function (searchString, callback) {
     return $.get(process.env.SERVER_PATH+"api/search/" + searchString).done(callback);
   };
+
+  this.getCountedItemsByYear = function (year, callback) {
+    return $.get(process.env.SERVER_PATH+"api/statistics/year/" + year).done(callback);
+  };
 }

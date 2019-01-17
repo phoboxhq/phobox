@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import FileBrowser from '@/components/files/FileBrowser'
 import Approval from '@/components/approval/Approval'
 import Search from '@/components/Search'
+import Statistics from '@/components/statistics/Statistics'
 import AlbumBrowser from '@/components/album/AlbumBrowser'
 import Status from '@/components/Status'
 import Upload from '@/components/Upload'
@@ -31,6 +32,10 @@ export default new Router({
 		{
 			path: '/search/',
 			component: Search,
+		},
+		{
+			path: '/statistics/',
+			component: Statistics,
 		},
 		{
 			path: '/albums/',

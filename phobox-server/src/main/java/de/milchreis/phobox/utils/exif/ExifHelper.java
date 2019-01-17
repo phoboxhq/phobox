@@ -2,11 +2,7 @@ package de.milchreis.phobox.utils.exif;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
-import java.util.TreeMap;
+import java.util.*;
 
 import org.imgscalr.Scalr.Rotation;
 
@@ -53,6 +49,14 @@ public class ExifHelper {
 		int height = directory.getInt(ExifSubIFDDirectory.TAG_EXIF_IMAGE_HEIGHT);
 		return new int[] {width, height};
 	}
+
+	public static String[] getCamera(File file) throws ImageProcessingException, IOException {
+		Metadata metadata = ImageMetadataReader.readMetadata(file);
+		ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
+		return new String[]{
+				directory.getString(ExifIFD0Directory.TAG_MAKE),
+				directory.getString(ExifIFD0Directory.TAG_MODEL)};
+	}
 	
 	public static Map<String, String> getExifDataMap(File file) throws ImageProcessingException, IOException {
 		
@@ -67,4 +71,5 @@ public class ExifHelper {
 		
 		return map;
 	}
+
 }
