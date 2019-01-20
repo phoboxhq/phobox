@@ -2,8 +2,6 @@ package de.milchreis.phobox.server.services;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.config.PreferencesManager;
-import de.milchreis.phobox.core.model.PhoboxModel;
-import de.milchreis.phobox.core.model.Status;
 import de.milchreis.phobox.core.model.UserCredentials;
 import de.milchreis.phobox.exceptions.InvalidFormatException;
 import de.milchreis.phobox.utils.ImportFormatter;
@@ -17,7 +15,7 @@ import java.util.Map;
 
 @Slf4j
 @Service
-public class SetttingsService implements ISettingsService {
+public class SettingsService implements ISettingsService {
 
 
     @Override

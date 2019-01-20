@@ -60,6 +60,9 @@ public class Item {
 	private String camera;
 
 	@Column
+	private String hash;
+
+	@Column
 	private Date creation;
 	
 	@Column
