@@ -1,181 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
-	<groupId>de.nartis</groupId>
+
+	<groupId>de.milchreis</groupId>
 	<artifactId>phobox</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
 	<name>Phobox</name>
+	<description>Import, organize and provide your pictures</description>
 
-	<!-- Output to jar format -->
-	<packaging>jar</packaging>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.4.RELEASE</version>
+		<relativePath/> 
+	</parent>
 
-	<dependencies>
-		<!-- Jetty embedded webserver -->
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-server</artifactId>
-			<version>9.3.0.M2</version>
-		</dependency>
-
-		<!-- Jetty JMX interface -->
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-jmx</artifactId>
-			<version>9.3.0.M2</version>
-		</dependency>
-
-		<!-- Embedded database -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>1.4.196</version>
-		</dependency>
-
-		<!-- Lightweight ORM -->
-		<dependency>
-			<groupId>com.j256.ormlite</groupId>
-			<artifactId>ormlite-jdbc</artifactId>
-			<version>5.0</version>
-		</dependency>
-
-		<!-- Logging API -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-
-		<!-- Read EXIF data -->
-		<dependency>
-			<groupId>com.drewnoakes</groupId>
-			<artifactId>metadata-extractor</artifactId>
-			<version>2.8.1</version>
-		</dependency>
-
-		<!-- Image operations -->
-		<dependency>
-			<groupId>org.imgscalr</groupId>
-			<artifactId>imgscalr-lib</artifactId>
-			<version>4.2</version>
-		</dependency>
-
-		<!-- File-Operations -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
-		</dependency>
-
-		<!-- Rest-Service/File-Upload -->
-		<dependency>
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-server</artifactId>
-			<version>2.17</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.containers</groupId>
-			<artifactId>jersey-container-jetty-servlet</artifactId>
-			<version>2.17</version>
-		</dependency>
-		<dependency><!-- For converting object to json automatically -->
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-json-jackson</artifactId>
-			<version>2.17</version>
-		</dependency>
-
-		<!-- FileUpload for Servlets -->
-		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.3.1</version>
-		</dependency>
-
-		<!-- Commandline Interface -->
-		<dependency>
-			<groupId>commons-cli</groupId>
-			<artifactId>commons-cli</artifactId>
-			<version>1.3.1</version>
-		</dependency>
-
-		<!-- JSON Wrapping -->
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20140107</version>
-		</dependency>
-
-		<!-- Database migration -->
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-maven-plugin</artifactId>
-			<version>5.1.0</version>
-		</dependency>
-		
-	</dependencies>
-
-	<repositories>
-		<repository>
-			<id>Atlassian-3rd-Party</id>
-			<name>Atlassian 3rd-Party</name>
-			<url>https://maven.atlassian.com/3rdparty/</url>
-		</repository>
-	</repositories>
+	<properties>
+		<main.basedir>${project.basedir}</main.basedir>
+		<build-plugin.jacoco.version>0.7.9</build-plugin.jacoco.version>
+		<build-plugin.coveralls.version>4.3.0</build-plugin.coveralls.version>
+	</properties>
+	
+	<modules>
+        <module>phobox-frontend</module>
+        <module>phobox-server</module>
+    </modules>
 
 	<build>
-		<defaultGoal>clean compile assembly:single</defaultGoal>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>false</filtering>
-			</resource>
-			<resource>
-				<directory>src/main/resources-filtered</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-
-			<pluginManagement>
-				<plugins>
-
-					<plugin>
-						<artifactId>maven-assembly-plugin</artifactId>
-						<configuration>
-							<archive>
-								<manifest>
-									<mainClass>de.milchreis.phobox.Main</mainClass>
-								</manifest>
-							</archive>
-							<descriptorRefs>
-								<descriptorRef>jar-with-dependencies</descriptorRef>
-							</descriptorRefs>
-						</configuration>
-					</plugin>
-
-					<!-- download source code in Eclipse, best practice -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-eclipse-plugin</artifactId>
-						<version>2.9</version>
-						<configuration>
-							<downloadSources>true</downloadSources>
-							<downloadJavadocs>false</downloadJavadocs>
-						</configuration>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>2.3.2</version>
-						<configuration>
-							<source>1.8</source>
-							<target>1.8</target>
-							<encoding>UTF-8</encoding>
-						</configuration>
-					</plugin>
-
-				</plugins>
-
-			</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${build-plugin.jacoco.version}</version>
+				<executions>
+					<!-- Prepares the property pointing to the JaCoCo
+                    runtime agent which is passed as VM argument when Maven the Surefire plugin
+                    is executed. -->
+					<execution>
+						<id>pre-unit-test</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<!-- Ensures that the code coverage report for
+                    unit tests is created after unit tests have been run. -->
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>${build-plugin.coveralls.version}</version>
+			</plugin>
+			
+			
+		</plugins>
 	</build>
+
 </project>
