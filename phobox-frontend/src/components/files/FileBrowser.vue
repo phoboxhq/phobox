@@ -13,15 +13,15 @@
     <transition name="fade">
         <!-- List all elements as FileItem -->
         <div class="items">
-            <file-item v-for="item in items"
+            <file-item v-for="(item, key) in items"
                 :item="item"
-                :key="item.path"
+                :key="key"
                 :selectedItem="selectedItem"></file-item>
         </div>
     </transition>
 
     <!-- Show a button to load more images -->
-    <div v-if="isFragment" class="moreImagesContainer">
+    <div v-if="isFragment && fragmentSize >= pageSize" class="moreImagesContainer">
         <button type="button" class="btn btn-secondary moreImagesBtn"
             v-on:click="onLoadMoreItems()">
             {{ $t('pictures.load_more') }}
@@ -95,6 +95,7 @@ export default {
     return {
       items: null,
       path: null,
+      pageSize: 30,
       currentPath: null,
       selectedItem: null,
       renameItem: null,
@@ -104,6 +105,7 @@ export default {
       currentItem: null,
       isLoading: true,
       isFragment: false,
+      fragmentSize: 0,
       isProcessing: false,
       page: 1
     };
@@ -120,6 +122,7 @@ export default {
         this.items = data.items;
         this.isLoading = false;
         this.isFragment = data.fragment;
+        this.fragmentSize = data.items.length;
         this.currentPath = data.path;
         this.isProcessing = data.processing;
         this.currentItem = data;
@@ -129,10 +132,11 @@ export default {
 
     onLoadMoreItems () {
       this.isLoading = true;
-      new ComService().loadMore(this.currentPath, this.page, 30, (data) => {
+      new ComService().loadMore(this.currentPath, this.page, this.pageSize, (data) => {
         this.items = this.items.concat(data.items);
         this.isLoading = false;
         this.isFragment = data.fragment;
+        this.fragmentSize = data.items.length;
         this.currentPath = data.path;
         this.currentItem = data;
         this.page += 1;
@@ -172,6 +176,7 @@ export default {
   height: 45px;
   padding: 5px;
   padding-left: 10px;
+  box-shadow: 0 0 8px 6px #151515c7;
 }
 
 .pbreadcrumb .bc_element {

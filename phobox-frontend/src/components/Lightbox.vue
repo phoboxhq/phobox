@@ -54,7 +54,7 @@
 				</div>
 				
 				<!-- Show a button to load more images -->
-		        <div v-if="isFragment && !hasNext">
+		        <div v-if="isFragment && fragmentSize >= pageSize && !hasNext">
 		            <button type="button" class="btn btn-secondary moreImagesBtn"
 		                v-on:click="onLoadMoreItems()">
 		                {{ $t('pictures.load_more') }}
@@ -99,6 +99,14 @@ export default {
 
     isFragment() {
       return this.$parent.isFragment;
+    },
+    
+    fragmentSize() {
+      return this.$parent.fragmentSize;
+    },
+    
+    pageSize() {
+      return this.$parent.pageSize;
     }
   },
   methods: {
