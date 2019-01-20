@@ -51,7 +51,7 @@ public class StorageScanScheduler extends TimerTask implements FileAction, Sched
 
 		fileProcessor.foreachFile(
 				directory, 
-				PhoboxDefinitions.SUPPORTED_VIEW_FORMATS,
+				PhoboxDefinitions.SUPPORTED_IMPORT_FORMATS,
 				Arrays.asList(this),
 				recursive,
 				0);

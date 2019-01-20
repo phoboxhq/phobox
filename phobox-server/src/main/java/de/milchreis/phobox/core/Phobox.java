@@ -92,7 +92,7 @@ public class Phobox {
 		
 		// TODO: Currently not working
 //		getModel().setStoragePath(path.getAbsolutePath());
-//		BeanUtil.getBean(StaticResourceConfiguration.class).update();;
+//		BeanUtil.getBean(StaticResourceConfiguration.class).update();
 	}
 
 	

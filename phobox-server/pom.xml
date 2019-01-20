@@ -38,6 +38,7 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
+			<version>1.18.4</version>
 		</dependency>
 
 		<!-- Embedded database -->
