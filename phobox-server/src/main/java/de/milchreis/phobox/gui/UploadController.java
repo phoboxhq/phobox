@@ -10,11 +10,13 @@ import java.util.ResourceBundle;
 import de.milchreis.phobox.core.config.PreferencesManager;
 import de.milchreis.phobox.utils.Browser;
 import de.milchreis.phobox.utils.BundleHelper;
+import de.milchreis.phobox.utils.FilesystemHelper;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileSystemUtils;
 import org.apache.commons.io.FileUtils;
 
 import de.milchreis.phobox.core.Phobox;
@@ -36,12 +38,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UploadController implements Initializable {
 	
-//	public static void scale(File original, File target, int sizeW, int sizeH) throws IOException {
-//		String format = FilenameUtils.getExtension(target.getName()).toLowerCase();
-//		Image image = new Image(original.toURI().toString(), sizeW, sizeH, true, false);
-//		ImageIO.write(SwingFXUtils.fromFXImage(image, null), format, target);
-//	}
-
 	private @FXML Label addressLabel;
 	private @FXML Button storageButton;
 
@@ -92,14 +88,11 @@ public class UploadController implements Initializable {
 
 			for (File file : db.getFiles()) {
 				if (file.isDirectory()) {
-					new FileProcessor().foreachFile(file, PhoboxDefinitions.SUPPORTED_IMPORT_FORMATS, new FileAction() {
-						@Override
-						public void process(File file, LoopInfo info) {
-							try {
-								FileUtils.copyFileToDirectory(file, incomingPath);
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
+					new FileProcessor().foreachFile(file, PhoboxDefinitions.SUPPORTED_IMPORT_FORMATS, (file1, info) -> {
+						try {
+							FileUtils.copyFileToDirectory(file1, incomingPath);
+						} catch (IOException e) {
+							log.error("Error while coping files", e);
 						}
 					});
 				} else {
@@ -109,7 +102,7 @@ public class UploadController implements Initializable {
 
 						FileUtils.copyFileToDirectory(file, incomingPath);
 					} catch (IOException e) {
-						e.printStackTrace();
+						log.error("Error while coping files", e);
 					}
 				}
 			}
@@ -123,7 +116,12 @@ public class UploadController implements Initializable {
 		PhoboxModel model = Phobox.getModel();
 		Browser.open("http://localhost:"+model.getPort());
 	}
-	
+
+	@FXML
+	protected void onOpenExplorer() {
+		FilesystemHelper.openSystemExplorer(new File(Phobox.getModel().getStoragePath()));
+	}
+
 	@FXML
 	protected void onClose() {
 		System.exit(0);

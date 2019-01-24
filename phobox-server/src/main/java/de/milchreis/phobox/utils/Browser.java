@@ -1,32 +1,28 @@
 package de.milchreis.phobox.utils;
 
-import java.awt.Desktop;
-import java.net.URI;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Browser {
 
     public static void open(String url) {
 
-        String os = System.getProperty("os.name").toLowerCase();
+        OSDetector.OS localOS = OSDetector.getLocalOS();
         Runtime runtime = Runtime.getRuntime();
 
         try {
-            if (os.indexOf("win") >= 0) {
+            if (localOS == OSDetector.OS.WINDOWS) {
                 runtime.exec("rundll32 url.dll,FileProtocolHandler " + url);
 
-            } else if (os.indexOf("mac") >= 0) {
+            } else if (localOS == OSDetector.OS.MAC) {
                 runtime.exec("open " + url);
 
-            } else if (os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0) {
+            } else if (localOS == OSDetector.OS.LINUX) {
                 runtime.exec("xdg-open " + url);
-
-            } else {
-                return;
             }
-        } catch (Exception e) {
-            return;
-        }
-        return;
 
+        } catch (Exception e) {
+            log.warn("Could not find a browser on this system", e);
+        }
     }
 }
