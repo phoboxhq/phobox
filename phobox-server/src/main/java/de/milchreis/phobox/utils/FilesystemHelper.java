@@ -1,5 +1,9 @@
 package de.milchreis.phobox.utils;
 
+import de.milchreis.phobox.core.PhoboxDefinitions;
+import de.milchreis.phobox.core.file.filter.ImageFileFilter;
+import lombok.SneakyThrows;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -7,9 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import de.milchreis.phobox.core.PhoboxDefinitions;
-import de.milchreis.phobox.core.file.filter.ImageFileFilter;
 
 public class FilesystemHelper {
 
@@ -46,5 +47,21 @@ public class FilesystemHelper {
 		try(DirectoryStream<Path> dirStream = Files.newDirectoryStream(directory, new ImageFileFilter(PhoboxDefinitions.SUPPORTED_VIEW_FORMATS))) {
 	        return !dirStream.iterator().hasNext();
 	    }
+	}
+
+	@SneakyThrows
+	public static void openSystemExplorer(File target) {
+
+		OSDetector.OS localOS = OSDetector.getLocalOS();
+
+		if (localOS == OSDetector.OS.WINDOWS) {
+			Runtime.getRuntime().exec("explorer.exe /select," + target.getAbsolutePath());
+
+		} else if (localOS == OSDetector.OS.MAC) {
+			Runtime.getRuntime().exec("open " + target.getAbsolutePath());
+
+		} else if (localOS == OSDetector.OS.LINUX) {
+			Runtime.getRuntime().exec("xdg-open " + target.getAbsolutePath());
+		}
 	}
 }
