@@ -5,7 +5,7 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.sql.Date;
 
-import de.milchreis.phobox.utils.CameraNameFormatter;
+import de.milchreis.phobox.utils.image.CameraNameFormatter;
 import org.springframework.stereotype.Component;
 
 import de.milchreis.phobox.core.Phobox;

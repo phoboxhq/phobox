@@ -3,7 +3,7 @@ package de.milchreis.phobox.core.events;
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.db.entities.Item;
-import de.milchreis.phobox.utils.MD5Helper;
+import de.milchreis.phobox.utils.storage.MD5Helper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

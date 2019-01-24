@@ -1,4 +1,4 @@
-package de.milchreis.phobox.utils;
+package de.milchreis.phobox.utils.image;
 
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;

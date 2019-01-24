@@ -12,7 +12,7 @@ import de.milchreis.phobox.core.schedules.ImportScheduler;
 import de.milchreis.phobox.core.schedules.StorageScanScheduler;
 import de.milchreis.phobox.core.storage.StorageScanQueue;
 import de.milchreis.phobox.db.repositories.ItemRepository;
-import de.milchreis.phobox.utils.BeanUtil;
+import de.milchreis.phobox.utils.phobox.BeanUtil;
 import lombok.Getter;
 import lombok.Setter;
 

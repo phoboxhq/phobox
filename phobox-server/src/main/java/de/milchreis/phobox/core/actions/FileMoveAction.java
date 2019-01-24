@@ -16,8 +16,8 @@ import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.file.FileAction;
 import de.milchreis.phobox.core.file.LoopInfo;
 import de.milchreis.phobox.core.model.PhoboxModel;
-import de.milchreis.phobox.utils.ImportFormatter;
-import de.milchreis.phobox.utils.ListHelper;
+import de.milchreis.phobox.utils.image.ImportFormatter;
+import de.milchreis.phobox.utils.phobox.ListHelper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

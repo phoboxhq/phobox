@@ -1,4 +1,4 @@
-package de.milchreis.phobox.utils;
+package de.milchreis.phobox.utils.storage;
 
 import java.io.File;
 

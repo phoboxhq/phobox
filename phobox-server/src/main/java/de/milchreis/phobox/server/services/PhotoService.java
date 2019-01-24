@@ -20,8 +20,8 @@ import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.StorageItem;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.db.repositories.ItemRepository;
-import de.milchreis.phobox.utils.FilesystemHelper;
-import de.milchreis.phobox.utils.ListHelper;
+import de.milchreis.phobox.utils.storage.FilesystemHelper;
+import de.milchreis.phobox.utils.phobox.ListHelper;
 import de.milchreis.phobox.utils.exif.ExifHelper;
 
 @Slf4j

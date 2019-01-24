@@ -1,4 +1,4 @@
-package de.milchreis.phobox.utils;
+package de.milchreis.phobox.utils.phobox;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

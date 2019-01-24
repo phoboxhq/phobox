@@ -1,4 +1,4 @@
-package de.milchreis.phobox.utils;
+package de.milchreis.phobox.utils.system;
 
 public class JavaFXDetector {
 

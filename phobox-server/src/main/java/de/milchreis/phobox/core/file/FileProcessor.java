@@ -13,7 +13,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 import de.milchreis.phobox.core.file.filter.ImageFileFilter;
-import de.milchreis.phobox.utils.FileIntegrityChecker;
+import de.milchreis.phobox.utils.storage.FileIntegrityChecker;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
