@@ -9,7 +9,7 @@ import de.milchreis.phobox.core.schedules.ImportScheduler;
 import de.milchreis.phobox.core.schedules.Schedulable;
 import de.milchreis.phobox.core.schedules.StorageScanScheduler;
 import de.milchreis.phobox.db.repositories.ItemRepository;
-import de.milchreis.phobox.utils.SpaceInfo;
+import de.milchreis.phobox.utils.storage.SpaceInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;

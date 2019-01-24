@@ -1,5 +1,6 @@
 package de.milchreis.phobox.utils;
 
+import de.milchreis.phobox.utils.image.CameraNameFormatter;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

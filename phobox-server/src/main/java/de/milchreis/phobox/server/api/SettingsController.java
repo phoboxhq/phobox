@@ -1,9 +1,6 @@
 package de.milchreis.phobox.server.api;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import de.milchreis.phobox.exceptions.InvalidFormatException;
 import de.milchreis.phobox.server.services.ISettingsService;
@@ -14,12 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.config.PreferencesManager;
-import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.Status;
 import de.milchreis.phobox.core.model.UserCredentials;
-import de.milchreis.phobox.utils.ImportFormatter;
 
 @RestController
 @RequestMapping("/api/settings")

@@ -5,7 +5,7 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import de.milchreis.phobox.core.actions.ReThumbFileAction;
-import de.milchreis.phobox.utils.ThumbHelper;
+import de.milchreis.phobox.utils.phobox.ThumbHelper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

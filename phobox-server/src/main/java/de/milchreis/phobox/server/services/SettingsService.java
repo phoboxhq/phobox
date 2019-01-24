@@ -4,7 +4,7 @@ import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.config.PreferencesManager;
 import de.milchreis.phobox.core.model.UserCredentials;
 import de.milchreis.phobox.exceptions.InvalidFormatException;
-import de.milchreis.phobox.utils.ImportFormatter;
+import de.milchreis.phobox.utils.image.ImportFormatter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

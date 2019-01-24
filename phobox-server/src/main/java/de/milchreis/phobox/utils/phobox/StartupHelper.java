@@ -1,4 +1,4 @@
-package de.milchreis.phobox.utils;
+package de.milchreis.phobox.utils.phobox;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.config.PreferencesManager;

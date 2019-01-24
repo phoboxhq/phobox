@@ -11,7 +11,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import de.milchreis.phobox.core.file.filter.ImageFileFilter;
 import de.milchreis.phobox.core.model.PhoboxModel;
-import de.milchreis.phobox.utils.PathConverter;
+import de.milchreis.phobox.utils.storage.PathConverter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

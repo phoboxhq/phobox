@@ -1,4 +1,4 @@
-package de.milchreis.phobox.utils;
+package de.milchreis.phobox.utils.phobox;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

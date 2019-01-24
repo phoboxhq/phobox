@@ -25,7 +25,7 @@ import de.milchreis.phobox.db.repositories.ItemRepository;
 import de.milchreis.phobox.db.repositories.ItemTagRepository;
 import de.milchreis.phobox.server.api.requestmodel.TagOperation;
 import de.milchreis.phobox.server.services.IPhotoService;
-import de.milchreis.phobox.utils.PathConverter;
+import de.milchreis.phobox.utils.storage.PathConverter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

@@ -1,7 +1,8 @@
-package de.milchreis.phobox.utils;
+package de.milchreis.phobox.utils.storage;
 
 import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.file.filter.ImageFileFilter;
+import de.milchreis.phobox.utils.system.OSDetector;
 import lombok.SneakyThrows;
 
 import java.io.File;

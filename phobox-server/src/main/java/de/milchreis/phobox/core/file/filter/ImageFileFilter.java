@@ -8,7 +8,7 @@ import java.nio.file.Path;
 
 import org.apache.commons.io.filefilter.IOFileFilter;
 
-import de.milchreis.phobox.utils.ListHelper;
+import de.milchreis.phobox.utils.phobox.ListHelper;
 
 public class ImageFileFilter implements FileFilter, IOFileFilter, Filter<Path>  {
 
