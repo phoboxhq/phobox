@@ -10,9 +10,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "@adactive/bootstrap-tagsinput": "^0.8.2",
     "@zeitiger/elevatezoom": "^2.5.4",
     "bootstrap-css-only": "^4.1.0",
+    "bootstrap-tagsinput": "^0.7.1",
     "chart.js": "^2.7.3",
     "dropzone": "^5.4.0",
     "font-awesome": "^4.7.0",
@@ -61,7 +61,8 @@
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": ">=3.1.11",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "3.0.0",
     "webpack-merge": "^4.1.0"
   },
   "engines": {

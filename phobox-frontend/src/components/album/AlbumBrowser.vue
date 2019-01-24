@@ -1,7 +1,16 @@
 <template>
   <div id="albumbrowser">
+
+    <!-- No albums exists in this moment -->
+    <div v-if="!albums || albums.length === 0" id="no_albums">
+      <i style="font-size: 20em; color: rgba(0, 0, 0, 0.27);"
+            class="fa fa-frown-o" aria-hidden="true"></i>
+      <p><b>{{ $t('album.empty') }}</b></p>
+      <div v-html="$t('album.empty_help')"></div>
+    </div>
+
     <!-- Existing album selector -->
-    <div id="albumselector">
+    <div id="albumselector" v-if="albums && albums.length > 0">
         <div class="form-group">
             <label for="sel2">{{ $t('album.select') }}:</label>
             <select class="form-control" id="sel2" v-model="albumname">
@@ -15,12 +24,6 @@
         :item="item"
         :key="item.path"
         :selectedItem="selectedItem"></file-item>
-        <!-- <div class="albumelement item" v-for="(item, key) in album.items" :key="key" v-if="album">
-            <img class="item_thumb" 
-                :src="item.thumb"
-                v-on:click="selectedItem = item"
-                v-if="item.type === 'file'" />
-        </div> -->
     </div>
 
     <!-- Include the lightbox -->
@@ -94,6 +97,12 @@ export default {
 <style>
 #albumbrowser {
   padding: 10px;
+}
+
+#no_albums {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 #albumbrowser #albumselector {

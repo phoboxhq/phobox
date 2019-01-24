@@ -53,6 +53,8 @@ export default {
 
 			album: {
 				select: 'Select album',
+				empty: 'There are no albums yet.',
+				empty_help: 'Find a picture and click on the star <i class="fa fa-star" aria-hidden="true"></i> to create an album.'
 			},
 
 			search: {
@@ -198,6 +200,8 @@ export default {
 
 			album: {
 				select: 'Album auswählen',
+				empty: 'Es gibt noch kein Album.',
+				empty_help: 'Suche dir ein Bild und klicke auf den Stern <i class="fa fa-star" aria-hidden="true"></i> um ein Album zu erzeugen.'
 			},
 
 			search: {
