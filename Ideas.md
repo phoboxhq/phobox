@@ -34,6 +34,9 @@
  * **professional:** 
    * costs: _10€_
    * search
+    * by time
+    * by tags
+    * by AI auto tagging
    * statistics
    * (image processing)
    * (batch-processing)
