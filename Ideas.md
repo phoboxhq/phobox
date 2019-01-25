@@ -34,12 +34,17 @@
  * **professional:** 
    * costs: _10€_
    * search
-    * by time
-    * by tags
-    * by AI auto tagging
+     * by time
+     * by tags
+     * by AI auto tagging
    * statistics
    * (image processing)
    * (batch-processing)
+
+# Roadmap
+* 1.0.0: bring all free features into a usable state
+* 1.1.x: more statistic features (and bugfixes)
+* 1.2.x: more search features (and bugfixes)
 
 # What is the deal?
 * You get a program to tune up your workflow, organize your pictures automatically and learn more about your photo storage
