@@ -1,3 +1,6 @@
+# Frontend build
+phobox-frontend/target
+
 ### Java ###
 # Compiled class file
 *.class
