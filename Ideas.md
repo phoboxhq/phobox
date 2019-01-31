@@ -22,7 +22,7 @@
 * If you want to do process your images f.e. in colors (better use Snapseed, Luminar or Lightroom)
 * If you want to organize scanned photos or almost very old pictures (no exif data)
 
-# Pricing
+## Pricing
 * At first there are two editions:
  * **beginner:**
    * costs: _free usage_
@@ -41,12 +41,12 @@
    * (image processing)
    * (batch-processing)
 
-# Roadmap
+## Roadmap
 * 1.0.0: bring all free features into a usable state
 * 1.1.x: more statistic features (and bugfixes)
 * 1.2.x: more search features (and bugfixes)
 
-# What is the deal?
+## What is the deal?
 * You get a program to tune up your workflow, organize your pictures automatically and learn more about your photo storage
 * You pay one time and get access to all coming updates of phobox for free.
 * The price of phobox will increase slightly with more features. That means buy as far as possible to get the best price
