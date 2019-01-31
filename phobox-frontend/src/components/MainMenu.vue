@@ -56,6 +56,16 @@ export default {
           icon: "fa fa-gavel"
         },
         {
+          title: this.$t('menu.albums'),
+          address: "#/albums",
+          icon: "fa fa-star"
+        },
+        {
+          title: this.$t('menu.upload'),
+          address: "#/upload",
+          icon: "fa fa-upload"
+        },
+        {
           title: this.$t('menu.search'),
           address: "#/search",
           icon: "fa fa-search"
@@ -66,19 +76,9 @@ export default {
           icon: "fa fa-pie-chart"
         },
         {
-          title: this.$t('menu.albums'),
-          address: "#/albums",
-          icon: "fa fa-star"
-        },
-        {
           title: this.$t('menu.status'),
           address: "#/status",
           icon: "fa fa-heartbeat"
-        },
-        {
-          title: this.$t('menu.upload'),
-          address: "#/upload",
-          icon: "fa fa-upload"
         },
         {
           title: this.$t('menu.settings'),

@@ -15,14 +15,18 @@
 				<div class="content">
 					<!-- Album type switch -->
 					<div style="padding:5px;">
-						<label class="radio-inline"><input type="radio" value="newAlbum" v-model="albumSwitch">{{ $t('pictures.favorite_dialog_new') }}</label>
-						<label class="radio-inline"><input type="radio" value="existingAlbum" v-model="albumSwitch">{{ $t('pictures.favorite_dialog_existing') }}</label>
+						<label for="newAlbum" class="radio-inline">{{ $t('pictures.favorite_dialog_new') }}</label>
+            <input id="newAlbum" type="radio" value="newAlbum" v-model="albumSwitch" @click="focusNewAlbumInput">
+            
+            <br />
+						<label for="existingAlbum" class="radio-inline">{{ $t('pictures.favorite_dialog_existing') }}</label>
+            <input id="existingAlbum" type="radio" value="existingAlbum" v-model="albumSwitch">
 					</div>
 
 					<!-- New album input -->
 					<div class="form-group" v-if="albumSwitch === 'newAlbum'">
 						<label for="newname">{{ $t('pictures.favorite_dialog_name') }}:</label>
-						<input type="text" class="form-control" id="newname" v-model="albumname">
+						<input type="text" class="form-control" id="newname" :ref="'newnameInput'" v-model="albumname">
 					</div>
 
 					<!-- Existing album selector -->
@@ -76,6 +80,11 @@ export default {
     loadAlbums () {
       new ComService().getAlbums(data => {
         this.albums = data;
+        if(this.albums && this.albums.length && this.albums.length > 0) {
+          this.albumSwitch = "existingAlbum"
+        } else {
+          this.albumSwitch = "newAlbum"
+        }
       });
     },
 
@@ -92,11 +101,20 @@ export default {
 
     close () {
       this.$parent.favoriteItem = null;
+    },
+
+    focusNewAlbumInput() {
+      setTimeout(() =>{
+        if(this.$refs['newnameInput'])
+          this.$nextTick(() => this.$refs['newnameInput'].focus());
+      }, 100);
     }
+
   },
   watch: {
     item () {
       this.name = this.getName();
+      this.focusNewAlbumInput();
     }
   },
   created () {

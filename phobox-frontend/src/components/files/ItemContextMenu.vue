@@ -11,6 +11,7 @@
           <li class="menu_element" v-on:click="onRename"><i class="fa fa-pencil" aria-hidden="true"></i> {{ $t('pictures.rename') }}</li>
           <li class="menu_element" v-on:click="onDelete"><i class="fa fa-trash" aria-hidden="true"></i> {{ $t('pictures.delete') }}</li>
           <li class="menu_element" v-on:click="onTags"><i class="fa fa-tags" aria-hidden="true"></i> {{ $t('pictures.tags') }}</li>
+          <li class="menu_element" v-on:click="onFavorite"><i class="fa fa-star" aria-hidden="true"></i> {{ $t('pictures.album') }}</li>
         </ul>
       </div>
     </transition>
@@ -81,7 +82,12 @@ export default {
     onTags() {
       this.parent.tagsItem = this.item;
       this.closeMenu();
-    }
+    },
+
+    onFavorite() {
+      this.parent.favoriteItem = this.item;
+      this.closeMenu();
+    },
   },
   computed: {
     encodePath() {
