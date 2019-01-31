@@ -1,19 +1,16 @@
 package de.milchreis.phobox.server.api;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import de.milchreis.phobox.core.model.Status;
 import de.milchreis.phobox.core.model.StorageAlbum;
 import de.milchreis.phobox.server.api.requestmodel.AddToAlbumRequest;
 import de.milchreis.phobox.server.services.IAlbumService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/album")
@@ -41,5 +38,10 @@ public class AlbumController {
 		albumService.addItemToAlbum(request.getAlbumName(), request.getItemPath());
 		return new Status(Status.OK);
 	}
-		
+
+	@RequestMapping(value = "download/{albumname}", method = RequestMethod.GET)
+	public void downloadAlbum(@PathVariable("albumname") String albumname, HttpServletResponse response) throws IOException {
+		albumService.downloadAlbumAsZip(albumname, response);
+	}
+
 }

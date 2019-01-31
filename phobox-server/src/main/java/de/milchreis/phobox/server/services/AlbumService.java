@@ -1,12 +1,16 @@
 package de.milchreis.phobox.server.services;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import de.milchreis.phobox.core.model.PhoboxModel;
+import de.milchreis.phobox.utils.storage.ZipStreamHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +21,8 @@ import de.milchreis.phobox.db.entities.Album;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.db.repositories.AlbumRepository;
 import de.milchreis.phobox.db.repositories.ItemRepository;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class AlbumService implements IAlbumService {
@@ -66,6 +72,24 @@ public class AlbumService implements IAlbumService {
 
 		item.getAlbums().add(album);
 		itemRepository.save(item);
+	}
+
+	@Override
+	public void downloadAlbumAsZip(String albumname, HttpServletResponse response) throws IOException {
+
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.addHeader("Content-Disposition", "attachment; filename=\"" + albumname + ".zip\"");
+		response.setContentType("txt/plain");
+
+		String storagePath = Phobox.getModel().getStoragePath();
+		Album album = albumRepository.findByName(albumname);
+
+		List<File> files = album.getItems().stream()
+				.map(i -> new File(storagePath, i.getFullPath()))
+				.collect(Collectors.toList());
+
+		ZipStreamHelper zip = new ZipStreamHelper();
+		zip.compressToStream(files, response.getOutputStream());
 	}
 
 }
