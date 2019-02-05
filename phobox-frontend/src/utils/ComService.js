@@ -104,6 +104,15 @@ export default function () {
   this.getAlbum = function (albumNane, callback) {
     return $.get(process.env.SERVER_PATH+"api/album/" + albumNane).done(callback);
   };
+  
+  this.deleteAlbum = function(albumName, callback, errorCallback) {
+    return $.ajax({
+      url: process.env.SERVER_PATH+"api/album/" + albumName,
+      type: "delete",
+    })
+    .done((data) => callback(data))
+    .fail((data) => errorCallback(data));
+  }
 
   /** Add element to album */
   this.addToAlbum = function (itemPath, album, callback) {

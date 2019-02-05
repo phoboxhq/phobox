@@ -75,7 +75,7 @@ export default {
     downloadPath() {
       if (this.item.type === "dir") {
         let com = new ComService();
-        return "api/photos/download/" + com.encodePath(this.item.path);
+        return this.SERVER_PATH + "api/photos/download/" + com.encodePath(this.item.path);
       } else {
         return this.item.path;
       }

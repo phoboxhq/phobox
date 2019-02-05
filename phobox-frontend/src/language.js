@@ -54,8 +54,17 @@ export default {
 
 			album: {
 				select: 'Select album',
+				download: 'download album',
+				
+				delete_confirm_headline: 'Delete album:',
+				delete_confirm_text: 'Do you really want to delete the selected album?',
+				delete_cancel: 'Cancel',
+				
+				delete: 'remove album',
+				delete_info: 'All pictures of the album are preserved, only the album is removed.',
+				
 				empty: 'There are no albums yet.',
-				empty_help: 'Find a picture and click on the star <i class="fa fa-star" aria-hidden="true"></i> to create an album.'
+				empty_help: 'Find a picture and click on the star <i class="fa fa-star" aria-hidden="true"></i> to create an album.',
 			},
 
 			search: {
@@ -202,6 +211,15 @@ export default {
 
 			album: {
 				select: 'Album auswählen',
+				download: 'Album herunterladen',
+				
+				delete_confirm_headline: 'Album löschen: ',
+				delete_confirm_text: 'Soll das ausgewählte Album wirklich gelöscht werden?',
+				delete_cancel: 'Abbrechen',
+				
+				delete: 'Album entfernen',
+				delete_info: 'Alle Bilder des Albums bleiben erhalten, nur das Album wird entfernt.',
+				
 				empty: 'Es gibt noch kein Album.',
 				empty_help: 'Suche dir ein Bild und klicke auf den Stern <i class="fa fa-star" aria-hidden="true"></i> um ein Album zu erzeugen.'
 			},

@@ -26,7 +26,7 @@
 					<!-- New album input -->
 					<div class="form-group" v-if="albumSwitch === 'newAlbum'">
 						<label for="newname">{{ $t('pictures.favorite_dialog_name') }}:</label>
-						<input type="text" class="form-control" id="newname" :ref="'newnameInput'" v-model="albumname">
+						<input type="text" class="form-control" id="newname" :ref="'newnameInput'" v-model="albumname" v-on:keyup.enter="save()">
 					</div>
 
 					<!-- Existing album selector -->

@@ -18,10 +18,15 @@
             </select>
         </div>
 
-        <!-- Download picture -->
+        <!-- Download album -->
         <a class="downloadAlbum" :href="downloadAlbum()" target="_blank" download v-show="albumname">
-          <i class="fa fa-download" aria-hidden="true"></i> {{ $t('pictures.download') }}
+          <i class="fa fa-download" aria-hidden="true"></i> {{ $t('album.download') }}
         </a>
+
+        <!-- Delete album -->
+        <span class="deleteAlbum button" @click="showAlbumDeletion=true" :href="undefined" v-show="albumname" :title="$t('album.delete_info')">
+          <i class="fa fa-trash" aria-hidden="true"></i> {{ $t('album.delete') }}
+        </span>
 
     </div>
 
@@ -39,6 +44,15 @@
 
     <favoriteDialog :item="favoriteItem"></favoriteDialog>
 
+    <confirm-dialog 
+      v-show="showAlbumDeletion"
+      :header="`${$t('album.delete_confirm_headline')} ${albumname}?`" 
+      :contextText="`${$t('album.delete_info')} <br /><br /> <b>${$t('album.delete_confirm_text')}</b>`" 
+      :doItText="$t('album.delete')" 
+      :cancelText="$t('album.delete_cancel')"
+      @onConfirm="onConfirmAlbumDeletion"
+      @onCancel="onCancelAlbumDeletion" />
+
   </div>
 </template>
 
@@ -46,6 +60,7 @@
 import Lightbox from '@/components/Lightbox';
 import FileItem from '@/components/files/FileItem';
 import FavoriteDialog from '@/components/dialogs/FavoriteDialog';
+import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import ComService from '@/utils/ComService';
 
 export default {
@@ -54,6 +69,7 @@ export default {
   components: {
     Lightbox,
     FavoriteDialog,
+    ConfirmDialog,
     FileItem
   },
   data() {
@@ -63,6 +79,8 @@ export default {
       albumname: null,
       selectedItem: null,
       favoriteItem: null,
+      showAlbumDeletion: false,
+      SERVER_PATH: process.env.SERVER_PATH,
     };
   },
   methods: {
@@ -89,11 +107,38 @@ export default {
       if (this.albumname == null) return;
 
       let com = new ComService();
-      return "api/album/download/" + com.encodePath(this.albumname);
+      return this.SERVER_PATH + "api/album/download/" + com.encodePath(this.albumname);
+    },
+
+    deleteAlbum() {
+      if (this.albumname == null) return;
+      let com = new ComService();
+      com.deleteAlbum(this.albumname, 
+        (success) => {
+          this.getAlbums();
+          this.unselectAlbum();
+          this.showAlbumDeletion = false;
+        }, 
+        (error) => {
+          console.error("error", error.message)
+        });
+    },
+
+    unselectAlbum() {
+      this.albumname = null;
+      this.album = {};
     },
 
     goBack() {
       this.$router.go(-1);
+    },
+
+    onConfirmAlbumDeletion() {
+      this.deleteAlbum();
+    },
+
+    onCancelAlbumDeletion() {
+      this.showAlbumDeletion = false;
     }
   },
   computed: {},
@@ -103,7 +148,8 @@ export default {
       this.getAlbums();
     },
     albumname() {
-      this.open(this.albumname);
+      if(this.albumname)
+        this.open(this.albumname);
     }
   },
   created() {
@@ -137,4 +183,18 @@ export default {
 #albumbrowser a {
   color: #ffffff;
 }
+
+.deleteAlbum {
+  margin-left: 10px;
+}
+
+.button {
+  color: #ffffff;
+}
+
+.button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 </style>

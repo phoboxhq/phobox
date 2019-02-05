@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import de.milchreis.phobox.core.model.PhoboxModel;
+import de.milchreis.phobox.exceptions.AlbumException;
 import de.milchreis.phobox.utils.storage.ZipStreamHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,13 +40,18 @@ public class AlbumService implements IAlbumService {
 		return albumnames;
 	}
 	
-	public StorageAlbum getStorageAlbumsByName(String albumname) {
+	public StorageAlbum getStorageAlbumsByName(String albumname) throws AlbumException {
 		
 		PhoboxOperations ops = Phobox.getOperations();
-		
+
+		Album album = albumRepository.findByName(albumname);
+
+		if(album == null)
+			throw new AlbumException("The album '" + albumname + "' not exists");
+
 		return new StorageAlbum(
 				albumname, 
-				albumRepository.findByName(albumname)
+				album
 					.getItems().stream()
 					.map(i -> photoService.getItem(ops.getPhysicalFile(i.getFullPath())))
 					.collect(Collectors.toList())
@@ -90,6 +96,19 @@ public class AlbumService implements IAlbumService {
 
 		ZipStreamHelper zip = new ZipStreamHelper();
 		zip.compressToStream(files, response.getOutputStream());
+	}
+
+	@Override
+	public void deleteAlbum(String albumname) throws AlbumException {
+		if(albumname == null || albumname.isEmpty())
+			throw new AlbumException("The given albumname is empty");
+
+		Album album = albumRepository.findByName(albumname);
+
+		if(album == null)
+			throw new AlbumException("Album '" + albumname + "' not found");
+
+		albumRepository.delete(album);
 	}
 
 }
