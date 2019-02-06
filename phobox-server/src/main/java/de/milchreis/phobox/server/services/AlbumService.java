@@ -111,4 +111,23 @@ public class AlbumService implements IAlbumService {
 		albumRepository.delete(album);
 	}
 
+	@Override
+	public void renameAlbum(String albumname, String newAlbumname) throws AlbumException {
+		if(albumname == null || albumname.isEmpty() || newAlbumname == null || newAlbumname.isEmpty())
+			throw new AlbumException("The given albumname is empty");
+
+		if(newAlbumname.length() > 255)
+			throw new AlbumException("The new album name is to long");
+
+		Album newAlbum = albumRepository.findByName(newAlbumname);
+
+		if(newAlbum != null)
+			throw new AlbumException("The new album name exists already");
+
+		Album album = albumRepository.findByName(albumname);
+		album.setName(newAlbumname);
+
+		albumRepository.save(album);
+	}
+
 }

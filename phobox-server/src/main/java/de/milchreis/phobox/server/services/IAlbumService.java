@@ -19,4 +19,6 @@ public interface IAlbumService {
     void downloadAlbumAsZip(String albumname, HttpServletResponse response) throws IOException;
 
     void deleteAlbum(String albumname) throws AlbumException;
+
+    void renameAlbum(String albumname, String newAlbumname) throws AlbumException;
 }

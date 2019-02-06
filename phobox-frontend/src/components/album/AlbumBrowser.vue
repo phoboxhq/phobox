@@ -23,11 +23,22 @@
           <i class="fa fa-download" aria-hidden="true"></i> {{ $t('album.download') }}
         </a>
 
+        <!-- Rename album -->
+        <span class="renameAlbum button" @click="onToggleRename" v-show="albumname">
+          <i class="fa fa-pencil" aria-hidden="true"></i> {{ $t('album.rename') }}
+        </span>
+
         <!-- Delete album -->
-        <span class="deleteAlbum button" @click="showAlbumDeletion=true" :href="undefined" v-show="albumname" :title="$t('album.delete_info')">
+        <span class="deleteAlbum button" @click="showAlbumDeletion=true" v-show="albumname" :title="$t('album.delete_info')">
           <i class="fa fa-trash" aria-hidden="true"></i> {{ $t('album.delete') }}
         </span>
 
+        <div class="renameDialog" v-show="showAlbumRename">
+          <label for="newname">{{ $t('album.rename_newname') }}:</label>
+          <input type="text" class="form-control" id="newname" :ref="'newname'" v-model="newAlbumName" v-on:keyup.enter="onRenameAlbum">
+          <button type="button" class="btn btn-primary" @click="onRenameAlbum">{{ $t('album.rename_ok') }}</button>
+          <button type="button" class="btn btn-default" @click="showAlbumRename=false">{{ $t('album.rename_cancel') }}</button>
+        </div>
     </div>
 
     <div id="albumitems">
@@ -80,6 +91,8 @@ export default {
       selectedItem: null,
       favoriteItem: null,
       showAlbumDeletion: false,
+      showAlbumRename: false,
+      newAlbumName: null,
       SERVER_PATH: process.env.SERVER_PATH,
     };
   },
@@ -133,12 +146,40 @@ export default {
       this.$router.go(-1);
     },
 
+    onToggleRename() {
+      this.showAlbumRename = !this.showAlbumRename;
+      if(this.showAlbumRename)
+        this.focusInput('newname');
+    },
+
+    onRenameAlbum() {
+      if (this.albumname == null) return;
+      let com = new ComService();
+      com.renameAlbum(this.albumname, this.newAlbumName, 
+        (success) => {
+          this.getAlbums();
+          this.open(this.newAlbumName);
+          this.showAlbumRename = false;
+          this.newAlbumName = null;
+        }, 
+        (error) => {
+          console.error("error", error.message)
+        });
+    },
+
     onConfirmAlbumDeletion() {
       this.deleteAlbum();
     },
 
     onCancelAlbumDeletion() {
       this.showAlbumDeletion = false;
+    },
+
+    focusInput(inputRefId) {
+      setTimeout(() =>{
+        if(this.$refs[inputRefId])
+          this.$nextTick(() => this.$refs[inputRefId].focus());
+      }, 100);
     }
   },
   computed: {},
@@ -184,17 +225,21 @@ export default {
   color: #ffffff;
 }
 
-.deleteAlbum {
-  margin-left: 10px;
-}
-
 .button {
   color: #ffffff;
+  margin-left: 10px;
 }
 
 .button:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.renameDialog {
+  margin-top: 10px;
+  background-color: #232323;
+  padding: 10px;
+  border-radius: 2px;
 }
 
 </style>

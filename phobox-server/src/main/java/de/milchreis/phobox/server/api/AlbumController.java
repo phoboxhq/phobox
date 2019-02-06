@@ -63,4 +63,16 @@ public class AlbumController {
 		}
 	}
 
+	@RequestMapping(value = "{albumname}/{newAlbumname}", method = RequestMethod.POST)
+	public HttpEntity<?> renameAlbum(@PathVariable("albumname") String albumname, @PathVariable("newAlbumname") String newAlbumname) {
+		try {
+			albumService.renameAlbum(albumname, newAlbumname);
+			return ResponseEntity.ok().body(new Status(Status.OK));
+
+		} catch (Exception e) {
+			return ResponseEntity.badRequest()
+					.body(new Status(Status.ERROR, e.getMessage()));
+		}
+	}
+
 }

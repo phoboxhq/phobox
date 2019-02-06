@@ -113,6 +113,15 @@ export default function () {
     .done((data) => callback(data))
     .fail((data) => errorCallback(data));
   }
+  
+  this.renameAlbum = function(albumName, newAlbumName, callback, errorCallback) {
+    return $.ajax({
+      url: process.env.SERVER_PATH+"api/album/" + albumName + "/" + newAlbumName,
+      type: "post",
+    })
+    .done((data) => callback(data))
+    .fail((data) => errorCallback(data));
+  }
 
   /** Add element to album */
   this.addToAlbum = function (itemPath, album, callback) {

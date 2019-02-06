@@ -63,6 +63,11 @@ export default {
 				delete: 'remove album',
 				delete_info: 'All pictures of the album are preserved, only the album is removed.',
 				
+				rename: 'rename album',
+				rename_newname: 'New album name',
+				rename_ok: 'Rename',
+				rename_cancel: 'Cancel',
+
 				empty: 'There are no albums yet.',
 				empty_help: 'Find a picture and click on the star <i class="fa fa-star" aria-hidden="true"></i> to create an album.',
 			},
@@ -219,6 +224,11 @@ export default {
 				
 				delete: 'Album entfernen',
 				delete_info: 'Alle Bilder des Albums bleiben erhalten, nur das Album wird entfernt.',
+
+				rename: 'Album umbenennen',
+				rename_newname: 'Neuer Albumname',
+				rename_ok: 'Umbenennen',
+				rename_cancel: 'Abbrechen',
 				
 				empty: 'Es gibt noch kein Album.',
 				empty_help: 'Suche dir ein Bild und klicke auf den Stern <i class="fa fa-star" aria-hidden="true"></i> um ein Album zu erzeugen.'
