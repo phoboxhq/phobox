@@ -23,23 +23,51 @@
 * If you want to organize scanned photos or almost very old pictures (no exif data)
 
 ## Pricing
-* At first there are two editions:
- * **beginner:**
-   * costs: _free usage_
-   * dynamic import
-   * approval
-   * mobile browsing
-   * tagging
-   * albums
- * **professional:** 
-   * costs: _10€_
-   * search
-     * by time
-     * by tags
-     * by AI auto tagging
-   * statistics
-   * (image processing)
-   * (batch-processing)
+1. OSS-model with donatation and paid support
+  * pros:
+    * contributers (helping hands)
+    * open community (tickets, testing)
+    * possibly more user
+    * no key/serial process
+    * no "commerical" taste and no "working claims"
+    * no company necessary
+  * cons:
+    * software could be forked and used for other things
+    * possibly less money
+  * free software
+    * donation-button (paypal)
+    * merchandise (spreadshirt with logo and icons)
+    * paid-roles
+      * supporter: 5$ per month
+        * slack-channel for asking questions to developer
+        * TODO
+   
+2. Closed-source with free and paid content
+ * pros:
+   * totally my project
+   * each [professional] user has to pay -> more money
+ * cons:
+   * no github support for issues, wiki ...
+   * no contributions
+   * implementing a key/serial system
+   * provide working windows, mac and linux builds
+ * At first there are two editions:
+   * **beginner:**
+     * costs: _free usage_
+     * dynamic import
+     * approval
+     * mobile browsing
+     * tagging
+     * albums
+   * **professional:** 
+     * costs: _10€_
+     * search
+       * by time
+       * by tags
+       * by AI auto tagging
+     * statistics
+     * (image processing)
+     * (batch-processing)
 
 ## Roadmap
 * 1.0.0: bring all free features into a usable state
