@@ -7,6 +7,7 @@ Solution: `sudo apt install openjfx`
 # Errors on Synology NAS on startup
 
 Error: On startup `Caused by: java.lang.NoClassDefFoundError: javafx/application/Application`
+
 Problem: openjfx can not be installed
 
 Solution: 
