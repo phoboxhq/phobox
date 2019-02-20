@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import ComService from '@/utils/ComService';
+
 export default {
   name: "DeleteConfirmDialog",
   props: ["item"],
@@ -58,18 +60,17 @@ export default {
     },
 
     deleteItem() {
-      var that = this;
-      new ComService().delete(this.item.path, function(data) {
-        that.status = data.status;
+      new ComService().delete(this.item.path, (data) => {
+        this.status = data.status;
 
-        if (that.status === "OK") {
-          index = that.$parent.items.indexOf(that.item);
+        if (this.status === "OK") {
+          let index = this.$parent.items.indexOf(this.item);
 
           if (index >= 0) {
-            that.$parent.items.splice(index, 1);
+            this.$parent.items.splice(index, 1);
           }
 
-          that.close();
+          this.close();
         }
       });
     },

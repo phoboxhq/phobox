@@ -7,7 +7,7 @@
         <div class="menu_button" v-on:click="onToggleDirectoryMenu()">
             <i class="fa fa-caret-square-o-down" aria-hidden="true" id="currentItemContextButton"></i>
         </div>
-        <itemContextMenu ref="dirContextMenu" :item="currentItem" :parent="this"></itemContextMenu>
+        <itemContextMenu ref="dirContextMenu" :item="currentItem" :parent="this" class="mainContext" />
     </div>
 
     <transition name="fade">
@@ -253,5 +253,10 @@ img.loading {
   width: 100px;
   right: 5px;
   z-index: 90;
+}
+
+.contextmenu.mainContext div.menu {
+  top: -16px;
+  left: -100px;
 }
 </style>
