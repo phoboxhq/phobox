@@ -63,7 +63,9 @@ public class PhoboxServerApplication implements CommandLineRunner {
 				SpringApplication.run(PhoboxServerApplication.class, args);
 
 			} catch (Exception e) {
-				gui.stop();
+				if(model.isActiveGui()) {
+					gui.stop();
+				}
 			}
 		}
 	}
@@ -83,8 +85,7 @@ public class PhoboxServerApplication implements CommandLineRunner {
 
 		if(Phobox.getModel().isActiveGui()) {
 			gui.showUpload();
+			Browser.open("http://localhost:"+Phobox.getModel().getPort());
 		}
-
-		Browser.open("http://localhost:"+Phobox.getModel().getPort());
 	}
 }

@@ -104,6 +104,24 @@ export default function () {
   this.getAlbum = function (albumNane, callback) {
     return $.get(process.env.SERVER_PATH+"api/album/" + albumNane).done(callback);
   };
+  
+  this.deleteAlbum = function(albumName, callback, errorCallback) {
+    return $.ajax({
+      url: process.env.SERVER_PATH+"api/album/" + albumName,
+      type: "delete",
+    })
+    .done((data) => callback(data))
+    .fail((data) => errorCallback(data));
+  }
+  
+  this.renameAlbum = function(albumName, newAlbumName, callback, errorCallback) {
+    return $.ajax({
+      url: process.env.SERVER_PATH+"api/album/" + albumName + "/" + newAlbumName,
+      type: "post",
+    })
+    .done((data) => callback(data))
+    .fail((data) => errorCallback(data));
+  }
 
   /** Add element to album */
   this.addToAlbum = function (itemPath, album, callback) {
@@ -115,6 +133,16 @@ export default function () {
       dataType: "json",
       success: callback,
     });
+  };
+
+  /** Remove element from album */
+  this.removeFromAlbum = function (itemPath, album, callback, errorCallback) {
+    return $.ajax({
+      url: process.env.SERVER_PATH+"api/album/"+album+"/"+this.encodePath(itemPath),
+      type: "delete",
+    })
+    .done((data) => callback(data))
+    .fail((data) => errorCallback(data));
   };
 
   /** Check current state of all thumbnails and possible recreate is again */

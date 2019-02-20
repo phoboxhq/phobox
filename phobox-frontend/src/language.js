@@ -28,6 +28,8 @@ export default {
 				rename: 'Rename',
 				delete: 'Delete',
 				tags: 'TAGs',
+				album: 'To album',
+				album_remove: 'Remove from album',
 				waitforthumb: 'Creating thumbnail... Please reload.',
 				load_more: 'Load more ...',
 				reload: 'Currently the directory will be processed. Please reload',
@@ -53,8 +55,22 @@ export default {
 
 			album: {
 				select: 'Select album',
+				download: 'download album',
+				
+				delete_confirm_headline: 'Delete album:',
+				delete_confirm_text: 'Do you really want to delete the selected album?',
+				delete_cancel: 'Cancel',
+				
+				delete: 'remove album',
+				delete_info: 'All pictures of the album are preserved, only the album is removed.',
+				
+				rename: 'rename album',
+				rename_newname: 'New album name',
+				rename_ok: 'Rename',
+				rename_cancel: 'Cancel',
+
 				empty: 'There are no albums yet.',
-				empty_help: 'Find a picture and click on the star <i class="fa fa-star" aria-hidden="true"></i> to create an album.'
+				empty_help: 'Find a picture and click on the star <i class="fa fa-star" aria-hidden="true"></i> to create an album.',
 			},
 
 			search: {
@@ -175,6 +191,8 @@ export default {
 				rename: 'Umbenennen',
 				delete: 'Löschen',
 				tags: 'Schlagworte',
+				album: 'Zum Album',
+				album_remove: 'Aus Album entfernen',
 				waitforthumb: 'Erstelle Vorschaubild... Bitte aktualisieren.',
 				load_more: 'Weitere laden ...',
 				reload: 'Aktuell wird das Verzeichnis aufgebaut. Bitte neuladen',
@@ -200,6 +218,20 @@ export default {
 
 			album: {
 				select: 'Album auswählen',
+				download: 'Album herunterladen',
+				
+				delete_confirm_headline: 'Album löschen: ',
+				delete_confirm_text: 'Soll das ausgewählte Album wirklich gelöscht werden?',
+				delete_cancel: 'Abbrechen',
+				
+				delete: 'Album entfernen',
+				delete_info: 'Alle Bilder des Albums bleiben erhalten, nur das Album wird entfernt.',
+
+				rename: 'Album umbenennen',
+				rename_newname: 'Neuer Albumname',
+				rename_ok: 'Umbenennen',
+				rename_cancel: 'Abbrechen',
+				
 				empty: 'Es gibt noch kein Album.',
 				empty_help: 'Suche dir ein Bild und klicke auf den Stern <i class="fa fa-star" aria-hidden="true"></i> um ein Album zu erzeugen.'
 			},

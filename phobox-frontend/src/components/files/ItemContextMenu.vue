@@ -11,6 +11,8 @@
           <li class="menu_element" v-on:click="onRename"><i class="fa fa-pencil" aria-hidden="true"></i> {{ $t('pictures.rename') }}</li>
           <li class="menu_element" v-on:click="onDelete"><i class="fa fa-trash" aria-hidden="true"></i> {{ $t('pictures.delete') }}</li>
           <li class="menu_element" v-on:click="onTags"><i class="fa fa-tags" aria-hidden="true"></i> {{ $t('pictures.tags') }}</li>
+          <li class="menu_element" v-on:click="onFavorite" v-show="item && item.type === 'file'"><i class="fa fa-star" aria-hidden="true"></i> {{ $t('pictures.album') }}</li>
+          <li class="menu_element" v-on:click="onRemoveFavorite" v-show="albumname"><i class="fa fa-star" aria-hidden="true"></i> {{ $t('pictures.album_remove') }}</li>
         </ul>
       </div>
     </transition>
@@ -23,7 +25,7 @@ import ClickOutside from '@/directives/ClickOutside';
 
 export default {
   name: "ItemContextMenu",
-  props: ["item", "parent"],
+  props: ["item", "parent", "albumname"],
   directives: {
     ClickOutside
   },
@@ -81,7 +83,25 @@ export default {
     onTags() {
       this.parent.tagsItem = this.item;
       this.closeMenu();
-    }
+    },
+
+    onFavorite() {
+      this.parent.favoriteItem = this.item;
+      this.closeMenu();
+    },
+
+    onRemoveFavorite() {
+      new ComService().removeFromAlbum(this.item.path, this.albumname, (success) => {
+          console.log("success", success);
+          console.log(this.parent);
+          this.$emit('remove-favorite');
+        }, 
+        (error) => {
+          console.error("error", error.message)
+        }
+      );
+      this.closeMenu();
+    },
   },
   computed: {
     encodePath() {

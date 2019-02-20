@@ -1,12 +1,19 @@
 package de.milchreis.phobox.server.services;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+import de.milchreis.phobox.core.model.PhoboxModel;
+import de.milchreis.phobox.exceptions.AlbumException;
+import de.milchreis.phobox.utils.storage.PathConverter;
+import de.milchreis.phobox.utils.storage.ZipStreamHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +24,8 @@ import de.milchreis.phobox.db.entities.Album;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.db.repositories.AlbumRepository;
 import de.milchreis.phobox.db.repositories.ItemRepository;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class AlbumService implements IAlbumService {
@@ -33,13 +42,18 @@ public class AlbumService implements IAlbumService {
 		return albumnames;
 	}
 	
-	public StorageAlbum getStorageAlbumsByName(String albumname) {
+	public StorageAlbum getStorageAlbumsByName(String albumname) throws AlbumException {
 		
 		PhoboxOperations ops = Phobox.getOperations();
-		
+
+		Album album = albumRepository.findByName(albumname);
+
+		if(album == null)
+			throw new AlbumException("The album '" + albumname + "' not exists");
+
 		return new StorageAlbum(
 				albumname, 
-				albumRepository.findByName(albumname)
+				album
 					.getItems().stream()
 					.map(i -> photoService.getItem(ops.getPhysicalFile(i.getFullPath())))
 					.collect(Collectors.toList())
@@ -54,7 +68,7 @@ public class AlbumService implements IAlbumService {
 			album = new Album();
 			album.setName(albumName);
 			album.setCreation(new Date(System.currentTimeMillis()));
-			album.setItems(new LinkedHashSet<Item>());
+			album.setItems(new LinkedHashSet<>());
 		}
 
 		Item item = itemRepository.findByFullPath(itemPath);
@@ -65,6 +79,79 @@ public class AlbumService implements IAlbumService {
 		}
 
 		item.getAlbums().add(album);
+		itemRepository.save(item);
+	}
+
+	@Override
+	public void downloadAlbumAsZip(String albumname, HttpServletResponse response) throws IOException {
+
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.addHeader("Content-Disposition", "attachment; filename=\"" + albumname + ".zip\"");
+		response.setContentType("txt/plain");
+
+		String storagePath = Phobox.getModel().getStoragePath();
+		Album album = albumRepository.findByName(albumname);
+
+		List<File> files = album.getItems().stream()
+				.map(i -> new File(storagePath, i.getFullPath()))
+				.collect(Collectors.toList());
+
+		ZipStreamHelper zip = new ZipStreamHelper();
+		zip.compressToStream(files, response.getOutputStream());
+	}
+
+	@Override
+	public void deleteAlbum(String albumname) throws AlbumException {
+		if(albumname == null || albumname.isEmpty())
+			throw new AlbumException("The given albumname is empty");
+
+		Album album = albumRepository.findByName(albumname);
+
+		if(album == null)
+			throw new AlbumException("Album '" + albumname + "' not found");
+
+		albumRepository.delete(album);
+	}
+
+	@Override
+	public void renameAlbum(String albumname, String newAlbumname) throws AlbumException {
+		if(albumname == null || albumname.isEmpty() || newAlbumname == null || newAlbumname.isEmpty())
+			throw new AlbumException("The given albumname is empty");
+
+		if(newAlbumname.length() > 255)
+			throw new AlbumException("The new album name is to long");
+
+		Album newAlbum = albumRepository.findByName(newAlbumname);
+
+		if(newAlbum != null)
+			throw new AlbumException("The new album name exists already");
+
+		Album album = albumRepository.findByName(albumname);
+		album.setName(newAlbumname);
+
+		albumRepository.save(album);
+	}
+
+	@Override
+	public void deleteItemFromAlbum(String albumname, String itemPath) throws AlbumException {
+		if(albumname == null || albumname.isEmpty() || itemPath == null || itemPath.isEmpty())
+			throw new AlbumException("The given album name or item path is empty");
+
+		String path = PathConverter.decode(itemPath);
+
+		Album album = albumRepository.findByName(albumname);
+		Item item = itemRepository.findByFullPath(path);
+
+		if(album == null)
+			throw new AlbumException("Album '" + albumname + "' not found");
+
+		if(item == null)
+			throw new AlbumException("Item '" + path + "' not found");
+
+		item.setAlbums(item.getAlbums().stream()
+				.filter(a -> !a.getName().equals(albumname))
+				.collect(Collectors.toSet()));
+
 		itemRepository.save(item);
 	}
 
