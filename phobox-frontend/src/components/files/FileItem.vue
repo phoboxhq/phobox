@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <itemContextMenu ref="dirContextMenu" :item="item" :parent="$parent"></itemContextMenu>
+    <itemContextMenu ref="dirContextMenu" :item="item" :parent="$parent" :albumname="albumname" v-on:remove-favorite="$emit('remove-favorite')" />
 	</div>
 </template>
 
@@ -51,7 +51,7 @@ export default {
   components: {
     ItemContextMenu
   },
-  props: ["item"],
+  props: ["item", "albumname"],
   data: function() {
     return {
       menuShow: false,
@@ -84,6 +84,7 @@ export default {
     toggleMenu(id) {
       let contextMenu = this.$refs.dirContextMenu;
       contextMenu.toggleMenu();
+      this.$emit('removeFavorite');
     }
   },
   computed: {
@@ -171,11 +172,10 @@ export default {
 .menu {
   position: absolute;
   background-color: #1b1b1b;
-  bottom: -165px;
-  right: 10px;
+  top: 145px;
+  right: -70px;
   z-index: 40;
-  width: 140px;
-
+  width: 190px;
   font-size: 14px;
   text-align: left;
   -webkit-background-clip: padding-box;

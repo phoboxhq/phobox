@@ -135,6 +135,16 @@ export default function () {
     });
   };
 
+  /** Remove element from album */
+  this.removeFromAlbum = function (itemPath, album, callback, errorCallback) {
+    return $.ajax({
+      url: process.env.SERVER_PATH+"api/album/"+album+"/"+this.encodePath(itemPath),
+      type: "delete",
+    })
+    .done((data) => callback(data))
+    .fail((data) => errorCallback(data));
+  };
+
   /** Check current state of all thumbnails and possible recreate is again */
   this.createThumbnails = function (callback) {
     return $.get(process.env.SERVER_PATH+"api/storage/rethumb/").done(callback);

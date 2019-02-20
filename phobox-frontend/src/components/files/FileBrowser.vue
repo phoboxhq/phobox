@@ -16,6 +16,7 @@
             <file-item v-for="(item, key) in items"
                 :item="item"
                 :key="key"
+                :albumname="null"
                 :selectedItem="selectedItem"></file-item>
         </div>
     </transition>

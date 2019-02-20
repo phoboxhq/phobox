@@ -7,10 +7,12 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.exceptions.AlbumException;
+import de.milchreis.phobox.utils.storage.PathConverter;
 import de.milchreis.phobox.utils.storage.ZipStreamHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +68,7 @@ public class AlbumService implements IAlbumService {
 			album = new Album();
 			album.setName(albumName);
 			album.setCreation(new Date(System.currentTimeMillis()));
-			album.setItems(new LinkedHashSet<Item>());
+			album.setItems(new LinkedHashSet<>());
 		}
 
 		Item item = itemRepository.findByFullPath(itemPath);
@@ -128,6 +130,29 @@ public class AlbumService implements IAlbumService {
 		album.setName(newAlbumname);
 
 		albumRepository.save(album);
+	}
+
+	@Override
+	public void deleteItemFromAlbum(String albumname, String itemPath) throws AlbumException {
+		if(albumname == null || albumname.isEmpty() || itemPath == null || itemPath.isEmpty())
+			throw new AlbumException("The given album name or item path is empty");
+
+		String path = PathConverter.decode(itemPath);
+
+		Album album = albumRepository.findByName(albumname);
+		Item item = itemRepository.findByFullPath(path);
+
+		if(album == null)
+			throw new AlbumException("Album '" + albumname + "' not found");
+
+		if(item == null)
+			throw new AlbumException("Item '" + path + "' not found");
+
+		item.setAlbums(item.getAlbums().stream()
+				.filter(a -> !a.getName().equals(albumname))
+				.collect(Collectors.toSet()));
+
+		itemRepository.save(item);
 	}
 
 }

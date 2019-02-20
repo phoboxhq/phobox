@@ -45,15 +45,17 @@
       <file-item v-for="item in album.items"
         :item="item"
         :key="item.path"
-        :selectedItem="selectedItem"></file-item>
+        :albumname="albumname"
+        :selectedItem="selectedItem"
+        v-on:remove-favorite="onRemoveFavorite" />
     </div>
 
     <!-- Include the lightbox -->
     <lightbox v-if="album.items"
         :items="album.items" 
-        :selectedItem="selectedItem"></lightbox>
+        :selectedItem="selectedItem" />
 
-    <favoriteDialog :item="favoriteItem"></favoriteDialog>
+    <favoriteDialog :item="favoriteItem" />
 
     <confirm-dialog 
       v-show="showAlbumDeletion"
@@ -110,6 +112,10 @@ export default {
           this.album = data;
         });
       }
+    },
+
+    onRemoveFavorite() {
+      this.refresh();
     },
 
     open(albumName) {

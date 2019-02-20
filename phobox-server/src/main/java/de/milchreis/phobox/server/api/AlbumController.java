@@ -63,6 +63,18 @@ public class AlbumController {
 		}
 	}
 
+	@RequestMapping(value = "{albumname}/{itemPath}", method = RequestMethod.DELETE)
+	public HttpEntity<?> deleteItemInAlbum(@PathVariable("albumname") String albumname, @PathVariable("itemPath") String itemPath) {
+		try {
+			albumService.deleteItemFromAlbum(albumname, itemPath);
+			return ResponseEntity.ok().body(new Status(Status.OK));
+
+		} catch (Exception e) {
+			return ResponseEntity.badRequest()
+					.body(new Status(Status.ERROR, e.getMessage()));
+		}
+	}
+
 	@RequestMapping(value = "{albumname}/{newAlbumname}", method = RequestMethod.POST)
 	public HttpEntity<?> renameAlbum(@PathVariable("albumname") String albumname, @PathVariable("newAlbumname") String newAlbumname) {
 		try {

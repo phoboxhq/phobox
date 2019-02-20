@@ -21,4 +21,6 @@ public interface IAlbumService {
     void deleteAlbum(String albumname) throws AlbumException;
 
     void renameAlbum(String albumname, String newAlbumname) throws AlbumException;
+
+    void deleteItemFromAlbum(String albumname, String itemPath) throws AlbumException;
 }
