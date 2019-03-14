@@ -37,76 +37,13 @@ public class PhotoService implements IPhotoService {
 
 	@Override
 	public StorageItem getItem(File physicalFile) {
+		String webpath = Phobox.getOperations().getWebPath(physicalFile.getPath());
+		return generateStorageItem(physicalFile, null);
+	}
 
-		if(!isValidItem(physicalFile)) {
-			return null;
-		}
-		
-		PhoboxOperations ops = Phobox.getOperations();
-		PhoboxModel model = Phobox.getModel();
-		
-		String filename = physicalFile.getName();
-		String directory = ops.getWebPath(physicalFile).replace(filename, "");
-		
-		String extention = FilenameUtils.getExtension(physicalFile.getName());
-		extention = ListHelper.endsWith(extention.toLowerCase(), PhoboxDefinitions.SUPPORTED_VIEW_FORMATS) ? extention : "jpg";
-		
-		File thumbnail = ops.getThumb(new File(physicalFile.getParentFile(), FilenameUtils.getBaseName(physicalFile.getName()) + "." + extention));
-		
-		StorageItem item = new StorageItem();
-
-		item.setName(FilenameUtils.getBaseName(physicalFile.getName()));
-		item.setPath(ops.getWebPath(new File(directory, physicalFile.getName())));
-		item.setType(physicalFile.isDirectory() ? StorageItem.TYPE_DIRECTORY : StorageItem.TYPE_FILE);
-		
-		Item dbItem = null;
-		dbItem = itemRepository.findByFullPath(item.getPath());
-		
-		File rawFile = FilesystemHelper.getRawIfExists(physicalFile, PhoboxDefinitions.SUPPORTED_RAW_FORMATS);
-		if(rawFile != null) {
-			File raw = new File(directory, rawFile.getName().toString());
-			item.setRaw(ops.getWebPath(raw));
-		} 
-
-		
-		if(physicalFile.isDirectory()) {
-			List<String> previewFiles = ops.getFiles(physicalFile, 1);
-			if(previewFiles.size() >= 1) {
-				
-				item.setPreview(ops.getStaticResourcePath(model.getThumbPath(), previewFiles.get(0)));
-				File previewFile = new File(model.getStoragePath(), previewFiles.get(0));
-				
-				if(!ops.getThumb(previewFile).exists()) {
-					
-					// Add to database and create thumbnail
-					Phobox.getEventRegistry().onNewFile(previewFile);
-					
-					// Set waiting icon
-					item.setGeneratingThumb(true);
-				}
-			}
-			
-		} else {
-			
-			item.setThumb(ops.getStaticResourcePath(thumbnail));
-
-			// Add landscape/portrait information by database item
-			if(dbItem != null && Objects.nonNull(dbItem.getWidth()) && Objects.nonNull(dbItem.getHeight())) {
-				item.setLandscape(dbItem.getWidth() > dbItem.getHeight());
-			}
-			
-			// Check existence of the thumbnails
-			if(!thumbnail.exists()) {
-				
-				// Add to database and create thumbnail
-				Phobox.getEventRegistry().onNewFile(physicalFile);
-				
-				// Set waiting icon
-				item.setGeneratingThumb(true);
-			}
-		}
-		
-		return item;
+	@Override
+	public StorageItem getItem(Item dbItem) {
+		return generateStorageItem(null, dbItem);
 	}
 
 	@Override
@@ -150,5 +87,83 @@ public class PhotoService implements IPhotoService {
 		return (physicalItem.exists())
 				|| physicalItem.isDirectory()
 				|| (physicalItem.isFile() && ListHelper.endsWith(physicalItem.getName(), PhoboxDefinitions.SUPPORTED_VIEW_FORMATS));
+	}
+
+	private StorageItem generateStorageItem(File physicalFile, Item dbItem) {
+
+		PhoboxOperations ops = Phobox.getOperations();
+		PhoboxModel model = Phobox.getModel();
+
+		if(dbItem == null && physicalFile == null)
+			return null;
+
+		if(physicalFile == null)
+			physicalFile = ops.getPhysicalFile(dbItem.getFullPath());
+
+		if(dbItem == null)
+			dbItem = itemRepository.findByFullPath(ops.getWebPath(physicalFile));
+
+		if(!isValidItem(physicalFile)) {
+			return null;
+		}
+
+		String filename = physicalFile.getName();
+		String directory = ops.getWebPath(physicalFile).replace(filename, "");
+
+		String extention = FilenameUtils.getExtension(physicalFile.getName());
+		extention = ListHelper.endsWith(extention.toLowerCase(), PhoboxDefinitions.SUPPORTED_VIEW_FORMATS) ? extention : "jpg";
+
+		File thumbnail = ops.getThumb(new File(physicalFile.getParentFile(), FilenameUtils.getBaseName(physicalFile.getName()) + "." + extention));
+
+		StorageItem storageItem = new StorageItem();
+
+		storageItem.setName(FilenameUtils.getBaseName(physicalFile.getName()));
+		storageItem.setPath(ops.getWebPath(new File(directory, physicalFile.getName())));
+		storageItem.setType(physicalFile.isDirectory() ? StorageItem.TYPE_DIRECTORY : StorageItem.TYPE_FILE);
+
+		File rawFile = FilesystemHelper.getRawIfExists(physicalFile, PhoboxDefinitions.SUPPORTED_RAW_FORMATS);
+		if(rawFile != null) {
+			File raw = new File(directory, rawFile.getName());
+			storageItem.setRaw(ops.getWebPath(raw));
+		}
+
+		if(physicalFile.isDirectory()) {
+			List<String> previewFiles = ops.getFiles(physicalFile, 1);
+			if(previewFiles.size() >= 1) {
+
+				storageItem.setPreview(ops.getStaticResourcePath(model.getThumbPath(), previewFiles.get(0)));
+				File previewFile = new File(model.getStoragePath(), previewFiles.get(0));
+
+				if(!ops.getThumb(previewFile).exists()) {
+
+					// Add to database and create thumbnail
+					Phobox.getEventRegistry().onNewFile(previewFile);
+
+					// Set waiting icon
+					storageItem.setGeneratingThumb(true);
+				}
+			}
+
+		} else {
+
+			storageItem.setThumb(ops.getStaticResourcePath(thumbnail));
+
+			// Add landscape/portrait information by database item
+			if(dbItem != null && Objects.nonNull(dbItem.getWidth()) && Objects.nonNull(dbItem.getHeight())) {
+				storageItem.setLandscape(dbItem.getWidth() > dbItem.getHeight());
+			}
+
+			// Check existence of the thumbnails
+			if(!thumbnail.exists()) {
+
+				// Add to database and create thumbnail
+				Phobox.getEventRegistry().onNewFile(physicalFile);
+
+				// Set waiting icon
+				storageItem.setGeneratingThumb(true);
+			}
+		}
+
+		return storageItem;
 	}
 }

@@ -36,7 +36,6 @@ public class ImportScheduler extends TimerTask implements Schedulable {
 		incoming.mkdirs();
 		
 		if(incoming.list().length > 0 && !importProcessor.isActive()) {
-			log.debug("Start importing files");
 			importProcessor.foreachFile(
 					incoming, 
 					PhoboxDefinitions.SUPPORTED_IMPORT_FORMATS, 

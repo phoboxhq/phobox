@@ -59,9 +59,9 @@ public class PhotosService implements IPhotosService {
 
         // Find including directories (but add it not by fragment scan)
         if(pageable == null || pageable.getPageNumber() == 0) {
-            DirectoryStream<Path> stream = null;
             try {
-                stream = Files.newDirectoryStream(dir.toPath(), new DirectoryFilter());
+                log.debug("Scanning directory: " + dir.getAbsolutePath());
+                DirectoryStream<Path> stream = Files.newDirectoryStream(dir.toPath(), new DirectoryFilter());
                 for(java.nio.file.Path path : stream) {
                     File file = path.toFile();
 
@@ -82,6 +82,7 @@ public class PhotosService implements IPhotosService {
         }
 
         // Scan files from database
+        log.debug("Scanning database for directory: " + dir.getAbsolutePath());
         List<Item> items;
         if(pageable != null) {
             items = itemRepository.findByPath(directory+"/", pageable).getContent();
@@ -90,10 +91,8 @@ public class PhotosService implements IPhotosService {
             items = itemRepository.findByPath(directory+"/");
         }
 
-        for(Item item : items) {
-            File file = ops.getPhysicalFile(item.getFullPath());
-            response.add(photoService.getItem(file));
-        }
+        log.debug("Creating item objects: " + dir.getAbsolutePath());
+        items.forEach(item -> response.add(photoService.getItem(item)));
 
         try {
             if(items.size() == 0 && !FilesystemHelper.isDirEmpty(dir.toPath())) {
@@ -103,6 +102,7 @@ public class PhotosService implements IPhotosService {
             log.error("", e);
         }
 
+        log.debug("Response is ready: " + dir.getAbsolutePath());
         return response;
     }
 
