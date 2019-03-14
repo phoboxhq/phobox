@@ -100,7 +100,7 @@ public class PhotoService implements IPhotoService {
 		if(physicalFile == null)
 			physicalFile = ops.getPhysicalFile(dbItem.getFullPath());
 
-		if(dbItem == null)
+		if(dbItem == null && physicalFile.isFile())
 			dbItem = itemRepository.findByFullPath(ops.getWebPath(physicalFile));
 
 		if(!isValidItem(physicalFile)) {
