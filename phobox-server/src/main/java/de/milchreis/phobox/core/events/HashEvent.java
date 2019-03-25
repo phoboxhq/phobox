@@ -1,7 +1,5 @@
 package de.milchreis.phobox.core.events;
 
-import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.utils.storage.MD5Helper;
 import lombok.extern.slf4j.Slf4j;
@@ -13,24 +11,21 @@ import java.io.File;
 @Component
 public class HashEvent extends BasicEvent {
 
-	private PhoboxOperations ops = Phobox.getOperations();
-	
 	@Override
-	public void onNewFile(File file) {
+	public void onNewFile(File file, EventLoopInfo loopInfo) {
 		// Skip directory items
 		if(file.isDirectory()) {
 			return;
 		}
 
 		try {
-			String subpath = ops.getWebPath(file);
-			Item item = itemRepository.findByFullPath(subpath);
-			
-			if(item == null)
-				throw new IllegalStateException("Item not found in database: " + subpath);
+			Item item = getItem(loopInfo, file);
 
-			item.setHash(MD5Helper.getMD5(file));
-			itemRepository.save(item);
+			if(item.getHash() == null) {
+				item.setHash(MD5Helper.getMD5(file));
+				itemRepository.save(item);
+				loopInfo.setItem(item);
+			}
 
 		} catch (Exception e) {
 			log.error("Error while saving hash for new file in database", e);

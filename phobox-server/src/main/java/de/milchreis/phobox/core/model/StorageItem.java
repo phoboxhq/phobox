@@ -12,14 +12,14 @@ public class StorageItem {
 	public static final String TYPE_DIRECTORY = "dir";
 	public static final String TYPE_FILE = "file";
 	
-	private String name;
-	private String time;
-	private String path;
-	private String type;
-	private String preview;
-	private String thumb;
-	private String raw;
-	private boolean generatingThumb = false;
-	private Boolean landscape;
+	protected String name;
+	protected String time;
+	protected String path;
+	protected String type;
+	protected String preview;
+	protected String thumb;
+	protected String raw;
+	protected boolean generatingThumb = false;
+	protected Boolean landscape;
 	
 }

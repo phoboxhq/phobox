@@ -149,7 +149,9 @@ public class PhoboxOperations {
 	public File getThumb(File image) {
 		File thumbpath = model.getThumbPath();
 		String imgPath = image.getAbsolutePath().replace(model.getStoragePath(), "");
-		return new File(thumbpath, imgPath);
+		String fileExtension = FilenameUtils.getExtension(image.getName());
+		imgPath = imgPath.substring(0, imgPath.length() - fileExtension.length());
+		return new File(thumbpath, imgPath + "jpg");
 	}
 	
 	public File getPhysicalFile(File webfile) {

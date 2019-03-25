@@ -2,15 +2,12 @@ package de.milchreis.phobox.server.services;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.exceptions.AlbumException;
 import de.milchreis.phobox.utils.storage.PathConverter;
 import de.milchreis.phobox.utils.storage.ZipStreamHelper;
@@ -74,7 +71,7 @@ public class AlbumService implements IAlbumService {
 		Item item = itemRepository.findByFullPath(itemPath);
 
 		if (item == null) {
-			Phobox.getEventRegistry().onNewFile(new File(Phobox.getModel().getStoragePath(), itemPath));
+			Phobox.getEventRegistry().onNewFile(new File(Phobox.getModel().getStoragePath(), itemPath), null);
 			item = itemRepository.findByFullPath(itemPath);
 		}
 

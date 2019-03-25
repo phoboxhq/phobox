@@ -1,12 +1,11 @@
 package de.milchreis.phobox.core.file.filter;
 
+import org.apache.commons.io.filefilter.IOFileFilter;
+
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.nio.file.DirectoryStream.Filter;
 import java.nio.file.Path;
-
-import org.apache.commons.io.filefilter.IOFileFilter;
 
 public class DirectoryFilter implements FileFilter, IOFileFilter, Filter<Path> {
 
@@ -21,7 +20,7 @@ public class DirectoryFilter implements FileFilter, IOFileFilter, Filter<Path> {
 	}
 
 	@Override
-	public boolean accept(Path entry) throws IOException {
+	public boolean accept(Path entry) {
 		return entry.toFile().isDirectory();
 	}
 

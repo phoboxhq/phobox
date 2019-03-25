@@ -4,6 +4,7 @@ import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.PhoboxOperations;
 import de.milchreis.phobox.core.file.filter.DirectoryFilter;
+import de.milchreis.phobox.core.model.StorageItem;
 import de.milchreis.phobox.core.model.StorageStatus;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.db.repositories.ItemRepository;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -36,10 +38,10 @@ public class PhotosService implements IPhotosService {
 
         PhoboxOperations ops = Phobox.getOperations();
 
-        String directory = ops.getWebPath(dir);
-        boolean isRoot = directory.equals("/");
+        String webPath = ops.getWebPath(dir);
+        boolean isRoot = webPath.equals("/");
 
-        if(directory == null || directory.isEmpty())
+        if(webPath == null || webPath.isEmpty())
             dir = new File(Phobox.getModel().getStoragePath());
 
         // Update directory on database if it is no fragment
@@ -47,48 +49,26 @@ public class PhotosService implements IPhotosService {
             Phobox.addPathToScanQueue(dir);
         }
 
-        StorageStatus response = new StorageStatus();
-        response.setName(ops.getElementName(dir));
-        response.setPath(directory);
-
-        if(dir.isDirectory()) {
-            response.setType(StorageStatus.TYPE_DIRECTORY);
-        } else {
-            response.setType(StorageStatus.TYPE_FILE);
-        }
+        StorageStatus response = new StorageStatus(
+                ops.getElementName(dir),
+                webPath,
+                dir.isDirectory() ? StorageStatus.TYPE_DIRECTORY : StorageStatus.TYPE_FILE);
 
         // Find including directories (but add it not by fragment scan)
         if(pageable == null || pageable.getPageNumber() == 0) {
-            try {
-                log.debug("Scanning directory: " + dir.getAbsolutePath());
-                DirectoryStream<Path> stream = Files.newDirectoryStream(dir.toPath(), new DirectoryFilter());
-                for(java.nio.file.Path path : stream) {
-                    File file = path.toFile();
-
-                    // Skip internal phobox directory and hidden files
-                    if((isRoot && file.isDirectory() && file.getName().equals("phobox")) || file.isHidden()) {
-                        continue;
-                    }
-
-                    // select supported formats and directories only
-                    if(file.isFile() && ListHelper.endsWith(file.getName(), PhoboxDefinitions.SUPPORTED_VIEW_FORMATS) || file.isDirectory()) {
-                        response.add(photoService.getItem(file));
-                    }
-                }
-
-            } catch(IOException e) {
-                log.warn("Error while scanning directory: " + e.getLocalizedMessage());
-            }
+            List<StorageItem> directories = getDirectories(dir, isRoot);
+            response.addAll(directories);
         }
 
         // Scan files from database
         log.debug("Scanning database for directory: " + dir.getAbsolutePath());
         List<Item> items;
+        String queryPath = webPath.equals("/") ? webPath : webPath+"/";
         if(pageable != null) {
-            items = itemRepository.findByPath(directory+"/", pageable).getContent();
+            items = itemRepository.findByPath(queryPath, pageable).getContent();
             response.setFragment(items.size() > 0);
         } else {
-            items = itemRepository.findByPath(directory+"/");
+            items = itemRepository.findByPath(queryPath);
         }
 
         log.debug("Creating item objects: " + dir.getAbsolutePath());
@@ -104,6 +84,30 @@ public class PhotosService implements IPhotosService {
 
         log.debug("Response is ready: " + dir.getAbsolutePath());
         return response;
+    }
+
+    private List<StorageItem> getDirectories(File dir, boolean isRoot) {
+        List<StorageItem> items = new ArrayList<>();
+
+        try {
+            log.debug("Scanning directory: " + dir.getAbsolutePath());
+            DirectoryStream<Path> stream = Files.newDirectoryStream(dir.toPath(), new DirectoryFilter());
+            for(java.nio.file.Path path : stream) {
+                File file = path.toFile();
+
+                // Skip internal phobox directory and hidden files
+                if((isRoot && file.isDirectory() && file.getName().equals("phobox")) || file.isHidden()) {
+                    continue;
+                }
+
+                items.add(photoService.getItem(file));
+            }
+
+        } catch(IOException e) {
+            log.warn("Error while scanning directory: " + e.getLocalizedMessage());
+        }
+
+        return  items;
     }
 
     @Override

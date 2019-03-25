@@ -1,11 +1,11 @@
 package de.milchreis.phobox.core.events;
 
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Data
@@ -18,14 +18,16 @@ public class EventRegistry implements IEvent {
 	}
 	
 	@Override
-	public void onNewFile(File incomingfile) {
-		eventRegistry.stream().forEach(e -> {
+	public void onNewFile(File incomingfile, EventLoopInfo loopInfo) {
+		final EventLoopInfo freshLoopInfo = new EventLoopInfo(loopInfo);
+
+		for(IEvent e : eventRegistry) {
 			try {
-				e.onNewFile(incomingfile);
+				e.onNewFile(incomingfile, freshLoopInfo);
 			} catch (Exception ee) {
 				log.warn("Error in event registry catched", ee);
 			}
-		});
+		}
 	}
 
 	@Override

@@ -137,7 +137,7 @@ public class PhotoService implements IPhotoService {
 				if(!ops.getThumb(previewFile).exists()) {
 
 					// Add to database and create thumbnail
-					Phobox.getEventRegistry().onNewFile(previewFile);
+					Phobox.getEventRegistry().onNewFile(previewFile, null);
 
 					// Set waiting icon
 					storageItem.setGeneratingThumb(true);
@@ -157,7 +157,7 @@ public class PhotoService implements IPhotoService {
 			if(!thumbnail.exists()) {
 
 				// Add to database and create thumbnail
-				Phobox.getEventRegistry().onNewFile(physicalFile);
+				Phobox.getEventRegistry().onNewFile(physicalFile, null);
 
 				// Set waiting icon
 				storageItem.setGeneratingThumb(true);

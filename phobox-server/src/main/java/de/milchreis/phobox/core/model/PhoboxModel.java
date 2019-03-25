@@ -22,21 +22,27 @@ public class PhoboxModel {
 	private File thumbPath;
 	private String importFormat = "%Y/%Y-%M/%Y-%M-%D";
 	private int imgPageSize = 30;
-	
+	private boolean autoSave = true;
+
 	public void setStoragePath(String storagePath) {
 		this.storagePath = storagePath;
 		phoboxPath = new File(storagePath, "phobox");
 		incomingPath = new File(phoboxPath, PhoboxDefinitions.STORAGE_INCOMING);
 		
 		thumbPath = new File(phoboxPath, PhoboxDefinitions.STORAGE_THUMBS);
-		thumbPath.mkdirs();
-		
+
+		if(autoSave)
+			thumbPath.mkdirs();
+
 		approvalPath = new File(phoboxPath, PhoboxDefinitions.STORAGE_APPROVAL);
-		approvalPath.mkdirs();
-		
+
+		if(autoSave)
+			approvalPath.mkdirs();
+
 		databasePath = new File(phoboxPath, "phobox");
-		
-		PreferencesManager.set(PreferencesManager.STORAGE_PATH, storagePath);
+
+		if(autoSave)
+			PreferencesManager.set(PreferencesManager.STORAGE_PATH, storagePath);
 	}
 	
 	public void setIncomingPath(File incomingPath) {

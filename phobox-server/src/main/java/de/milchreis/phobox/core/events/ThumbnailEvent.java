@@ -3,6 +3,7 @@ package de.milchreis.phobox.core.events;
 import java.io.File;
 import java.io.IOException;
 
+import de.milchreis.phobox.db.entities.Item;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ public class ThumbnailEvent extends BasicEvent {
 	private PhoboxOperations ops = Phobox.getOperations();
 
 	@Override
-	public void onNewFile(File file) {
+	public void onNewFile(File file, EventLoopInfo loopInfo) {
 		// Skip directory items
 		if(file.isDirectory()) {
 			return;

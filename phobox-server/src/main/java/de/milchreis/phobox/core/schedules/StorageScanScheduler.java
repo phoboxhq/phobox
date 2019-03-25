@@ -79,7 +79,7 @@ public class StorageScanScheduler extends TimerTask implements FileAction, Sched
 		
 		// Crawling over the storage and find missing database entries and thumbnails
 		// The magic is happened by the registered events
-		Phobox.getEventRegistry().onNewFile(file);
+		Phobox.getEventRegistry().onNewFile(file, null);
 	}
 
 	@Override

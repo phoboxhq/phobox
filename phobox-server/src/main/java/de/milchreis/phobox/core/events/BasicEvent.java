@@ -2,6 +2,8 @@ package de.milchreis.phobox.core.events;
 
 import java.io.File;
 
+import de.milchreis.phobox.core.Phobox;
+import de.milchreis.phobox.db.entities.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +39,7 @@ public abstract class BasicEvent implements IEvent {
 	public abstract void onStop();
 
 	@Override
-	public abstract void onNewFile(File incomingfile);
+	public abstract void onNewFile(File incomingfile, EventLoopInfo loopInfo);
 
 	@Override
 	public abstract void onDeleteFile(File file);
@@ -50,5 +52,19 @@ public abstract class BasicEvent implements IEvent {
 	
 	@Override
 	public abstract void onRenameDirectory(File directory, File newDirectory);
-	
+
+	public Item getItem(EventLoopInfo loopInfo, File incomingFile) {
+		String subpath = Phobox.getOperations().getWebPath(incomingFile);
+		Item item = loopInfo.getItem();
+
+		if(item == null) {
+			item = itemRepository.findByFullPath(subpath);
+		}
+
+		if(item == null)
+			throw new IllegalStateException("Item not found in database: " + subpath);
+
+		return item;
+	}
+
 }

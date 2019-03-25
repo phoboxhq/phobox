@@ -47,7 +47,7 @@ public class FileMoveAction implements FileAction {
 				silentMove(file, target, false);
 			}
 			
-			Phobox.getEventRegistry().onNewFile(new File(target, file.getName()));
+			Phobox.getEventRegistry().onNewFile(new File(target, file.getName()), null);
 			return;
 			
 		} catch (ImageProcessingException | NullPointerException e) {
@@ -64,7 +64,7 @@ public class FileMoveAction implements FileAction {
 		
 		silentMove(file, target, false);
 		
-		Phobox.getEventRegistry().onNewFile(new File(target, file.getName()));
+		Phobox.getEventRegistry().onNewFile(new File(target, file.getName()), null);
 	}
 	
 	private boolean silentMove(File source, File target, boolean checkExistence) {

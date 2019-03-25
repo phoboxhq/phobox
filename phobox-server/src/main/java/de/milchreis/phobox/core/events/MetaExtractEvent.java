@@ -21,44 +21,45 @@ public class MetaExtractEvent extends BasicEvent {
 	private PhoboxOperations ops = Phobox.getOperations();
 	
 	@Override
-	public void onNewFile(File file) {
-		String subpath = ops.getWebPath(file);
-		
+	public void onNewFile(File file, EventLoopInfo loopInfo) {
 		// Skip directory items
 		if(file.isDirectory()) {
 			return;
 		}
 		
 		try {
-			Item item = itemRepository.findByFullPath(subpath);
-			
-			if(item == null)
-				throw new IllegalStateException("Item not found in database: " + subpath);
-			
+			Item item = getItem(loopInfo, file);
+
 			try {
-				item.setRotation(ExifHelper.getOrientation(file));
+				if(item.getRotation() == null)
+					item.setRotation(ExifHelper.getOrientation(file));
 			} catch(Exception e) {
 				log.warn("Could not read rotation information of " + item.getFileName());
 			}
 
 			try {
-				item.setCreation(new Date(ExifHelper.getCreationDate(file).getTime()));
+				if(item.getCreation() == null)
+					item.setCreation(new Date(ExifHelper.getCreationDate(file).getTime()));
 			} catch(Exception e) {
 				log.warn("Could not read creation information of " + item.getFileName());
 			}
 
 			try {
-				String[] exifData = ExifHelper.getCamera(file);
-				item.setCamera(CameraNameFormatter.getFormattedCameraName(exifData));
+				if(item.getCamera() == null) {
+					String[] exifData = ExifHelper.getCamera(file);
+					item.setCamera(CameraNameFormatter.getFormattedCameraName(exifData));
+				}
 			} catch(Exception e) {
 				log.warn("Could not read camera vendor of " + item.getFileName());
 			}
 
 			try {
-				int[] dimension = ExifHelper.getDimension(file);
-				item.setWidth(dimension[0]);
-				item.setHeight(dimension[1]);
-				
+				if(item.getWidth() == null || item.getHeight() == null) {
+					int[] dimension = ExifHelper.getDimension(file);
+					item.setWidth(dimension[0]);
+					item.setHeight(dimension[1]);
+				}
+
 			} catch(Exception e) {
 				Image img = Toolkit.getDefaultToolkit().getImage(file.getAbsolutePath());
 				item.setWidth(img.getWidth(null));
@@ -66,6 +67,7 @@ public class MetaExtractEvent extends BasicEvent {
 			}
 			
 			itemRepository.save(item);
+			loopInfo.setItem(item);
 			
 		} catch (Exception e) {
 			log.error("Error while saving new file in database", e);

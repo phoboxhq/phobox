@@ -13,6 +13,8 @@ import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.db.repositories.ItemRepository;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.transaction.Transactional;
+
 @Slf4j
 @Component
 public class UpdateDatabaseEvent implements IEvent {
@@ -21,13 +23,16 @@ public class UpdateDatabaseEvent implements IEvent {
 	
 	@Autowired
 	private ItemRepository itemRepository;
-	
+
+	@Transactional
 	@Override
-	public void onNewFile(File incomingfile) {
+	public void onNewFile(File incomingfile, EventLoopInfo loopInfo) {
 		String subpath = ops.getWebPath(incomingfile);
 		
 		try {
-			Item item = itemRepository.findByFullPath(subpath);
+			Item item = loopInfo.getItem();
+			if(item == null)
+				item = itemRepository.findByFullPath(subpath);
 			
 			if(item == null) {
 				item = new Item();
@@ -38,6 +43,8 @@ public class UpdateDatabaseEvent implements IEvent {
 				item.setPath(FilenameUtils.getFullPath(subpath));
 				itemRepository.save(item);
 			}
+
+			loopInfo.setItem(item);
 
 		} catch (Exception e) {
 			log.error("Error while saving new file in database", e);
@@ -50,8 +57,11 @@ public class UpdateDatabaseEvent implements IEvent {
 
 		try {
 			Item item = itemRepository.findByFullPath(subpath);
-			itemRepository.delete(item);
-			
+
+			if(item != null) {
+				itemRepository.delete(item);
+			}
+
 		} catch (Exception e) {
 			log.error("Error while deleting file in database", e);
 		}
