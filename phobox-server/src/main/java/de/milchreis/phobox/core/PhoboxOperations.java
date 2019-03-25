@@ -22,7 +22,7 @@ public class PhoboxOperations {
 	
 	public PhoboxOperations(PhoboxModel model) {
 		this.model = model;
-		fileFilter = new ImageFileFilter(PhoboxDefinitions.SUPPORTED_VIEW_FORMATS);
+		fileFilter = new ImageFileFilter(PhoboxDefinitions.SUPPORTED_IMPORT_FORMATS);
 	}
 	
 	public void rename(File dir, String targetname) throws Exception {
