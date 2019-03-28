@@ -37,7 +37,6 @@ public class PhotoService implements IPhotoService {
 
 	@Override
 	public StorageItem getItem(File physicalFile) {
-		String webpath = Phobox.getOperations().getWebPath(physicalFile.getPath());
 		return generateStorageItem(physicalFile, null);
 	}
 
@@ -131,7 +130,9 @@ public class PhotoService implements IPhotoService {
 			List<String> previewFiles = ops.getFiles(physicalFile, 1);
 			if(previewFiles.size() >= 1) {
 
-				storageItem.setPreview(ops.getStaticResourcePath(model.getThumbPath(), previewFiles.get(0)));
+				File previewThumb = ops.getThumb(new File(model.getStoragePath(), previewFiles.get(0)));
+
+				storageItem.setPreview(ops.getStaticResourcePath(new File(ops.getWebPath(previewThumb))));
 				File previewFile = new File(model.getStoragePath(), previewFiles.get(0));
 
 				if(!ops.getThumb(previewFile).exists()) {

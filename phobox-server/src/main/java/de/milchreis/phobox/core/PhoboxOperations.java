@@ -108,42 +108,10 @@ public class PhoboxOperations {
 		return getFiles(model.getIncomingPath());
 	}
 	
-	public List<File> getNextFiles(int i, Iterator<File> it) {
-		List<File> files = new ArrayList<File>();
-		
-		if(it == null) {
-			it = FileUtils.iterateFiles(new File(model.getStoragePath()), null, true);
-		}
-		
-		while(it.hasNext()) {
-			File f = it.next();
-			if(fileFilter.accept(f)) {
-				files.add(f);
-
-				if(i-- == -1) {
-					return files;
-				}
-			}
-		}
-		
-		return files;
-	}
-
 	public String getStaticResourcePath(File path) {
 		String webpath = getWebPath(path);
 		webpath = webpath.startsWith("/") ? webpath : "/" + webpath;
 		return "ext" + webpath;
-	}
-	
-	public String getStaticResourcePath(File basicpath, String path) {
-		
-		String webpath = getWebPath(basicpath);
-		webpath = !webpath.startsWith("/") ? "/" + webpath : webpath;
-		webpath = !webpath.endsWith("/") ? webpath + "/" : webpath;
-		
-		String subpath = path.startsWith("/") ? path.substring(1) : path; 
-		
-		return "ext" + webpath + subpath;
 	}
 	
 	public File getThumb(File image) {
