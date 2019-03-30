@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import de.milchreis.phobox.core.PhoboxDefinitions;
 import de.milchreis.phobox.core.actions.ReThumbFileAction;
-import de.milchreis.phobox.utils.phobox.ThumbHelper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -29,7 +29,9 @@ public class ThumbProcessorQueue implements Runnable {
 		// Start delay with 5 seconds
 		sleep(5000);
 
-		ReThumbFileAction thumbAction = ThumbHelper.createReThumbAction();
+		ReThumbFileAction thumbAction = new ReThumbFileAction(
+				PhoboxDefinitions.THUMB_WIDTH,
+				PhoboxDefinitions.THUMB_HEIGHT);
 		
 		while(true) {
 		

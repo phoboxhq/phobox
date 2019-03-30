@@ -1,4 +1,4 @@
-package de.milchreis.phobox.core;
+package de.milchreis.phobox.core.operations;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.milchreis.phobox.core.Phobox;
+import de.milchreis.phobox.core.PhoboxDefinitions;
+import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
@@ -19,9 +22,12 @@ public class PhoboxOperations {
 
 	private PhoboxModel model;
 	private ImageFileFilter fileFilter;
+	@Getter
+	private ThumbnailOperations thumbnailOperations;
 	
 	public PhoboxOperations(PhoboxModel model) {
 		this.model = model;
+		this.thumbnailOperations = new ThumbnailOperations(model);
 		fileFilter = new ImageFileFilter(PhoboxDefinitions.SUPPORTED_IMPORT_FORMATS);
 	}
 	
@@ -58,12 +64,12 @@ public class PhoboxOperations {
 
 	public void moveFile(File file, File tar) throws IOException {
 		FileUtils.moveFileToDirectory(file, tar, true);
-		FileUtils.moveFileToDirectory(getThumb(file), getThumb(tar), true);
+		FileUtils.moveFileToDirectory(thumbnailOperations.getPhysicalThumbnail(file), thumbnailOperations.getPhysicalThumbnail(tar), true);
 	}
 
 	public void moveDir(File dir, File tar) throws IOException {
 		FileUtils.moveDirectoryToDirectory(dir, tar, true);
-		FileUtils.moveDirectoryToDirectory(getThumb(dir), getThumb(tar), true);
+		FileUtils.moveDirectoryToDirectory(thumbnailOperations.getPhysicalThumbnail(dir), thumbnailOperations.getPhysicalThumbnail(tar), true);
 	}
 
 	public List<String> getFiles(File directory, int number) {
@@ -112,18 +118,6 @@ public class PhoboxOperations {
 		String webpath = getWebPath(path);
 		webpath = webpath.startsWith("/") ? webpath : "/" + webpath;
 		return "ext" + webpath;
-	}
-	
-	public File getThumb(File image) {
-		File thumbpath = model.getThumbPath();
-		String imgPath = image.getAbsolutePath().replace(model.getStoragePath(), "");
-		String fileExtension = FilenameUtils.getExtension(image.getName());
-		imgPath = imgPath.substring(0, imgPath.length() - fileExtension.length());
-		return new File(thumbpath, imgPath + "jpg");
-	}
-	
-	public File getPhysicalFile(File webfile) {
-		return getPhysicalFile(webfile.getAbsolutePath());
 	}
 	
 	public File getPhysicalFile(String webfile) {

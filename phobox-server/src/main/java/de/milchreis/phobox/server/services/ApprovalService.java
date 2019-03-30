@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxDefinitions;
-import de.milchreis.phobox.core.PhoboxOperations;
+import de.milchreis.phobox.core.operations.PhoboxOperations;
 import de.milchreis.phobox.utils.phobox.ListHelper;
 import de.milchreis.phobox.utils.storage.PathConverter;
 import lombok.extern.slf4j.Slf4j;

@@ -34,7 +34,7 @@ public class ReThumbFileAction implements FileAction {
 		if(fileStr.contains("thumbs"))
 			return;
 		
-		File target = Phobox.getOperations().getThumb(file);
+		File target = Phobox.getThumbnailOperations().getPhysicalThumbnail(file);
 			
 		if(!target.exists()) {
 			target.getParentFile().mkdirs();

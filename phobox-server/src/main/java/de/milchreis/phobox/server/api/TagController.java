@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.PhoboxOperations;
+import de.milchreis.phobox.core.operations.PhoboxOperations;
 import de.milchreis.phobox.core.model.Status;
 import de.milchreis.phobox.core.model.StorageItem;
 import de.milchreis.phobox.db.entities.Item;

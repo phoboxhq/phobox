@@ -3,12 +3,11 @@ package de.milchreis.phobox.core.events;
 import java.io.File;
 import java.io.IOException;
 
-import de.milchreis.phobox.db.entities.Item;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
 
 import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.PhoboxOperations;
+import de.milchreis.phobox.core.operations.PhoboxOperations;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,7 +25,7 @@ public class ThumbnailEvent extends BasicEvent {
 		
 		log.debug("Start ThumbnailEvent for " + file.getAbsolutePath());
 		
-		File thumbnail = ops.getThumb(file);
+		File thumbnail = Phobox.getThumbnailOperations().getPhysicalThumbnail(file);
 		
 		if(!thumbnail.exists()) {
 			Phobox.processThumbnails(file);
@@ -36,7 +35,7 @@ public class ThumbnailEvent extends BasicEvent {
 	@Override
 	public void onDeleteFile(File file) {
 		
-		File thumbnail = ops.getThumb(file);
+		File thumbnail = Phobox.getThumbnailOperations().getPhysicalThumbnail(file);
 		
 		if(thumbnail.exists()) {
 			thumbnail.delete();
@@ -46,7 +45,8 @@ public class ThumbnailEvent extends BasicEvent {
 	@Override
 	public void onDeleteDirectory(File directory) {
 		try {
-			FileUtils.deleteDirectory(ops.getThumb(directory));
+			File thumbnail = Phobox.getThumbnailOperations().getPhysicalThumbnail(directory);
+			FileUtils.deleteDirectory(thumbnail);
 		} catch (IOException e) {
 			log.error("Error while deleting thumbnail directory", e);
 		}
@@ -54,8 +54,8 @@ public class ThumbnailEvent extends BasicEvent {
 
 	@Override
 	public void onRenameFile(File original, File newFile) {
-		File thumbDir = ops.getThumb(original);
-		File thumbTar = ops.getThumb(newFile);
+		File thumbDir = Phobox.getThumbnailOperations().getPhysicalThumbnail(original);
+		File thumbTar = Phobox.getThumbnailOperations().getPhysicalThumbnail(newFile);
 		thumbDir.renameTo(thumbTar);
 	}
 	

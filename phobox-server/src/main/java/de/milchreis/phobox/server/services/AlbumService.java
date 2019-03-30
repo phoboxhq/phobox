@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.PhoboxOperations;
+import de.milchreis.phobox.core.operations.PhoboxOperations;
 import de.milchreis.phobox.core.model.StorageAlbum;
 import de.milchreis.phobox.db.entities.Album;
 import de.milchreis.phobox.db.entities.Item;

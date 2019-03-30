@@ -15,7 +15,7 @@ import com.drew.imaging.ImageProcessingException;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.PhoboxDefinitions;
-import de.milchreis.phobox.core.PhoboxOperations;
+import de.milchreis.phobox.core.operations.PhoboxOperations;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.StorageItem;
 import de.milchreis.phobox.db.entities.Item;
@@ -91,7 +91,6 @@ public class PhotoService implements IPhotoService {
 	private StorageItem generateStorageItem(File physicalFile, Item dbItem) {
 
 		PhoboxOperations ops = Phobox.getOperations();
-		PhoboxModel model = Phobox.getModel();
 
 		if(dbItem == null && physicalFile == null)
 			return null;
@@ -108,17 +107,13 @@ public class PhotoService implements IPhotoService {
 
 		String filename = physicalFile.getName();
 		String directory = ops.getWebPath(physicalFile).replace(filename, "");
-
-		String extention = FilenameUtils.getExtension(physicalFile.getName());
-		extention = ListHelper.endsWith(extention.toLowerCase(), PhoboxDefinitions.SUPPORTED_VIEW_FORMATS) ? extention : "jpg";
-
-		File thumbnail = ops.getThumb(new File(physicalFile.getParentFile(), FilenameUtils.getBaseName(physicalFile.getName()) + "." + extention));
+		File thumbnail = Phobox.getThumbnailOperations().getPhysicalThumbnail(physicalFile);
 
 		StorageItem storageItem = new StorageItem();
 
 		storageItem.setName(FilenameUtils.getBaseName(physicalFile.getName()));
 		storageItem.setPath(ops.getWebPath(new File(directory, physicalFile.getName())));
-		storageItem.setType(physicalFile.isDirectory() ? StorageItem.TYPE_DIRECTORY : StorageItem.TYPE_FILE);
+		storageItem.setTypeByFile(physicalFile);
 
 		File rawFile = FilesystemHelper.getRawIfExists(physicalFile, PhoboxDefinitions.SUPPORTED_RAW_FORMATS);
 		if(rawFile != null) {
@@ -130,12 +125,12 @@ public class PhotoService implements IPhotoService {
 			List<String> previewFiles = ops.getFiles(physicalFile, 1);
 			if(previewFiles.size() >= 1) {
 
-				File previewThumb = ops.getThumb(new File(model.getStoragePath(), previewFiles.get(0)));
+				File previewFile = ops.getPhysicalFile(previewFiles.get(0));
+				File previewThumb = Phobox.getThumbnailOperations().getPhysicalThumbnail(previewFile);
 
 				storageItem.setPreview(ops.getStaticResourcePath(new File(ops.getWebPath(previewThumb))));
-				File previewFile = new File(model.getStoragePath(), previewFiles.get(0));
 
-				if(!ops.getThumb(previewFile).exists()) {
+				if(!previewThumb.exists()) {
 
 					// Add to database and create thumbnail
 					Phobox.getEventRegistry().onNewFile(previewFile, null);

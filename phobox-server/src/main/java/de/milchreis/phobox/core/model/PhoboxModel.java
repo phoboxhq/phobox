@@ -44,6 +44,13 @@ public class PhoboxModel {
 		if(autoSave)
 			PreferencesManager.set(PreferencesManager.STORAGE_PATH, storagePath);
 	}
+
+	public File getStoragePathAsFile() {
+		if(storagePath != null)
+			return new File(storagePath);
+
+		return null;
+	}
 	
 	public void setIncomingPath(File incomingPath) {
 		incomingPath.mkdirs();

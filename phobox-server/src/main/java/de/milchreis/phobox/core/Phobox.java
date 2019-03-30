@@ -7,6 +7,8 @@ import de.milchreis.phobox.core.events.EventRegistry;
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.ThumbProcessorQueue;
+import de.milchreis.phobox.core.operations.PhoboxOperations;
+import de.milchreis.phobox.core.operations.ThumbnailOperations;
 import de.milchreis.phobox.core.schedules.CopyScheduler;
 import de.milchreis.phobox.core.schedules.ImportScheduler;
 import de.milchreis.phobox.core.schedules.StorageScanScheduler;
@@ -95,6 +97,9 @@ public class Phobox {
 //		BeanUtil.getBean(StaticResourceConfiguration.class).update();
 	}
 
+	public static ThumbnailOperations getThumbnailOperations() {
+		return getOperations().getThumbnailOperations();
+	}
 	
 	public static FileProcessor getImportProcessor() {
 		return getInstance().importProcessor;

@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.io.File;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PhoboxOperationsTest {
 
@@ -27,8 +27,7 @@ public class PhoboxOperationsTest {
         }
 
         // Act
-        PhoboxOperations ops = new PhoboxOperations(model);
-        File thumbFile = ops.getThumb(file);
+        File thumbFile = Phobox.getThumbnailOperations().getPhysicalThumbnail(file);
 
         // Assert
         if(OSDetector.getLocalOS().equals(OSDetector.OS.WINDOWS)) {
