@@ -1,6 +1,7 @@
 package de.milchreis.phobox.db.entities;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 
@@ -63,7 +64,7 @@ public class Item {
 	private String hash;
 
 	@Column
-	private Date creation;
+	private Timestamp creation;
 	
 	@Column
 	private Date imported;

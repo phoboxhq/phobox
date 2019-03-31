@@ -149,6 +149,10 @@ public class PhotoService implements IPhotoService {
 				storageItem.setLandscape(dbItem.getWidth() > dbItem.getHeight());
 			}
 
+			if(dbItem != null && dbItem.getCreation() != null) {
+				storageItem.setTime(dbItem.getCreation().toString());
+			}
+
 			// Check existence of the thumbnails
 			if(!thumbnail.exists()) {
 

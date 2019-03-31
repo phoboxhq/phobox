@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import de.milchreis.phobox.utils.image.CameraNameFormatter;
 import org.springframework.stereotype.Component;
@@ -38,8 +39,8 @@ public class MetaExtractEvent extends BasicEvent {
 			}
 
 			try {
-				if(item.getCreation() == null)
-					item.setCreation(new Date(ExifHelper.getCreationDate(file).getTime()));
+				if(item.getCreation() == null || item.getCreation().toString().endsWith("00:00:00.0"))
+					item.setCreation(new Timestamp(ExifHelper.getCreationDate(file).getTime()));
 			} catch(Exception e) {
 				log.warn("Could not read creation information of " + item.getFileName());
 			}
