@@ -27,6 +27,12 @@ public class FileProcessor {
 	private String state = "";
 	private String currentfile = "";
 
+	public static FileProcessor createNew(File path, String[] format, FileAction action) {
+		FileProcessor proc = new FileProcessor();
+		proc.foreachFile(path, format, action);
+		return proc;
+	}
+
 	public void foreachFile(File path, String[] format, FileAction action) {
 		foreachFile(path, format, action, true);
 	}
