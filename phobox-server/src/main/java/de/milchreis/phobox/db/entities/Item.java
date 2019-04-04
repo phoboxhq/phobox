@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.milchreis.phobox.utils.exif.ExifHelper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -74,5 +76,10 @@ public class Item {
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ItemTag> tags;
-	
+
+	@JsonIgnore
+	public boolean isLandscape() {
+		return rotation != ExifHelper.ImageRotation.CLOCKWISE_90.getEncoding()
+				&& rotation != ExifHelper.ImageRotation.CLOCKWISE_270.getEncoding();
+	}
 }

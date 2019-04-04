@@ -18,8 +18,8 @@
 					id="lightbox_image"
 					class="preview"
 					:src="SERVER_PATH + selectedItem.thumb" />
-
-				<div class="window_buttons">
+			</div>
+      <div class="window_buttons">
 					<!-- Close window -->
 					<button type="button" class="close window_button"
 						v-on:click="close()">
@@ -54,13 +54,12 @@
 				</div>
 				
 				<!-- Show a button to load more images -->
-		        <div v-if="isFragment && fragmentSize >= pageSize && !hasNext">
-		            <button type="button" class="btn btn-secondary moreImagesBtn"
-		                v-on:click="onLoadMoreItems()">
-		                {{ $t('pictures.load_more') }}
-		            </button>
-		        </div>
-			</div>
+        <div v-if="isFragment && fragmentSize >= pageSize && !hasNext">
+            <button type="button" class="btn btn-secondary moreImagesBtn"
+                v-on:click="onLoadMoreItems()">
+                {{ $t('pictures.load_more') }}
+            </button>
+        </div>
 		</div>
 	</transition>
 </template>
@@ -152,23 +151,15 @@ export default {
       if(!this.selectedItem)
         return;
 
-      let img = new Image();
-      img.src = this.selectedItem.thumb;
-
       let lightboxImage = document.getElementById("lightbox_image");
 
-      if (img.width >= img.height) {
+      if (this.selectedItem.landscape) {
         lightboxImage.style.maxWidth = "100%";
         lightboxImage.style.maxHeight = undefined;
       } else {
-        lightboxImage.style.maxHeight =
-          window.innerHeight - window.innerHeight * 0.3 + "px";
+        lightboxImage.style.maxHeight = window.innerHeight - window.innerHeight * 0.3 + "px";
         lightboxImage.style.maxWidth = undefined;
       }
-
-      let lightboxWindow = document.getElementById("lightbox_window");
-      let xPos = window.innerWidth / 2 - lightboxImage.width / 2;
-      lightboxWindow.style.left = xPos + "px";
 
       this.scrollToItem();
 
@@ -235,9 +226,12 @@ export default {
 #lightbox #lightbox_window {
   position: fixed;
   top: 10%;
-  /*left: 10%*/
   max-width: 80%;
   z-index: 110;
+
+  /* Center window */
+  left: 50%;
+  transform: translateX(-50%);
 
   transition: all 0.3s;
   box-shadow: 0px 0px 15px 0px black;
@@ -258,18 +252,14 @@ export default {
 }
 
 .window_buttons {
-  /* fixed on the right side */
   position: fixed;
   top: 10%;
-  right: 0px;
-
-  /* Floating with image
-    position: absolute;
-    top: -16px;
-    right: -57px;
-    float: left;
-    */
+  z-index: 100;
+  right: 10px;
   width: 65px;
+  border-radius: 3px;
+  text-align: center;
+  background-color: #1b1b1bdb;
 }
 
 .window_button {

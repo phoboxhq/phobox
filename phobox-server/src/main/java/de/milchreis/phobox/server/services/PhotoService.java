@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -145,8 +146,8 @@ public class PhotoService implements IPhotoService {
 			storageItem.setThumb(ops.getStaticResourcePath(thumbnail));
 
 			// Add landscape/portrait information by database item
-			if(dbItem != null && Objects.nonNull(dbItem.getWidth()) && Objects.nonNull(dbItem.getHeight())) {
-				storageItem.setLandscape(dbItem.getWidth() > dbItem.getHeight());
+			if(dbItem != null && dbItem.getRotation() != null) {
+				storageItem.setLandscape(dbItem.isLandscape());
 			}
 
 			if(dbItem != null && dbItem.getCreation() != null) {
