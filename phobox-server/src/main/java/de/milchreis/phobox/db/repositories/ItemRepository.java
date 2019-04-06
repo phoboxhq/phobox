@@ -16,6 +16,9 @@ import java.util.UUID;
 
 public interface ItemRepository extends JpaRepository<Item, UUID> {
 
+	@Query("SELECT i FROM Item i")
+	Iterable<Item> findAllAsIteratable();
+
 	Page<Item> findByPath(String path, Pageable pageable);
 	
 	@OrderBy("creation ASC, file_name ASC")

@@ -81,9 +81,9 @@ public class Phobox {
 		// Initialize the scheduler for importing and scanning new files
 		phobox.importScheduler = new ImportScheduler(3000, 100);
 		phobox.copyScheduler = new CopyScheduler(3000);
-		phobox.storageScanScheduler = new StorageScanScheduler(24);
+		phobox.storageScanScheduler = new StorageScanScheduler(24, getModel().getStoragePathAsFile(), BeanUtil.getBean(ItemRepository.class), true);
 		phobox.scanQueue = new StorageScanQueue(BeanUtil.getBean(ItemRepository.class));
-		
+
 		phobox.copyScheduler.start();
 		phobox.storageScanScheduler.start();
 		phobox.importScheduler.start();

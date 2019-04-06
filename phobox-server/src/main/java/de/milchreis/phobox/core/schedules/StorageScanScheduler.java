@@ -10,6 +10,7 @@ import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.file.LoopInfo;
 import de.milchreis.phobox.db.repositories.ItemRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.flywaydb.core.internal.util.StopWatch;
 
 @Slf4j
 public class StorageScanScheduler extends TimerTask implements FileAction, Schedulable {
@@ -43,8 +44,10 @@ public class StorageScanScheduler extends TimerTask implements FileAction, Sched
 	
 	@Override
 	public void run() {
-		log.debug("Start storage scanner");
-		
+		log.info("Start storage scanner");
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
+
 		if(directory == null) {
 			directory = new File(Phobox.getModel().getStoragePath());
 		}
@@ -57,16 +60,18 @@ public class StorageScanScheduler extends TimerTask implements FileAction, Sched
 				0);
 		
 		// Check the database
-		itemRepository.findAll().forEach(item -> {
+		itemRepository.findAllAsIteratable().forEach(item -> {
 			
-			File originalfile = Phobox.getOperations().getPhysicalFile(item.getPath());
-			currentFile = originalfile;
+			currentFile = Phobox.getOperations().getPhysicalFile(item.getFullPath());
 			
-			if(!originalfile.exists()) {
-				Phobox.getEventRegistry().onDeleteFile(originalfile);
+			if(!currentFile.exists()) {
+				itemRepository.delete(item);
 			}
 		});
-		
+
+		stopWatch.stop();
+		log.info("StorageScan needed " + stopWatch.getTotalTimeMillis() / 1000.0f + " seconds");
+
 		ready = true;
 	}
 	
