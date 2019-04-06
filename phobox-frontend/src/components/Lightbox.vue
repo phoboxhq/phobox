@@ -285,4 +285,13 @@ button:hover[disabled] {
 button.close[disabled] {
   opacity: 0.3 !important;
 }
+
+#lightbox .moreImagesBtn {
+    z-index: 1000;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 10%;
+}
+
 </style>
