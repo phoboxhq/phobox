@@ -65,7 +65,9 @@ public class StorageScanScheduler extends TimerTask implements FileAction, Sched
 			currentFile = Phobox.getOperations().getPhysicalFile(item.getFullPath());
 			
 			if(!currentFile.exists()) {
-				itemRepository.delete(item);
+				// Start Registry for onDelete event -> removes item from database
+				// and deletes thumbnail if exists
+				Phobox.getEventRegistry().onDeleteFile(currentFile);
 			}
 		});
 
