@@ -22,6 +22,8 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
@@ -104,6 +106,8 @@ public class PhotosService implements IPhotosService {
         } catch(IOException e) {
             log.warn("Error while scanning directory: " + e.getLocalizedMessage());
         }
+
+        items.sort(Comparator.comparing(StorageItem::getName));
 
         return  items;
     }
