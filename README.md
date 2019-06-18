@@ -50,20 +50,13 @@ For small number of files you can use a upload function in the phobox front-end 
  - Password saved access
  - Languages: English and German
 
-# My local setup
-The following diagram shows the simplified setup of my phobox and raspberry pi. All devices are in the same wifi and get access of the
-phobox by calling the ip address of the RPi.
-
-![raspberry pi setup](https://github.com/Milchreis/phobox/raw/master/screenshots/RPi-setting.png)
-
-**To run phobox correctly on arm devices look [here](https://github.com/Milchreis/phobox/wiki/Setup-for-arm-devices-(f.e.-Raspberry-Pi)).**
-
 # Requirements
 Phobox is build on Java and just requires a JRE 1.8 or higher. The jar file is a standalone application and runs with `java -jar phobox.jar`. 
 The tool runs on the raspberry pi 3 with the Java ARM version great, too.
 
 # Build
-The project can build with maven and the goal `clean compile assembly:single`.
+The project can build with maven and the goal `clean compile assembly:single` or simply with `mvn`.
 
 # Contribute
 Please try it out and leave issues if something goes wrong or you have a feature request. Pull requests are also welcome :-)
+[Look here](https://phoboxhq.github.io/support/) for more support possibilities
