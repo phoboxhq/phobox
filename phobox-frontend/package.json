@@ -16,7 +16,7 @@
     "chart.js": "^2.7.3",
     "dropzone": "^5.4.0",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.3.1",
+    "jquery": ">=3.4.0",
     "lato-webfont": "^2.15.1",
     "material-design-icons-iconfont": "^3.0.3",
     "vue": "^2.5.2",
@@ -60,9 +60,9 @@
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
-    "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-bundle-analyzer": ">=3.3.2",
     "webpack-cli": "^3.2.1",
-    "webpack-dev-server": "3.0.0",
+    "webpack-dev-server": "^2.9.7",
     "webpack-merge": "^4.1.0"
   },
   "engines": {
