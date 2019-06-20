@@ -2,8 +2,8 @@
   <div id="menu">
     <!-- Head menu -->
     <div class="headmenu" v-on:click="toggle()">
-      <i style="font-size: 30px; vertical-align: middle;"
-        class="fa fa-camera-retro"></i>
+      <!-- <i style="font-size: 30px; vertical-align: middle;"
+        class="fa fa-camera-retro"></i> -->
       <img src="@/assets/logo.png" />
     </div>
 
