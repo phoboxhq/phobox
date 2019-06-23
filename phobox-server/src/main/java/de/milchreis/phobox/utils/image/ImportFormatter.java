@@ -11,10 +11,6 @@ import de.milchreis.phobox.utils.exif.ExifHelper;
 
 public class ImportFormatter {
 
-	public static final String CREATION_YEAR = "%Y";
-	public static final String CREATION_MONTH = "%M";
-	public static final String CREATION_DAY = "%D";
-	
 	public static final SimpleDateFormat yearFormatter = new SimpleDateFormat("yyyy");
 	public static final SimpleDateFormat monthFormatter = new SimpleDateFormat("MM");
 	public static final SimpleDateFormat dayFormatter = new SimpleDateFormat("dd");
