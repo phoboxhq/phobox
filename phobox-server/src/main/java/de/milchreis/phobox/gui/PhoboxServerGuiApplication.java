@@ -48,7 +48,7 @@ public class PhoboxServerGuiApplication extends Application {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.warn("Error while sleep on initial storage definition", e);
             }
         }
     }
