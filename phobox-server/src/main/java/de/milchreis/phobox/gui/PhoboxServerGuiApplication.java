@@ -1,5 +1,6 @@
 package de.milchreis.phobox.gui;
 
+import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.utils.phobox.BundleHelper;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -42,6 +43,14 @@ public class PhoboxServerGuiApplication extends Application {
             mainStage.setScene(storageAskScene);
             mainStage.show();
         });
+
+        while(Phobox.getModel().getStoragePath() == null) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void showUpload() {

@@ -27,7 +27,7 @@ public class PhoboxServerApplication implements CommandLineRunner {
 
 	private static PhoboxServerGuiApplication gui;
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 
 		// CLI
 		try {
@@ -44,28 +44,28 @@ public class PhoboxServerApplication implements CommandLineRunner {
 
 		// Ask for default Storage-Path on first run (no properties file found)
 		if(StartupHelper.isFirstRun()) {
-			if(model.isActiveGui()) {
+			if (model.isActiveGui()) {
 				gui.showStorageInitalization();
 			} else {
 				StorageAsk.askWithCLI();
 			}
-		} else {
+		}
+
+		if(model.isActiveGui()) {
+			gui.showSplash();
+		}
+
+		// Update the storage path
+		model.setStoragePath(PreferencesManager.get(PreferencesManager.STORAGE_PATH));
+		model.setImportFormat(PreferencesManager.get(PreferencesManager.IMPORT_FORMAT));
+		System.setProperty("phobox.logging.path", model.getPhoboxPath().getAbsolutePath());
+
+		try {
+			SpringApplication.run(PhoboxServerApplication.class, args);
+
+		} catch (Exception e) {
 			if(model.isActiveGui()) {
-				gui.showSplash();
-			}
-
-			// Update the storage path
-			model.setStoragePath(PreferencesManager.get(PreferencesManager.STORAGE_PATH));
-			model.setImportFormat(PreferencesManager.get(PreferencesManager.IMPORT_FORMAT));
-			System.setProperty("phobox.logging.path", model.getPhoboxPath().getAbsolutePath());
-
-			try {
-				SpringApplication.run(PhoboxServerApplication.class, args);
-
-			} catch (Exception e) {
-				if(model.isActiveGui()) {
-					gui.stop();
-				}
+				gui.stop();
 			}
 		}
 	}

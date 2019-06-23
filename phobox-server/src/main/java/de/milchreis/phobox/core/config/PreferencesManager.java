@@ -26,7 +26,7 @@ public class PreferencesManager {
 	public static final String PASSWORDS 	= "passwords";
 	public static final String IMPORT_FORMAT = "storage.import.format";
 	
-	private static File file = new File(System.getProperty("user.home"), ".phobox.props");
+	private static File file = new File(System.getProperty("user.home"), ".phobox.properties");
 	private static Properties props = init();
 	
 	public static void unset(String key) {
@@ -47,7 +47,7 @@ public class PreferencesManager {
 
 	private static void save() {
 		try(OutputStream os = new FileOutputStream(file)) {
-			props.store(os, "Preferences for the Phobox image application");
+			props.store(os, " Preferences for the Phobox image application");
 			
 		} catch (Exception e) {
 			log.error("Error while saving properties");

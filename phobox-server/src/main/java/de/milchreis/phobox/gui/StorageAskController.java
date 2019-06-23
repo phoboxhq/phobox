@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.config.PreferencesManager;
 import de.milchreis.phobox.utils.system.Restarter;
 import javafx.fxml.FXML;
@@ -15,23 +16,22 @@ import lombok.extern.slf4j.Slf4j;
 public class StorageAskController {
 
 	private @FXML Button storageButton;
+	private File path;
 
 	@FXML
-	protected void onChangeStoragePath() throws IOException, URISyntaxException {
+	protected void onChangeStoragePath() {
 		DirectoryChooser fileChooser = new DirectoryChooser();
 		File file = fileChooser.showDialog(storageButton.getScene().getWindow());
 		if (file != null) {
-			String path = file.getAbsolutePath();
-			storageButton.setText(path);
-			PreferencesManager.set(PreferencesManager.STORAGE_PATH, path);
-
-			Restarter.restartApplication();
+			path = file;
+			storageButton.setText(path.getAbsolutePath());
 		}
 	}
 
 	@FXML
-	protected void onNext() throws IOException, URISyntaxException {
-		Restarter.restartApplication();
+	protected void onNext() {
+		PreferencesManager.set("storage.path", path.getAbsolutePath());
+		Phobox.getModel().setStoragePath(path.getAbsolutePath());
 	}
 }
 
