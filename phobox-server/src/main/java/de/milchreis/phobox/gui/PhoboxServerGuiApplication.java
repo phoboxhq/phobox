@@ -6,12 +6,17 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
+import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 
 @Slf4j
@@ -92,7 +97,7 @@ public class PhoboxServerGuiApplication extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         mainStage = primaryStage;
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/favicon_64.png")));
@@ -120,5 +125,34 @@ public class PhoboxServerGuiApplication extends Application {
 
     protected void onClose() {
         System.exit(0);
+    }
+
+    public void closeSplash() {
+        Platform.runLater(() -> {
+            splash.hide();
+        });
+    }
+
+    public void showAlert(Exception exception) {
+        Platform.runLater(() -> {
+
+            ResourceBundle bundle = BundleHelper.getSuitableBundle();
+            String title = bundle.getString("error.title");
+            String headline = bundle.getString("error.intro");
+            String message = bundle.getString("error.help")
+                    + "\n\n" +
+                    exception.getCause().getMessage();
+
+            ErrorDialog dialog = new ErrorDialog(title, headline, message, exception);
+
+            // Set icon
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/favicon_64.png")));
+
+            // Show
+            dialog.showDialog();
+
+            onClose();
+        });
     }
 }

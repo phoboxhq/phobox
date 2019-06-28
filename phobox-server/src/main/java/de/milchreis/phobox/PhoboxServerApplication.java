@@ -9,6 +9,7 @@ import de.milchreis.phobox.gui.PhoboxServerGuiApplication;
 import de.milchreis.phobox.gui.StorageAsk;
 import de.milchreis.phobox.utils.system.Browser;
 import de.milchreis.phobox.utils.phobox.StartupHelper;
+import javafx.scene.control.Alert;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.swing.*;
 import java.util.List;
 
 @Slf4j
@@ -55,16 +57,20 @@ public class PhoboxServerApplication implements CommandLineRunner {
 			gui.showSplash();
 		}
 
-		// Update the storage path
-		model.setStoragePath(PreferencesManager.get(PreferencesManager.STORAGE_PATH));
-		model.setImportFormat(PreferencesManager.get(PreferencesManager.IMPORT_FORMAT));
-		System.setProperty("phobox.logging.path", model.getPhoboxPath().getAbsolutePath());
-
 		try {
+			// Update the storage path
+			model.setStoragePath(PreferencesManager.get(PreferencesManager.STORAGE_PATH));
+			model.setImportFormat(PreferencesManager.get(PreferencesManager.IMPORT_FORMAT));
+			System.setProperty("phobox.logging.path", model.getPhoboxPath().getAbsolutePath());
+
 			SpringApplication.run(PhoboxServerApplication.class, args);
 
 		} catch (Exception e) {
+			log.error("Error while startup", e);
+
 			if(model.isActiveGui()) {
+				gui.closeSplash();
+				gui.showAlert(e);
 				gui.stop();
 			}
 		}
