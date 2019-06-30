@@ -3,6 +3,7 @@ package de.milchreis.phobox.core;
 import java.io.File;
 
 import de.milchreis.phobox.core.config.PreferencesManager;
+import de.milchreis.phobox.core.config.StorageConfiguration;
 import de.milchreis.phobox.core.events.EventRegistry;
 import de.milchreis.phobox.core.file.FileProcessor;
 import de.milchreis.phobox.core.model.PhoboxModel;
@@ -77,26 +78,23 @@ public class Phobox {
 
 	public static void startSchedules() {
 		Phobox phobox = getInstance();
-		
+		StorageConfiguration config = getModel().getStorageConfiguration();
+
 		// Initialize the scheduler for importing and scanning new files
 		phobox.importScheduler = new ImportScheduler(3000, 100);
 		phobox.copyScheduler = new CopyScheduler(3000);
-		phobox.storageScanScheduler = new StorageScanScheduler(24, getModel().getStoragePathAsFile(), BeanUtil.getBean(ItemRepository.class), true);
 		phobox.scanQueue = new StorageScanQueue(BeanUtil.getBean(ItemRepository.class));
 
+		if(config.hasValidStorageScanTime()) {
+			int[] storageScantime = config.getStorageScantime();
+			phobox.storageScanScheduler = new StorageScanScheduler(storageScantime[0], storageScantime[1], 24, getModel().getStoragePathAsFile(), BeanUtil.getBean(ItemRepository.class), true);
+			phobox.storageScanScheduler.start();
+		}
+
 		phobox.copyScheduler.start();
-		phobox.storageScanScheduler.start();
 		phobox.importScheduler.start();
 	}
 	
-	public static void changeStoragePath(File path) {
-		PreferencesManager.set(PreferencesManager.STORAGE_PATH, path.getAbsolutePath());
-		
-		// TODO: Currently not working
-//		getModel().setStoragePath(path.getAbsolutePath());
-//		BeanUtil.getBean(StaticResourceConfiguration.class).update();
-	}
-
 	public static ThumbnailOperations getThumbnailOperations() {
 		return getOperations().getThumbnailOperations();
 	}

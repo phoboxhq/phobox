@@ -29,8 +29,8 @@ public class StorageAskController {
 	}
 
 	@FXML
-	protected void onNext() {
-		PreferencesManager.set("storage.path", path.getAbsolutePath());
+	protected void onNext() throws IOException {
+		PreferencesManager.setStoragePath(path);
 		Phobox.getModel().setStoragePath(path.getAbsolutePath());
 	}
 }

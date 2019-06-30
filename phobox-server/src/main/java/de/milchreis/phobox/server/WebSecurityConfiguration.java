@@ -1,7 +1,9 @@
 package de.milchreis.phobox.server;
 
-import java.util.Arrays;
-
+import de.milchreis.phobox.core.Phobox;
+import de.milchreis.phobox.core.config.PreferencesManager;
+import de.milchreis.phobox.core.config.StorageConfiguration;
+import de.milchreis.phobox.core.model.UserCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +22,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import de.milchreis.phobox.core.config.PreferencesManager;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -43,12 +46,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		
 		http.csrf().disable();
 		http.headers().frameOptions().disable();
-		
-		
-		String username = PreferencesManager.get(PreferencesManager.USERS);
-        String password = PreferencesManager.get(PreferencesManager.PASSWORDS);
-		
-		if(username != null && password != null) {
+
+		StorageConfiguration config = Phobox.getModel().getStorageConfiguration();
+		List<UserCredentials> credentials = config.getLoginCredentials();
+
+		if(credentials != null && credentials.size() > 0) {
 			http.authorizeRequests().anyRequest().authenticated();
 			http.httpBasic().authenticationEntryPoint(authEntryPoint);
 		}
@@ -82,19 +84,23 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
  
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		
-		String username = PreferencesManager.get(PreferencesManager.USERS);
-        String password = PreferencesManager.get(PreferencesManager.PASSWORDS);
-         
-        if(username != null && password != null) {
+
+		StorageConfiguration config = Phobox.getModel().getStorageConfiguration();
+		List<UserCredentials> credentials = config.getLoginCredentials();
+
+        if(credentials != null && credentials.size() > 0) {
         	InMemoryUserDetailsManagerConfigurer<AuthenticationManagerBuilder> mngConfig = auth.inMemoryAuthentication();
-        	UserDetails user = User
-        			.withUsername(username)
-        			.password(password)
-        			.roles("USER")
-        			.build();
-        	
-        	mngConfig.withUser(user);
+
+        	for(UserCredentials login : credentials) {
+
+				UserDetails user = User
+						.withUsername(login.getUsername())
+						.password(login.getPassword())
+						.roles("USER")
+						.build();
+
+				mngConfig.withUser(user);
+			}
         }
     }
     

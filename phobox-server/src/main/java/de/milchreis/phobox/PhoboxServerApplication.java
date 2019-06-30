@@ -2,6 +2,7 @@ package de.milchreis.phobox;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.config.PreferencesManager;
+import de.milchreis.phobox.core.config.StorageConfiguration;
 import de.milchreis.phobox.core.events.BasicEvent;
 import de.milchreis.phobox.core.events.UpdateDatabaseEvent;
 import de.milchreis.phobox.core.model.PhoboxModel;
@@ -18,6 +19,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -34,8 +37,12 @@ public class PhoboxServerApplication implements CommandLineRunner {
 		// CLI
 		try {
 			CLIManager.parse(args);
+
 		} catch (ParseException e) {
 			log.error("Could not parse the commandline arguments.");
+
+		} catch (IOException e) {
+			log.error("Could not load storage configuration file");
 		}
 
 		gui = StartupHelper.createGui();
@@ -44,23 +51,24 @@ public class PhoboxServerApplication implements CommandLineRunner {
 
 		PhoboxModel model = Phobox.getModel();
 
-		// Ask for default Storage-Path on first run (no properties file found)
-		if(StartupHelper.isFirstRun()) {
-			if (model.isActiveGui()) {
-				gui.showStorageInitalization();
-			} else {
-				StorageAsk.askWithCLI();
-			}
-		}
-
-		if(model.isActiveGui()) {
-			gui.showSplash();
-		}
-
 		try {
-			// Update the storage path
-			model.setStoragePath(PreferencesManager.get(PreferencesManager.STORAGE_PATH));
-			model.setImportFormat(PreferencesManager.get(PreferencesManager.IMPORT_FORMAT));
+			// Ask for default Storage-Path on first run (no properties file found)
+			if(StartupHelper.isFirstRun()) {
+				if (model.isActiveGui()) {
+					gui.showStorageInitalization();
+				} else {
+					StorageAsk.askWithCLI();
+				}
+			}
+
+			if(model.isActiveGui()) {
+				gui.showSplash();
+			}
+
+			StorageConfiguration config = Phobox.getModel().getStorageConfiguration();
+
+			// Setup the spring params depending on storage path
+			System.setProperty("server.port", config.getPhoboxPort()+"");
 			System.setProperty("phobox.logging.path", model.getPhoboxPath().getAbsolutePath());
 
 			SpringApplication.run(PhoboxServerApplication.class, args);
@@ -90,8 +98,11 @@ public class PhoboxServerApplication implements CommandLineRunner {
 		Phobox.getEventRegistry().onCreation();
 
 		if(Phobox.getModel().isActiveGui()) {
+
 			gui.showUpload();
-			Browser.open("http://localhost:"+Phobox.getModel().getPort());
+
+			StorageConfiguration config = Phobox.getModel().getStorageConfiguration();
+			Browser.open("http://localhost:" + config.getPhoboxPort());
 		}
 	}
 }

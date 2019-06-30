@@ -19,7 +19,9 @@ public class StorageScanScheduler extends TimerTask implements FileAction, Sched
 	
 	private boolean recursive;
 	private Timer timer;
-	private int timeInHours;
+	private int startingDelayInHours;
+	private Integer startingHour;
+	private Integer startingMinute;
 	private File directory;
 	private boolean ready;
 	private ItemRepository itemRepository;
@@ -27,16 +29,22 @@ public class StorageScanScheduler extends TimerTask implements FileAction, Sched
 	private FileProcessor fileProcessor;
 	
 	
-	public StorageScanScheduler(int timeInHours) {
+	public StorageScanScheduler(int startingDelayInHours) {
 		timer = new Timer();
-		this.setTimeInHours(timeInHours);
+		this.setStartingDelayInHours(startingDelayInHours);
 		recursive = true;
 		fileProcessor = new FileProcessor();
 	}
 	
-	public StorageScanScheduler(int timeInHours, File directory, ItemRepository itemRepository, boolean recursive) {
-		this(timeInHours);
+	public StorageScanScheduler(int startingDelayInHours, File directory, ItemRepository itemRepository, boolean recursive) {
+		this(null, null, startingDelayInHours, directory, itemRepository, recursive);
+	}
+
+	public StorageScanScheduler(Integer startingHour, Integer startingMinute, int startingDelayInHours, File directory, ItemRepository itemRepository, boolean recursive) {
+		this(startingDelayInHours);
 		this.directory = directory;
+		this.startingHour = startingHour;
+		this.startingMinute = startingMinute;
 		this.recursive = recursive;
 		this.itemRepository = itemRepository;
 	}
@@ -91,11 +99,11 @@ public class StorageScanScheduler extends TimerTask implements FileAction, Sched
 
 	@Override
 	public void start() {
-		if (timeInHours == IMMEDIATELY) {
+		if (startingDelayInHours == IMMEDIATELY) {
 			timer.schedule(this, 1);
 
-		} else {
-			timer.schedule(this, getStartDate(), getTimeInHours() * 3600000);
+		} else if(startingHour != null && startingMinute != null) {
+			timer.schedule(this, getStartDate(), getStartingDelayInHours() * 3600000);
 		}
 	}
 
@@ -109,19 +117,19 @@ public class StorageScanScheduler extends TimerTask implements FileAction, Sched
 		return ready;
 	}
 
-	public int getTimeInHours() {
-		return timeInHours;
+	public int getStartingDelayInHours() {
+		return startingDelayInHours;
 	}
 
-	public void setTimeInHours(int timeInHours) {
-		this.timeInHours = timeInHours;
+	public void setStartingDelayInHours(int startingDelayInHours) {
+		this.startingDelayInHours = startingDelayInHours;
 	}
 	
 	private Date getStartDate() {
 		GregorianCalendar cal = new GregorianCalendar();
 		cal.setTime(new Date());
-		cal.set(Calendar.HOUR_OF_DAY, 23);
-		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.HOUR_OF_DAY, startingHour);
+		cal.set(Calendar.MINUTE, startingMinute);
 		return cal.getTime();
 	}
 

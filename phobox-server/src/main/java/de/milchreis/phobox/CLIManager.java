@@ -1,7 +1,9 @@
 package de.milchreis.phobox;
 
 import java.io.File;
+import java.io.IOException;
 
+import de.milchreis.phobox.core.config.PreferencesManager;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -16,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CLIManager {
 	
-	public static void parse(String[] args) throws ParseException {
+	public static void parse(String[] args) throws ParseException, IOException {
 
 		PhoboxModel model = Phobox.getModel();
 		CommandLineParser parser = new DefaultParser();
@@ -45,6 +47,9 @@ public class CLIManager {
 		
 		if(line.hasOption("storage")) {
 			model.setStoragePath(line.getOptionValue("storage"));
+		} else {
+			PreferencesManager.init();
+			model.setStoragePath(PreferencesManager.getStoragePath().getAbsolutePath());
 		}
 		
 		if(line.hasOption("watchDirectory")) {
@@ -56,7 +61,7 @@ public class CLIManager {
 		}
 		
 		if(line.hasOption("port")) {
-			model.setPort(Integer.parseInt(line.getOptionValue("port")));
+			model.getStorageConfiguration().setPhoboxPort(Integer.parseInt(line.getOptionValue("port")));
 		}
 		
 		if(line.hasOption("help")) {

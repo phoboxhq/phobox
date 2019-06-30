@@ -6,13 +6,14 @@ import de.milchreis.phobox.utils.system.OSDetector;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
 public class PhoboxOperationsTest {
 
     @Test
-    public void test_createThumbPath() {
+    public void test_createThumbPath() throws IOException {
 
         // Arrange
         PhoboxModel model = new PhoboxModel();

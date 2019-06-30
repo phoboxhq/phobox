@@ -141,7 +141,7 @@ public class PhoboxServerGuiApplication extends Application {
             String headline = bundle.getString("error.intro");
             String message = bundle.getString("error.help")
                     + "\n\n" +
-                    exception.getCause().getMessage();
+                    exception != null ? exception.getMessage() : "ERROR";
 
             ErrorDialog dialog = new ErrorDialog(title, headline, message, exception);
 

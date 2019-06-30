@@ -41,6 +41,13 @@
 			<version>1.18.4</version>
 		</dependency>
 
+		<!-- Mapping from yaml to POJO -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+
 		<!-- Embedded database -->
 		<dependency>
 			<groupId>com.h2database</groupId>

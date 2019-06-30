@@ -42,7 +42,7 @@ public class UploadController implements Initializable {
 
 		try {
 			if(LocalIpAddress.getLocalIP().size() > 0) {
-				addressLabel.setText("http://"+LocalIpAddress.getLocalIP().get(0)+":"+Phobox.getModel().getPort());
+				addressLabel.setText("http://"+LocalIpAddress.getLocalIP().get(0)+":"+Phobox.getModel().getStorageConfiguration().getPhoboxPort());
 			}
 
 			executorService = Executors.newSingleThreadExecutor();
@@ -53,13 +53,13 @@ public class UploadController implements Initializable {
 	}
 	
 	@FXML
-	protected void onChangeStoragePath() {
+	protected void onChangeStoragePath() throws IOException {
 		DirectoryChooser fileChooser = new DirectoryChooser();
 		File file = fileChooser.showDialog(addressLabel.getScene().getWindow());
 		if (file != null) {
 			String path = file.getAbsolutePath();
 			storageButton.setText(path);
-			PreferencesManager.set(PreferencesManager.STORAGE_PATH, path);
+			PreferencesManager.setStoragePath(new File(path));
 			Phobox.getModel().setStoragePath(path);
 		}
 	}
@@ -109,7 +109,7 @@ public class UploadController implements Initializable {
 	@FXML
 	protected void onOpenGUI() {
 		PhoboxModel model = Phobox.getModel();
-		Browser.open("http://localhost:"+model.getPort());
+		Browser.open("http://localhost:"+model.getStorageConfiguration().getPhoboxPort());
 	}
 
 	@FXML

@@ -26,7 +26,9 @@ public class ErrorDialog extends Alert {
 
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        exception.printStackTrace(pw);
+        if(exception != null) {
+            exception.printStackTrace(pw);
+        }
         String exceptionText = sw.toString();
 
         Label label = new Label("The exception stacktrace was:");

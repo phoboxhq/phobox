@@ -42,7 +42,7 @@ public class ThumbFileAction implements FileAction {
 		int orientation = 1;
 		
 		try {
-			ImportFormatter importFormatter = new ImportFormatter(model.getImportFormat());
+			ImportFormatter importFormatter = new ImportFormatter(model.getStorageConfiguration().getImportFormat());
 			File dirStructure = importFormatter.createPath(file);
 			thumbPath = new File(thumbPath, dirStructure.toString());
 			

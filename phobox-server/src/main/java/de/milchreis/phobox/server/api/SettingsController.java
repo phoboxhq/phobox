@@ -25,14 +25,22 @@ public class SettingsController {
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE, 
 			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Status setUserCrendentials(@RequestBody UserCredentials cred) {
-		settingsService.setUserCrendentials(cred);
-		return new Status(Status.OK);
+		try {
+			settingsService.setUserCrendentials(cred);
+			return new Status(Status.OK);
+		} catch (Exception e) {
+			return new Status(Status.ERROR);
+		}
 	}
-	
+
 	@RequestMapping(value = "credentials", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Status unsetUserCrendentials() {
-		settingsService.unsetUserCrendentials();
-		return new Status(Status.OK);
+		try {
+			settingsService.unsetUserCrendentials();
+			return new Status(Status.OK);
+		} catch (Exception e) {
+			return new Status(Status.ERROR);
+		}
 	}
 	
 	@RequestMapping(value = "credentials", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -51,7 +59,7 @@ public class SettingsController {
 		try {
 			settingsService.setImportPattern(pattern);
 			return new Status(Status.OK);
-		} catch (InvalidFormatException e) {
+		} catch (Exception e) {
 			return new Status(Status.ERROR);
 		}
 	}

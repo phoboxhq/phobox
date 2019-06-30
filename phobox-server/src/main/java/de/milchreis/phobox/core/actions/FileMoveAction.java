@@ -38,7 +38,7 @@ public class FileMoveAction implements FileAction {
 		}
 			
 		try {
-			ImportFormatter importFormatter = new ImportFormatter(model.getImportFormat());
+			ImportFormatter importFormatter = new ImportFormatter(model.getStorageConfiguration().getImportFormat());
 			File dirStructure = importFormatter.createPath(file);
 			File target = new File(storage, dirStructure.toString());
 			

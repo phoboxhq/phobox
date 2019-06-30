@@ -15,7 +15,7 @@ public class StartupHelper {
 
     public static boolean isFirstRun() {
         return Phobox.getModel().getStoragePath() == null
-                && PreferencesManager.get(PreferencesManager.STORAGE_PATH) == null;
+                && PreferencesManager.getStoragePath() == null;
     }
 
     public static void initShutdownHook() {
