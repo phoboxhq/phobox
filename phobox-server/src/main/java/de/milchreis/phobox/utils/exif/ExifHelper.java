@@ -42,18 +42,21 @@ public class ExifHelper {
 	}};
 	
 	public static Date getCreationDate(File file) throws IOException, ImageProcessingException {
+		checkNullFile(file);
 		Metadata metadata = ImageMetadataReader.readMetadata(file);
 		ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
 		return directory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL, TimeZone.getDefault());
 	}
 
 	public static int getOrientation(File file) throws ImageProcessingException, IOException, MetadataException {
+		checkNullFile(file);
 		Metadata metadata = ImageMetadataReader.readMetadata(file);
 		ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
 		return directory.getInt(ExifIFD0Directory.TAG_ORIENTATION);
 	}
 	
 	public static int[] getDimension(File file) throws ImageProcessingException, IOException, MetadataException {
+		checkNullFile(file);
 		Metadata metadata = ImageMetadataReader.readMetadata(file);
 		ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
 		int width = directory.getInt(ExifSubIFDDirectory.TAG_EXIF_IMAGE_WIDTH);
@@ -62,6 +65,7 @@ public class ExifHelper {
 	}
 
 	public static String[] getCamera(File file) throws ImageProcessingException, IOException {
+		checkNullFile(file);
 		Metadata metadata = ImageMetadataReader.readMetadata(file);
 		ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
 		return new String[]{
@@ -70,9 +74,9 @@ public class ExifHelper {
 	}
 	
 	public static Map<String, String> getExifDataMap(File file) throws ImageProcessingException, IOException {
-		
+		checkNullFile(file);
+
 		Map<String, String> map = new TreeMap<>();
-		
 		Metadata metadata = ImageMetadataReader.readMetadata(file);
 		metadata.getDirectories().forEach(directory -> {
 			directory.getTags().forEach(tag -> {
@@ -81,6 +85,12 @@ public class ExifHelper {
 		});
 		
 		return map;
+	}
+
+	private static void checkNullFile(File file) {
+		if(file == null)
+			throw new IllegalArgumentException("No file passed");
+
 	}
 
 }

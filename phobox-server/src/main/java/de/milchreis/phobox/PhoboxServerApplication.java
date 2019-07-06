@@ -66,6 +66,7 @@ public class PhoboxServerApplication implements CommandLineRunner {
 			}
 
 			StorageConfiguration config = Phobox.getModel().getStorageConfiguration();
+			Phobox.getModel().writeStorageConfig();
 
 			// Setup the spring params depending on storage path
 			System.setProperty("server.port", config.getPhoboxPort()+"");

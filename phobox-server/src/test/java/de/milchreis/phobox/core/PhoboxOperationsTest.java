@@ -1,6 +1,7 @@
 package de.milchreis.phobox.core;
 
 import de.milchreis.phobox.core.model.PhoboxModel;
+import de.milchreis.phobox.core.operations.PhoboxOperations;
 import de.milchreis.phobox.core.operations.ThumbnailOperations;
 import de.milchreis.phobox.utils.system.OSDetector;
 import org.junit.Test;
