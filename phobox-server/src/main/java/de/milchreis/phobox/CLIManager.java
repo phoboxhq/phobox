@@ -49,7 +49,9 @@ public class CLIManager {
 			model.setStoragePath(line.getOptionValue("storage"));
 		} else {
 			PreferencesManager.init();
-			model.setStoragePath(PreferencesManager.getStoragePath().getAbsolutePath());
+			File storage = PreferencesManager.getStoragePath();
+			if(storage != null)
+				model.setStoragePath(storage.getAbsolutePath());
 		}
 		
 		if(line.hasOption("watchDirectory")) {
