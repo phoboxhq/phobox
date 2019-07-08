@@ -57,5 +57,5 @@ The tool runs on the raspberry pi with the Java ARM version great, too.
 The project can build with maven and the goal `clean compile assembly:single` or simply with `mvn`.
 
 # Contribute
-Please try it out and leave issues if something goes wrong or you have a feature request. Pull requests are also welcome 
+Please try it out and leave issues if something goes wrong or you have a feature request. Pull requests are welcome, too 😊
 [Look here](https://phoboxhq.github.io/support/) for more support possibilities
