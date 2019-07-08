@@ -9,6 +9,6 @@ cache:
   - $HOME/.m2
   - node_modules
 after_success:
-  - mvn clean test jacoco:report coveralls:report
+  - mvn clean test jacoco:report coveralls:report -DskipTests=true
 after_failure:
   - cat target/surefire-reports/*.txt
