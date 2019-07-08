@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/phoboxhq/phobox.svg?branch=master)](https://travis-ci.org/phoboxhq/phobox)
+
 # What is phobox?
 Phobox is a small tool to extend your local picture storage with a bunch of connectivity features. 
 It starts a lightweight server process, which you allows to access your pictures over a graphical user interface
