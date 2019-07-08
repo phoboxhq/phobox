@@ -10,11 +10,11 @@ or a REST-API. Moreover you can organize your files and create collections of th
 
 ![phobox](https://github.com/Milchreis/phobox/raw/master/screenshots/phobox.gif)
 
-## Download (BETA-Version)
+## Download
 Download the latest version from the github [releases page](https://github.com/phoboxhq/phobox/releases).
 
 ## Graphical interface 
-1) Start the program with double click on phobox-<version>.jar or `java -jar phobox-<version>.jar` in terminal
+1) Start the application with double click on phobox-<version>.jar or `java -jar phobox-<version>.jar` in terminal
 2) Set up the directory to your local pictures
 3) Open a browser on your local machine or maybe a smartphone in the same wifi to the shown ip address
 4) Enjoy your pictures 
@@ -51,11 +51,11 @@ For small number of files you can use a upload function in the phobox front-end 
 
 # Requirements
 Phobox is build on Java and just requires a JRE 1.8 or higher. The jar file is a standalone application and runs with `java -jar phobox.jar`. 
-The tool runs on the raspberry pi 3 with the Java ARM version great, too.
+The tool runs on the raspberry pi with the Java ARM version great, too.
 
 # Build
 The project can build with maven and the goal `clean compile assembly:single` or simply with `mvn`.
 
 # Contribute
-Please try it out and leave issues if something goes wrong or you have a feature request. Pull requests are also welcome :-)
+Please try it out and leave issues if something goes wrong or you have a feature request. Pull requests are also welcome 
 [Look here](https://phoboxhq.github.io/support/) for more support possibilities
