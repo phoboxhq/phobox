@@ -52,12 +52,14 @@ For small number of files you can use a upload function in the phobox front-end 
  - Languages: English and German
 
 # Requirements
-Phobox is build on Java and just requires a JRE 1.8 or higher. The jar file is a standalone application and runs with `java -jar phobox.jar`. 
-The tool runs on the raspberry pi with the Java ARM version great, too.
+Phobox is build on Java and just requires a JRE 1.8 or higher. The jar file is a standalone application and runs with `java -jar phobox.jar`. The tool runs on the raspberry pi with the Java ARM version great, too.
 
 # Build
-The project can build with maven and the goal `clean compile assembly:single` or simply with `mvn`.
+The project can build with maven:
+  - build the phobox-server: `cd phobox-server/ && mvn clean package`
+  - build the complete phobox: `mvn clean package`
 
 # Contribute
 Please try it out and leave issues if something goes wrong or you have a feature request. Pull requests are welcome, too 😊
 [Look here](https://phoboxhq.github.io/support/) for more support possibilities
+
