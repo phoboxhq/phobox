@@ -2,13 +2,14 @@ language: java
 jdk: openjdk11
 install: true
 script:
-  - mvn clean install -DskipTests=true
+  - mvn clean install -DskipTests=true project-info-reports:dependencies dependency-check:check versions:display-dependency-updates jacoco:report coveralls:report
   - bash <(curl -s https://codecov.io/bash)
 cache:
   directories:
   - $HOME/.m2
   - node_modules
 after_success:
-  - mvn clean test jacoco:report coveralls:report -DskipTests=true
+  - cat target/site/dependencies.html
+  - cat target/dependenciey-check-report.html
 after_failure:
   - cat target/surefire-reports/*.txt
