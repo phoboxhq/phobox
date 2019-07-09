@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class StorageAskController {
 
 	private @FXML Button storageButton;
+	private @FXML Button nextButton;
 	private File path;
 
 	@FXML
@@ -25,6 +26,9 @@ public class StorageAskController {
 		if (file != null) {
 			path = file;
 			storageButton.setText(path.getAbsolutePath());
+			nextButton.setDisable(false);
+		} else if(path == null) {
+			nextButton.setDisable(true);
 		}
 	}
 

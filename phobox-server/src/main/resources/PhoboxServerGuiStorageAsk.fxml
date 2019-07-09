@@ -55,7 +55,7 @@
                   </ImageView>
                </children>
             </Pane>
-            <Button mnemonicParsing="false" onAction="#onNext" text="%start.next" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+            <Button fx:id="nextButton" disable="true" mnemonicParsing="false" onAction="#onNext" text="%start.next" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <padding>
                   <Insets bottom="10.0" left="25.0" right="25.0" top="10.0" />
                </padding>
