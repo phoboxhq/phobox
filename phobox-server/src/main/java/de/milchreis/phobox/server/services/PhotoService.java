@@ -1,29 +1,26 @@
 package de.milchreis.phobox.server.services;
 
+import com.drew.imaging.ImageProcessingException;
+import de.milchreis.phobox.core.Phobox;
+import de.milchreis.phobox.core.PhoboxDefinitions;
+import de.milchreis.phobox.core.model.StorageItem;
+import de.milchreis.phobox.core.operations.PhoboxOperations;
+import de.milchreis.phobox.db.entities.Item;
+import de.milchreis.phobox.db.repositories.ItemRepository;
+import de.milchreis.phobox.utils.exif.ExifContainer;
+import de.milchreis.phobox.utils.exif.ExifHelper;
+import de.milchreis.phobox.utils.exif.ExifItem;
+import de.milchreis.phobox.utils.phobox.ListHelper;
+import de.milchreis.phobox.utils.storage.FilesystemHelper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
-import org.imgscalr.Scalr;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.drew.imaging.ImageProcessingException;
-
-import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.PhoboxDefinitions;
-import de.milchreis.phobox.core.operations.PhoboxOperations;
-import de.milchreis.phobox.core.model.PhoboxModel;
-import de.milchreis.phobox.core.model.StorageItem;
-import de.milchreis.phobox.db.entities.Item;
-import de.milchreis.phobox.db.repositories.ItemRepository;
-import de.milchreis.phobox.utils.storage.FilesystemHelper;
-import de.milchreis.phobox.utils.phobox.ListHelper;
-import de.milchreis.phobox.utils.exif.ExifHelper;
 
 @Slf4j
 @Service
@@ -47,7 +44,7 @@ public class PhotoService implements IPhotoService {
 	}
 
 	@Override
-	public Map<String, String> getExifData(String webFilePath) throws ImageProcessingException, IOException {
+	public ExifContainer getExifData(String webFilePath) throws ImageProcessingException, IOException {
 		return ExifHelper.getExifDataMap(Phobox.getOperations().getPhysicalFile(webFilePath));
 	}
 

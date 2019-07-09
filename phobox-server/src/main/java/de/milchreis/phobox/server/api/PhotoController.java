@@ -3,6 +3,8 @@ package de.milchreis.phobox.server.api;
 import java.io.IOException;
 import java.util.Map;
 
+import de.milchreis.phobox.utils.exif.ExifContainer;
+import de.milchreis.phobox.utils.exif.ExifItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +30,7 @@ public class PhotoController {
 	}
 	
 	@RequestMapping(value = "exif/{path}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public Map<String, String> getExif(@PathVariable("path") String imagepath) 
+	public ExifContainer getExif(@PathVariable("path") String imagepath)
 	throws ImageProcessingException, IOException {
 		return photoService.getExifData(imagepath);
 	}

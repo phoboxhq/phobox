@@ -8,6 +8,8 @@ import com.drew.imaging.ImageProcessingException;
 
 import de.milchreis.phobox.core.model.StorageItem;
 import de.milchreis.phobox.db.entities.Item;
+import de.milchreis.phobox.utils.exif.ExifContainer;
+import de.milchreis.phobox.utils.exif.ExifItem;
 
 public interface IPhotoService {
 
@@ -15,7 +17,7 @@ public interface IPhotoService {
 	StorageItem getItem(String webFilePath);
 	StorageItem getItem(Item item);
 
-	Map<String, String> getExifData(String webFilePath) throws ImageProcessingException, IOException;
+	ExifContainer getExifData(String webFilePath) throws ImageProcessingException, IOException;
 	
 	void rename(String webItemPath, String targetname) throws Exception;
 	

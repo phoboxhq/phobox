@@ -73,18 +73,16 @@ public class ExifHelper {
 				directory.getString(ExifIFD0Directory.TAG_MODEL)};
 	}
 	
-	public static Map<String, String> getExifDataMap(File file) throws ImageProcessingException, IOException {
+	public static ExifContainer getExifDataMap(File file) throws ImageProcessingException, IOException {
 		checkNullFile(file);
 
-		Map<String, String> map = new TreeMap<>();
+		ExifContainer container = new ExifContainer();
 		Metadata metadata = ImageMetadataReader.readMetadata(file);
 		metadata.getDirectories().forEach(directory -> {
-			directory.getTags().forEach(tag -> {
-				map.put(tag.getTagName(), tag.getDescription());
-			});
+			directory.getTags().forEach(container::add);
 		});
 		
-		return map;
+		return container;
 	}
 
 	private static void checkNullFile(File file) {

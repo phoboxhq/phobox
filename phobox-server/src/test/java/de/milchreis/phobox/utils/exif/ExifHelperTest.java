@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -124,14 +123,13 @@ public class ExifHelperTest {
         File file = new File("src/test/resources/example-images/Canon-6D_01.CR2");
 
         // Act
-        Map<String, String> exifDataMap = ExifHelper.getExifDataMap(file);
-        exifDataMap.entrySet().forEach(e -> System.out.println(e.getKey() + " -> " + e.getValue()));
+        ExifContainer exifContainer = ExifHelper.getExifDataMap(file);
 
         // Assert
-        assertEquals("f/3,2", exifDataMap.get("F-Number"));
-        assertEquals("1/500 sec", exifDataMap.get("Exposure Time"));
-        assertEquals("100", exifDataMap.get("ISO Speed Ratings"));
-        assertEquals("85,0 mm", exifDataMap.get("Focal Length"));
+        assertEquals("f/3,2", exifContainer.getFNumber());
+        assertEquals("1/500 sec", exifContainer.getExposureTime());
+        assertEquals("100", exifContainer.getISO());
+        assertEquals("85 mm", exifContainer.getFocalLength());
     }
 
 
