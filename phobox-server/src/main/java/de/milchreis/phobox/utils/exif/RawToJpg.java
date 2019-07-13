@@ -45,6 +45,9 @@ public class RawToJpg {
 	
 	private static List<BufferedImage> getPreviews(File file, boolean all) throws Exception {
 
+		if(file == null || !file.isFile())
+			throw new IllegalArgumentException("The given file is null or not exists");
+
 		String name = file.getName().toLowerCase();
 		
 		if(name.endsWith("arw")) {
@@ -59,7 +62,7 @@ public class RawToJpg {
 		
 		while(iter.hasNext()) {
 			try {
-				ImageReader reader = (ImageReader) iter.next();
+				ImageReader reader = iter.next();
 				reader.setInput(ImageIO.createImageInputStream(file));
 				final IIOMetadata metadata = reader.getImageMetadata(0);
 				ThumbnailLoader[] thumbs = null;

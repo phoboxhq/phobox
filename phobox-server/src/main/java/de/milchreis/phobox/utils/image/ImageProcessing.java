@@ -16,10 +16,14 @@ import com.mortennobel.imagescaling.MultiStepRescaleOp;
 public class ImageProcessing {
 
 	public static BufferedImage getImage(File imageFile) throws IOException {
+
+		if(imageFile == null || !imageFile.isFile())
+			throw new IllegalArgumentException("The given file is null or not exists");
+
 		return ImageIO.read(imageFile);
 	}
 	
-	public static BufferedImage scale(BufferedImage original, int sizeW, int sizeH) throws IOException {
+	public static BufferedImage scale(BufferedImage original, int sizeW, int sizeH) {
 		
 		float ratio = ((float) original.getHeight() / (float) original.getWidth());
 
@@ -43,19 +47,6 @@ public class ImageProcessing {
 		String format = FilenameUtils.getExtension(target.getName()).toLowerCase();
 		BufferedImage img = scale(original, sizeW, sizeH);
 		ImageIO.write(img, format, target);
-	}
-	
-	@Deprecated
-	public static void scale(File original, File target, int sizeW, int sizeH) throws IOException {
-
-//		if(JavaFXDetector.isAvailable()) {
-//			UploadController.scale(original, target, sizeW, sizeH);
-//
-//		} else {
-			String format = FilenameUtils.getExtension(target.getName()).toLowerCase();
-			BufferedImage img = Scalr.resize(ImageIO.read(original), sizeW, sizeH);
-			ImageIO.write(img, format, target);
-//		}
 	}
 	
 	public static void rotate(File original, File target, Rotation degree) throws IOException {
