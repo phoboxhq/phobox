@@ -14,6 +14,7 @@ or a REST-API. Moreover you can organize your files and create collections of th
 
 ## Download
 Download the latest version from the github [releases page](https://github.com/phoboxhq/phobox/releases).
+Docker images you get from [docker-hub](https://hub.docker.com/r/milchreis/phobox)
 
 ## Graphical interface 
 1) Start the application with double click on phobox-<version>.jar or `java -jar phobox-<version>.jar` in terminal
