@@ -15,19 +15,6 @@ import java.util.Date;
 
 public class FilesystemHelper {
 
-	private static final SimpleDateFormat TIMESTAMP_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
-	private static final SimpleDateFormat YEAR_FORMATTER = new SimpleDateFormat("yyyy");
-	
-	public static File getTargetpathByDate(File mainPath, Date date) {
-		File target = new File(mainPath, YEAR_FORMATTER.format(date));
-		
-		target = new File(
-				target,
-				TIMESTAMP_FORMATTER.format(date));
-		
-		return target;
-	}
-	
 	public static File getRawIfExists(File f, String[] formats) {
 		
 		String mainPath = f.getAbsolutePath().substring(0, f.getAbsolutePath().length()-4);
