@@ -2,14 +2,12 @@ package de.milchreis.phobox.server.services;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 import com.drew.imaging.ImageProcessingException;
 
 import de.milchreis.phobox.core.model.StorageItem;
 import de.milchreis.phobox.db.entities.Item;
-import de.milchreis.phobox.utils.exif.ExifContainer;
-import de.milchreis.phobox.utils.exif.ExifItem;
+import de.milchreis.phobox.core.model.exif.ExifContainer;
 
 public interface IPhotoService {
 

@@ -1,4 +1,4 @@
-package de.milchreis.phobox.utils.exif;
+package de.milchreis.phobox.core.model.exif;
 
 import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifSubIFDDirectory;

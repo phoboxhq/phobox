@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import de.milchreis.phobox.core.model.exif.ExifContainer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.imgscalr.Scalr.Rotation;

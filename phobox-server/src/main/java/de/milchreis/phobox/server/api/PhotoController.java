@@ -1,10 +1,8 @@
 package de.milchreis.phobox.server.api;
 
 import java.io.IOException;
-import java.util.Map;
 
-import de.milchreis.phobox.utils.exif.ExifContainer;
-import de.milchreis.phobox.utils.exif.ExifItem;
+import de.milchreis.phobox.core.model.exif.ExifContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;

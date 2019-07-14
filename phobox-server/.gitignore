@@ -2,6 +2,8 @@
 .mvn/wrapper
 target/
 
+phobox.log
+
 ### Eclipse ###
 .classpath
 .project

@@ -1,4 +1,4 @@
-package de.milchreis.phobox.utils.exif;
+package de.milchreis.phobox.core.model.exif;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

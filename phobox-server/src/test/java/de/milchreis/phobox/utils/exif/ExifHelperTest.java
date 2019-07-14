@@ -1,6 +1,7 @@
 package de.milchreis.phobox.utils.exif;
 
 import com.drew.imaging.ImageProcessingException;
+import de.milchreis.phobox.core.model.exif.ExifContainer;
 import org.junit.Test;
 
 import java.io.File;

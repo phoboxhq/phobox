@@ -98,10 +98,9 @@ public class PhoboxServerApplication implements CommandLineRunner {
 
 		Phobox.getEventRegistry().onCreation();
 
-		if(Phobox.getModel().isActiveGui()) {
+		if(Phobox.getModel().isActiveGui() && gui != null) {
 
 			gui.showUpload();
-
 			StorageConfiguration config = Phobox.getModel().getStorageConfiguration();
 			Browser.open("http://localhost:" + config.getPhoboxPort());
 		}

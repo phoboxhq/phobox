@@ -7,9 +7,8 @@ import de.milchreis.phobox.core.model.StorageItem;
 import de.milchreis.phobox.core.operations.PhoboxOperations;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.db.repositories.ItemRepository;
-import de.milchreis.phobox.utils.exif.ExifContainer;
+import de.milchreis.phobox.core.model.exif.ExifContainer;
 import de.milchreis.phobox.utils.exif.ExifHelper;
-import de.milchreis.phobox.utils.exif.ExifItem;
 import de.milchreis.phobox.utils.phobox.ListHelper;
 import de.milchreis.phobox.utils.storage.FilesystemHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service

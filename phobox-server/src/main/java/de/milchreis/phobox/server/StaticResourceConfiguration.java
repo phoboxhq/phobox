@@ -21,13 +21,21 @@ public class StaticResourceConfiguration implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
     	this.registry = registry;
 
-    	log.debug(getAsUrl(Phobox.getModel().getStoragePath()));
+    	String storagePath = Phobox.getModel().getStoragePath();
+
+    	if(storagePath == null) {
+    		log.warn("No storage path configured. No external resources configured");
+    		return;
+		}
+
+    	String storagePathUrl = getAsUrl(storagePath);
+    	log.debug("Map external resources from " + storagePathUrl + "api /ext/");
 
     	registry
 	    	.addResourceHandler("/ext/**")
 	    	.addResourceLocations(
 	    			"/ext/",
-	    			getAsUrl(Phobox.getModel().getStoragePath()));
+					storagePathUrl);
     }
     
     public void update() {
