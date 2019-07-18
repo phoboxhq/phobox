@@ -41,7 +41,20 @@ public class StorageConfiguration {
             return false;
 
         try {
-            getStorageScantime();
+            int[] time = getStorageScantime();
+
+            int hour = time[0];
+            if(hour > 23 || hour < 0) {
+                log.warn("Hour is not between 0 and 23");
+                return false;
+            }
+
+            int minute = time[1];
+            if(minute > 59 || minute < 0) {
+                log.warn("Minute is not between 0 and 59");
+                return false;
+            }
+
             return true;
         } catch (Exception e) {
             log.error("StorageScan property as no valid format: " + storageScan + " - Expects HH:MM", e);

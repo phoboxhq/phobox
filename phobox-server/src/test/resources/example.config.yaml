@@ -1,0 +1,21 @@
+---
+# The import format for this storage
+importFormat: "%Y-%M-%D/"
+
+# optional login credentials for a secured phobox instance
+# the password is saved as hash value (in that way the password is not saved readable)
+# Delete this entry or set to `loginCredentials: null` to deactivate the login.
+# default is deactivated
+loginCredentials:
+  - username: "nick"
+    password: "$2a$10$k1n4tz2YbqXbeQ9Cm5ZUkOG84/9hRjOTh1ERI2gCkAskkyDQFqxtW"
+
+# A specific starting time for the daily storage scan to update the database for storage changes.
+# Delete this entry or set to null to deactivate this scan.
+# It's recommended for server/NAS systems which runs phobox all around the clock
+# (default "23:00")
+storageScan: "23:10"
+
+# If you want to run phobox for this storage on a specific port (default 8080)
+# If you start phobox with CLI and -p parameter the `phoboxPort`-setting will be ignored.
+phoboxPort: 9001

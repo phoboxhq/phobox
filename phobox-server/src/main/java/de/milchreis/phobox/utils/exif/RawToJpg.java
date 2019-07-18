@@ -111,7 +111,7 @@ public class RawToJpg {
 		return null;
 	}
 	
-	private static BufferedImage extractGreatesImage(ThumbnailLoader[] thumbs, File file) throws IOException, ImageProcessingException {
+	private static BufferedImage extractGreatesImage(ThumbnailLoader[] thumbs, File file) throws ImageProcessingException {
 		
 		if(thumbs == null || thumbs.length == 0)
 			throw new IllegalArgumentException("No thumbnail loaders given");
@@ -131,7 +131,7 @@ public class RawToJpg {
 		
 	}
 	
-	private static List<BufferedImage> extractAllImage(ThumbnailLoader[] thumbs, File file) throws IOException {
+	private static List<BufferedImage> extractAllImage(ThumbnailLoader[] thumbs, File file) {
 		return Arrays.asList(thumbs)
 				.stream()
 				.map(l ->  {
