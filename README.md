@@ -10,7 +10,9 @@ or a REST-API. Moreover you can organize your files and create collections of th
  - get a simple and fast access to the pictures on my smartphone at home
  - search for pictures
 
-![phobox](https://github.com/Milchreis/phobox/raw/master/screenshots/phobox.gif)
+<p align="center">
+ <img src="https://github.com/Milchreis/phobox/raw/master/screenshots/phobox.gif" />
+</p>
 
 ## Download
  - Download the latest version from the github [releases page](https://github.com/phoboxhq/phobox/releases).
