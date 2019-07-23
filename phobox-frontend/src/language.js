@@ -109,6 +109,9 @@ export default {
 				free_space: 'Free space',
 				max_space: 'Max space',
 				number_of_pictures: 'Number of pictures',
+				uptime: 'Uptime',
+				hours: 'hours',
+				days: 'days',
 			},
 
 			upload: {
@@ -272,6 +275,9 @@ export default {
 				free_space: 'Freier Speicher',
 				max_space: 'Gesamtspeicher',
 				number_of_pictures: 'Bilderanzahl',
+				uptime: 'Laufzeit',
+				hours: 'Stunden',
+				days: 'Tage',
 			},
 
 			upload: {

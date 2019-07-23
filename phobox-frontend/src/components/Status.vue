@@ -31,6 +31,11 @@
       <p class="binfo">{{ numberOfPictures }}</p>
     </div>
 
+    <div class="batch">
+      <p class="title">{{ $t('status.uptime') }}</p>
+      <p class="binfo">{{ uptime }}</p>
+    </div>
+
   </div>
 </template>
 
@@ -57,6 +62,16 @@ export default {
     numberOfPictures() {
       return this.statusData.numberOfPictures;
     },
+
+    uptime() {
+      let hours = (this.statusData.uptime / 1000 / 60 / 60).toFixed(1);
+
+      if(hours > 24) {
+        return `${(hours / 24).toFixed(1)} ${this.$t('status.days')}`;
+      } else {
+        return `${hours} ${this.$t('status.hours')}`;
+      }
+    }
   },
   
   methods: {
