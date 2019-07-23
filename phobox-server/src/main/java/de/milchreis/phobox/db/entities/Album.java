@@ -26,7 +26,7 @@ public class Album {
 	@Column
 	private Date creation;
 	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy="albums")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy="albums", cascade = CascadeType.ALL)
 	private Set<Item> items;
 		
 }
