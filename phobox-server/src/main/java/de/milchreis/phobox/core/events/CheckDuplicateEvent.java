@@ -3,7 +3,6 @@ package de.milchreis.phobox.core.events;
 import de.milchreis.phobox.core.events.model.BasicEvent;
 import de.milchreis.phobox.core.events.model.EventLoopInfo;
 import de.milchreis.phobox.db.entities.Item;
-import de.milchreis.phobox.utils.storage.HashUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -11,21 +10,20 @@ import java.io.File;
 
 @Slf4j
 @Component
-public class HashEvent extends BasicEvent {
+public class CheckDuplicateEvent extends BasicEvent {
 
 	@Override
-	public void onImportFile(File file, EventLoopInfo loopInfo) {
+	public void onImportFile(File incomingfile, EventLoopInfo loopInfo) {
 		// Skip directory items
-		if(file.isDirectory()) {
+		if(incomingfile.isDirectory()) {
 			return;
 		}
 
 		try {
-			Item item = getItem(loopInfo, file);
+			Item item = itemRepository.findByHash(loopInfo.getItem().getHash());
 
-			if(item.getHash() == null) {
-				item.setHash(HashUtil.sha1File(file));
-				loopInfo.setItem(item);
+			if(item != null) {
+				loopInfo.stopLoop("Duplicate image: Image already exists in " + item.getFullPath());
 			}
 
 		} catch (Exception e) {

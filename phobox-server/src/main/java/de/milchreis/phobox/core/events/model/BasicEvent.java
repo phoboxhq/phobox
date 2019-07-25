@@ -1,4 +1,4 @@
-package de.milchreis.phobox.core.events;
+package de.milchreis.phobox.core.events.model;
 
 import java.io.File;
 
@@ -39,7 +39,7 @@ public abstract class BasicEvent implements IEvent {
 	public abstract void onStop();
 
 	@Override
-	public abstract void onNewFile(File incomingfile, EventLoopInfo loopInfo);
+	public abstract void onCheckExistingFile(File incomingfile, EventLoopInfo loopInfo);
 
 	@Override
 	public abstract void onDeleteFile(File file);

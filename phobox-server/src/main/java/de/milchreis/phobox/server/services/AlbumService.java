@@ -71,7 +71,7 @@ public class AlbumService implements IAlbumService {
 		Item item = itemRepository.findByFullPath(itemPath);
 
 		if (item == null) {
-			Phobox.getEventRegistry().onNewFile(new File(Phobox.getModel().getStoragePath(), itemPath), null);
+			Phobox.getEventRegistry().onCheckExistingFile(new File(Phobox.getModel().getStoragePath(), itemPath), null);
 			item = itemRepository.findByFullPath(itemPath);
 		}
 

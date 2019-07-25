@@ -26,6 +26,8 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
 
 	Item findByFullPath(String subpath);
 
+	Item findByHash(String hash);
+
 	@Query("SELECT i FROM Item i JOIN ItemTag t WHERE t.name = :tag ORDER BY creation ASC, file_name ASC")
 	List<Item> findByTag(@Param("tag") String tag);
 

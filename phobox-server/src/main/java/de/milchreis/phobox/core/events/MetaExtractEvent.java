@@ -3,14 +3,13 @@ package de.milchreis.phobox.core.events;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
-import java.sql.Date;
 import java.sql.Timestamp;
 
+import de.milchreis.phobox.core.events.model.BasicEvent;
+import de.milchreis.phobox.core.events.model.EventLoopInfo;
 import de.milchreis.phobox.utils.image.CameraNameFormatter;
 import org.springframework.stereotype.Component;
 
-import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.operations.PhoboxOperations;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.utils.exif.ExifHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -19,55 +18,22 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class MetaExtractEvent extends BasicEvent {
 
-	private PhoboxOperations ops = Phobox.getOperations();
-	
 	@Override
-	public void onNewFile(File file, EventLoopInfo loopInfo) {
+	public void onImportFile(File file, EventLoopInfo loopInfo) {
 		// Skip directory items
 		if(file.isDirectory()) {
 			return;
 		}
-		
+
+		onCheckExistingFile(file, loopInfo);
+	}
+
+
+	@Override
+	public void onCheckExistingFile(File file, EventLoopInfo loopInfo) {
 		try {
 			Item item = getItem(loopInfo, file);
-
-			try {
-				if(item.getRotation() == null)
-					item.setRotation(ExifHelper.getOrientation(file));
-			} catch(Exception e) {
-				log.warn("Could not read rotation information of " + item.getFileName());
-			}
-
-			try {
-				if(item.getCreation() == null || item.getCreation().toString().endsWith("00:00:00.0"))
-					item.setCreation(new Timestamp(ExifHelper.getCreationDate(file).getTime()));
-			} catch(Exception e) {
-				log.warn("Could not read creation information of " + item.getFileName());
-			}
-
-			try {
-				if(item.getCamera() == null) {
-					String[] exifData = ExifHelper.getCamera(file);
-					item.setCamera(CameraNameFormatter.getFormattedCameraName(exifData));
-				}
-			} catch(Exception e) {
-				log.warn("Could not read camera vendor of " + item.getFileName());
-			}
-
-			try {
-				if(item.getWidth() == null || item.getHeight() == null) {
-					int[] dimension = ExifHelper.getDimension(file);
-					item.setWidth(dimension[0]);
-					item.setHeight(dimension[1]);
-				}
-
-			} catch(Exception e) {
-				Image img = Toolkit.getDefaultToolkit().getImage(file.getAbsolutePath());
-				item.setWidth(img.getWidth(null));
-				item.setHeight(img.getHeight(null));
-			}
-			
-			itemRepository.save(item);
+			updateMetaData(file, item);
 			loopInfo.setItem(item);
 			
 		} catch (Exception e) {
@@ -97,6 +63,45 @@ public class MetaExtractEvent extends BasicEvent {
 	
 	@Override
 	public void onStop() {
+	}
+
+
+	private void updateMetaData(File file, Item item) {
+		try {
+			if(item.getRotation() == null)
+				item.setRotation(ExifHelper.getOrientation(file));
+		} catch(Exception e) {
+			log.warn("Could not read rotation information of " + item.getFileName());
+		}
+
+		try {
+			if(item.getCreation() == null || item.getCreation().toString().endsWith("00:00:00.0"))
+				item.setCreation(new Timestamp(ExifHelper.getCreationDate(file).getTime()));
+		} catch(Exception e) {
+			log.warn("Could not read creation information of " + item.getFileName());
+		}
+
+		try {
+			if(item.getCamera() == null) {
+				String[] exifData = ExifHelper.getCamera(file);
+				item.setCamera(CameraNameFormatter.getFormattedCameraName(exifData));
+			}
+		} catch(Exception e) {
+			log.warn("Could not read camera vendor of " + item.getFileName());
+		}
+
+		try {
+			if(item.getWidth() == null || item.getHeight() == null) {
+				int[] dimension = ExifHelper.getDimension(file);
+				item.setWidth(dimension[0]);
+				item.setHeight(dimension[1]);
+			}
+
+		} catch(Exception e) {
+			Image img = Toolkit.getDefaultToolkit().getImage(file.getAbsolutePath());
+			item.setWidth(img.getWidth(null));
+			item.setHeight(img.getHeight(null));
+		}
 	}
 
 }

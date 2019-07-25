@@ -3,33 +3,37 @@ package de.milchreis.phobox.core.events;
 import java.io.File;
 import java.io.IOException;
 
+import de.milchreis.phobox.core.events.model.BasicEvent;
+import de.milchreis.phobox.core.events.model.EventLoopInfo;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
 
 import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.operations.PhoboxOperations;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
 public class ThumbnailEvent extends BasicEvent {
 
-	private PhoboxOperations ops = Phobox.getOperations();
-
 	@Override
-	public void onNewFile(File file, EventLoopInfo loopInfo) {
+	public void onImportFile(File file, EventLoopInfo eventLoopInfo) {
 		// Skip directory items
 		if(file.isDirectory()) {
 			return;
 		}
-		
+
 		log.debug("Start ThumbnailEvent for " + file.getAbsolutePath());
-		
+
 		File thumbnail = Phobox.getThumbnailOperations().getPhysicalThumbnail(file);
-		
+
 		if(!thumbnail.exists()) {
 			Phobox.processThumbnails(file);
 		}
+	}
+
+	@Override
+	public void onCheckExistingFile(File file, EventLoopInfo loopInfo) {
+		onImportFile(file, loopInfo);
 	}
 
 	@Override

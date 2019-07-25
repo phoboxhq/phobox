@@ -111,6 +111,7 @@ public class PhoboxServerGuiApplication extends Application {
         splash.initStyle(StageStyle.UNDECORATED);
         splash.getIcons().add(new Image(getClass().getResourceAsStream("/img/favicon_64.png")));
         splash.setScene(createScene("PhoboxSplash.fxml"));
+        splash.setTitle("Phobox");
     }
 
     public Scene createScene(String fxmlPath) {

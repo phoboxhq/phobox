@@ -1,16 +1,14 @@
 package de.milchreis.phobox;
 
 import de.milchreis.phobox.core.Phobox;
-import de.milchreis.phobox.core.config.PreferencesManager;
 import de.milchreis.phobox.core.config.StorageConfiguration;
-import de.milchreis.phobox.core.events.BasicEvent;
-import de.milchreis.phobox.core.events.UpdateDatabaseEvent;
+import de.milchreis.phobox.core.events.model.BasicEvent;
+import de.milchreis.phobox.core.events.InitializeEvent;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.gui.PhoboxServerGuiApplication;
 import de.milchreis.phobox.gui.StorageAsk;
 import de.milchreis.phobox.utils.system.Browser;
 import de.milchreis.phobox.utils.phobox.StartupHelper;
-import javafx.scene.control.Alert;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +16,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,7 +23,7 @@ import java.util.List;
 @SpringBootApplication
 public class PhoboxServerApplication implements CommandLineRunner {
 	
-	@Autowired private UpdateDatabaseEvent updateDatabaseEvent;
+	@Autowired private InitializeEvent initializeEvent;
 	@Autowired private List<BasicEvent> events;
 
 	private static PhoboxServerGuiApplication gui;
@@ -93,7 +89,7 @@ public class PhoboxServerApplication implements CommandLineRunner {
 		Phobox.startSchedules();
 		
 		// Set up the EventRegistry
-		Phobox.getEventRegistry().addEvent(updateDatabaseEvent);
+		Phobox.getEventRegistry().addEvent(initializeEvent);
 		events.forEach(Phobox.getEventRegistry()::addEvent);
 
 		Phobox.getEventRegistry().onCreation();

@@ -1,39 +1,37 @@
 package de.milchreis.phobox.core.events;
 
-import java.io.File;
-import java.sql.Date;
-
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import de.milchreis.phobox.core.Phobox;
+import de.milchreis.phobox.core.events.model.EventLoopInfo;
+import de.milchreis.phobox.core.events.model.IEvent;
 import de.milchreis.phobox.core.operations.PhoboxOperations;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.db.repositories.ItemRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
+import java.io.File;
+import java.sql.Date;
 
 @Slf4j
 @Component
-public class UpdateDatabaseEvent implements IEvent {
+public class InitializeEvent implements IEvent {
 
 	private PhoboxOperations ops = Phobox.getOperations();
 	
 	@Autowired
 	private ItemRepository itemRepository;
 
-	@Transactional
 	@Override
-	public void onNewFile(File incomingfile, EventLoopInfo loopInfo) {
+	public void onImportFile(File incomingfile, EventLoopInfo loopInfo) {
 		String subpath = ops.getWebPath(incomingfile);
-		
+
 		try {
 			Item item = loopInfo.getItem();
 			if(item == null)
 				item = itemRepository.findByFullPath(subpath);
-			
+
 			if(item == null) {
 				item = new Item();
 				item.setFullPath(subpath);
@@ -41,13 +39,23 @@ public class UpdateDatabaseEvent implements IEvent {
 				item.setFileName(FilenameUtils.getBaseName(incomingfile.getName()));
 				item.setFileExtension(FilenameUtils.getExtension(subpath));
 				item.setPath(FilenameUtils.getFullPath(subpath));
-				itemRepository.save(item);
 			}
 
 			loopInfo.setItem(item);
 
 		} catch (Exception e) {
 			log.error("Error while saving new file in database", e);
+		}
+	}
+
+	@Override
+	public void onCheckExistingFile(File incomingfile, EventLoopInfo loopInfo) {
+
+		String subpath = ops.getWebPath(incomingfile);
+		Item item = itemRepository.findByFullPath(subpath);
+
+		if(item == null) {
+			onImportFile(incomingfile, loopInfo);
 		}
 	}
 
@@ -118,5 +126,6 @@ public class UpdateDatabaseEvent implements IEvent {
 	@Override
 	public void onStop() {
 	}
+
 
 }

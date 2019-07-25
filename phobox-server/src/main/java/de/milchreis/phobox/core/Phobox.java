@@ -2,7 +2,6 @@ package de.milchreis.phobox.core;
 
 import java.io.File;
 
-import de.milchreis.phobox.core.config.PreferencesManager;
 import de.milchreis.phobox.core.config.StorageConfiguration;
 import de.milchreis.phobox.core.events.EventRegistry;
 import de.milchreis.phobox.core.file.FileProcessor;
@@ -18,6 +17,7 @@ import de.milchreis.phobox.db.repositories.ItemRepository;
 import de.milchreis.phobox.utils.phobox.BeanUtil;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.Bean;
 
 public class Phobox {
 
@@ -84,6 +84,7 @@ public class Phobox {
 		phobox.importScheduler = new ImportScheduler(3000, 100);
 		phobox.copyScheduler = new CopyScheduler(3000);
 		phobox.scanQueue = new StorageScanQueue(BeanUtil.getBean(ItemRepository.class));
+		phobox.eventRegistry.setItemRepository(BeanUtil.getBean(ItemRepository.class));
 
 		if(config.hasValidStorageScanTime()) {
 			int[] storageScantime = config.getStorageScantime();
