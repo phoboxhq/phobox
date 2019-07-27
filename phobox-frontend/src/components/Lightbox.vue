@@ -280,6 +280,13 @@ export default {
   z-index: 100;
 }
 
+@media only screen and (max-width: 600px) {
+  #lightbox #lightbox_window {
+    left: 3px !important;
+    transform: none !important;
+  }
+}
+
 #lightbox #lightbox_window {
   position: fixed;
   top: 10%;
