@@ -25,6 +25,7 @@ export default {
 <style>
 @import '../node_modules/lato-webfont/lato.min.css';
 @import '../node_modules/font-awesome/css/font-awesome.min.css';
+@import '../node_modules/material-design-icons-iconfont/dist/material-design-icons.css';
 @import '../node_modules/bootstrap-css-only/css/bootstrap.min.css';
 
 #app {

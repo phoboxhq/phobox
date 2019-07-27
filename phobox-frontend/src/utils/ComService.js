@@ -168,11 +168,9 @@ export default function () {
     });
   };
 
-  this.getExif = function (itemPath) {
+  this.getExif = function (itemPath, callback) {
     var p = this.encodePath(itemPath);
-    return $.get(process.env.SERVER_PATH+"api/photo/exif/" + p).done(function (response) {
-      return response.data;
-    });
+    return $.get(process.env.SERVER_PATH+"api/photo/exif/" + p).done(callback);
   };
 
   this.getItem = function (itemPath) {

@@ -18,7 +18,7 @@
     "font-awesome": "^4.7.0",
     "jquery": ">=3.4.0",
     "lato-webfont": "^2.15.1",
-    "material-design-icons-iconfont": "^3.0.3",
+    "material-design-icons-iconfont": "^5.0.1",
     "vue": "^2.5.2",
     "vue-chartjs": "^3.4.0",
     "vue-i18n": "^7.8.0",
@@ -62,7 +62,7 @@
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": ">=3.3.2",
     "webpack-cli": "^3.2.1",
-    "webpack-dev-server": "^2.9.7",
+    "webpack-dev-server": "^2.11.5",
     "webpack-merge": "^4.1.0"
   },
   "engines": {

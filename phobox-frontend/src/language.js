@@ -51,6 +51,11 @@ export default {
 				favorite_dialog_name: 'New album name',
 				favorite_dialog_select: 'Select album',
 				favorite_dialog_add: 'Add to album',
+
+				iso: 'ISO',
+				exposure: 'Exposure time',
+				aperture: 'Aperture',
+				focalLength: 'Focal length',
 			},
 
 			album: {
@@ -217,6 +222,11 @@ export default {
 				favorite_dialog_name: 'Name des neuen Albums',
 				favorite_dialog_select: 'Album auswählen',
 				favorite_dialog_add: 'Hinzufügen',
+
+				iso: 'ISO',
+				exposure: 'Belichtungszeit',
+				aperture: 'Blende',
+				focalLength: 'Brennweite',
 			},
 
 			album: {

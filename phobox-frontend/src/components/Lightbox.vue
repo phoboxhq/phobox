@@ -18,7 +18,45 @@
 					id="lightbox_image"
 					class="preview"
 					:src="SERVER_PATH + selectedItem.thumb" />
+
+        <transition name="fade">
+        <div v-if="selectedItem.exif" class="exifBasics">
+
+          <div>
+            <!-- Camera model and lens -->
+            <b>{{ selectedItem.exif.items['0x0110'].value + " - " + selectedItem.exif.items['0xa434'].value }}</b>
+          </div>
+          
+          <div>
+            <span v-show="selectedItem.exif.iso">
+              <i class="material-icons md-14">iso</i>{{ `${selectedItem.exif.iso} ${$t('pictures.iso')}`}}
+            </span>
+            <span v-show="selectedItem.exif.exposureTime">
+              <i class="material-icons md-14">timer</i>{{ `${selectedItem.exif.exposureTime}` }}
+            </span>
+            <span v-show="selectedItem.exif.fnumber">
+              <i class="material-icons md-14">camera</i>{{ `${selectedItem.exif.fnumber}` }}
+            </span>
+            <span v-show="selectedItem.exif.focalLength">
+              <i class="material-icons md-14">camera_alt</i>{{ `${selectedItem.exif.focalLength}` }}
+            </span>
+          </div>
+
+          <div>
+            <!-- Dimension -->
+            <span v-show="selectedItem.exif.items['0xa002'] && selectedItem.exif.items['0xa003']">
+              <i class="material-icons md-14">photo_size_select_large</i>{{ getDimensionReadable(selectedItem) }}
+            </span>
+            <!-- Creation -->
+            <span v-show="selectedItem.exif.items['0x0132']">
+              <i class="material-icons md-14">schedule</i>{{ selectedItem.exif.items['0x0132'].value }}
+            </span>
+          </div>
+
+        </div>
+        </transition>
 			</div>
+
       <div class="window_buttons">
 					<!-- Close window -->
 					<button type="button" class="close window_button"
@@ -51,6 +89,12 @@
 						v-on:click="onFavorite()">
 						<i class="fa fa-star" aria-hidden="true"></i>
 					</button>
+
+					<!-- Exif info picture -->
+					<button type="button" class="close window_button"
+						v-on:click="onExifInfo()">
+            <i class="material-icons">info_outline</i>
+					</button>
 				</div>
 				
 				<!-- Show a button to load more images -->
@@ -67,6 +111,7 @@
 <script>
 import $ from 'jquery'
 import Swipe from '@/utils/Swipe';
+import ComService from '@/utils/ComService';
 
 export default {
   name: "Lightbox",
@@ -74,7 +119,7 @@ export default {
   data() {
     return {
       swipe: null,
-      SERVER_PATH: process.env.SERVER_PATH
+      SERVER_PATH: process.env.SERVER_PATH,
     };
   },
   computed: {
@@ -134,6 +179,12 @@ export default {
       this.$parent.favoriteItem = this.selectedItem;
     },
 
+    onExifInfo() {
+      new ComService().getExif(this.selectedItem.path, data => {
+        this.$set(this.selectedItem, 'exif', data);
+      });
+    },
+
     scrollToItem() {
       let id = this.selectedItem.path.replace(/\//g, "_");
       let element = document.getElementById(id);
@@ -180,6 +231,12 @@ export default {
           this.previous();
         }
       );
+    },
+
+    getDimensionReadable(selectedItem) {
+      const width = selectedItem.exif.items['0xa002'].value.replace(" pixels", "");
+      const height = selectedItem.exif.items['0xa003'].value.replace(" pixels", "");
+      return `${width} x ${height}`;
     }
   },
 
@@ -287,11 +344,28 @@ button.close[disabled] {
 }
 
 #lightbox .moreImagesBtn {
-    z-index: 1000;
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 10%;
+  z-index: 1000;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 10%;
 }
+
+.exifBasics {
+  padding: 12px;
+  border-radius: 0px 0px 5px 5px;
+  background-color: #252525;
+  color: #c3c1c1;
+}
+
+.exifBasics div {
+  margin-top: 5px;
+}
+
+.exifBasics div span {
+  padding-right: 10px;
+}
+
+.material-icons.md-14 { font-size: 14px; }
 
 </style>
