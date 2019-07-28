@@ -37,6 +37,12 @@ public class ExifContainer {
         return items.get(hex);
     }
 
+    public String getValueByTagId(int tagId) {
+        String hex = "0x" + Integer.toHexString(tagId);
+        ExifItem item = items.get(hex);
+        return item == null ? null : item.getValue();
+    }
+
     public void add(Tag tag) {
         items.put(tag.getTagTypeHex(), new ExifItem(tag.getTagTypeHex(), tag.getTagName(), tag.getDescription()));
     }

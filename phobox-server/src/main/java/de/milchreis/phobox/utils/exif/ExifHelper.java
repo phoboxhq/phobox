@@ -20,7 +20,7 @@ import static de.milchreis.phobox.utils.exif.ExifHelper.ImageRotation.*;
 
 public class ExifHelper {
 
-	@AllArgsConstructor
+    @AllArgsConstructor
 	public enum ImageRotation {
 		CLOCKWISE_90 (6), CLOCKWISE_180 (3), CLOCKWISE_270 (8);
 		@Getter
@@ -41,7 +41,7 @@ public class ExifHelper {
 		put(7, null);
 		put(CLOCKWISE_270.getEncoding(), Rotation.CW_270);
 	}};
-	
+
 	public static Date getCreationDate(File file) throws IOException, ImageProcessingException {
 		checkNullFile(file);
 		Metadata metadata = ImageMetadataReader.readMetadata(file);
@@ -54,7 +54,7 @@ public class ExifHelper {
 		Metadata metadata = ImageMetadataReader.readMetadata(file);
 		ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
 		return directory.getInt(ExifIFD0Directory.TAG_ORIENTATION);
-	}
+}
 	
 	public static int[] getDimension(File file) throws ImageProcessingException, IOException, MetadataException {
 		checkNullFile(file);

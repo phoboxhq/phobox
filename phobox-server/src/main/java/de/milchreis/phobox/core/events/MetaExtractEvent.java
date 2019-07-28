@@ -5,8 +5,10 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.sql.Timestamp;
 
+import com.drew.metadata.exif.ExifIFD0Directory;
 import de.milchreis.phobox.core.events.model.BasicEvent;
 import de.milchreis.phobox.core.events.model.EventLoopInfo;
+import de.milchreis.phobox.core.model.exif.ExifContainer;
 import de.milchreis.phobox.utils.image.CameraNameFormatter;
 import org.springframework.stereotype.Component;
 
@@ -65,8 +67,8 @@ public class MetaExtractEvent extends BasicEvent {
 	public void onStop() {
 	}
 
-
 	private void updateMetaData(File file, Item item) {
+
 		try {
 			if(item.getRotation() == null)
 				item.setRotation(ExifHelper.getOrientation(file));
@@ -88,6 +90,21 @@ public class MetaExtractEvent extends BasicEvent {
 			}
 		} catch(Exception e) {
 			log.warn("Could not read camera vendor of " + item.getFileName());
+		}
+
+		try {
+			ExifContainer exifData = ExifHelper.getExifDataMap(file);
+
+			if(item.getLens() == null) {
+				item.setLens(exifData.getValueByTagId(ExifIFD0Directory.TAG_LENS_MODEL));
+			}
+
+			if(item.getFocalLength() == null) {
+				item.setFocalLength(exifData.getValueByTagId(ExifIFD0Directory.TAG_FOCAL_LENGTH));
+			}
+
+		} catch(Exception e) {
+			log.warn("Could not read exif data of " + item.getFileName());
 		}
 
 		try {

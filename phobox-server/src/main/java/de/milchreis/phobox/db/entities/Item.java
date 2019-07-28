@@ -63,6 +63,12 @@ public class Item {
 	private String camera;
 
 	@Column
+	private String lens;
+
+	@Column(name = "focal_length")
+	private String focalLength;
+
+	@Column
 	private String hash;
 
 	@Column
@@ -81,5 +87,10 @@ public class Item {
 	public boolean isLandscape() {
 		return rotation != ExifHelper.ImageRotation.CLOCKWISE_90.getEncoding()
 				&& rotation != ExifHelper.ImageRotation.CLOCKWISE_270.getEncoding();
+	}
+
+	@JsonIgnore
+	public boolean isAnyMetaDataMissing() {
+		return rotation == null || width == null || camera == null || lens == null || focalLength == null || creation == null;
 	}
 }
