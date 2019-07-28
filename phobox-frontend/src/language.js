@@ -164,12 +164,17 @@ export default {
 			about: {
 				head: 'About Phobox',
 				background_head: 'Background',
-				background_text: `<p>Phobox is born as a private project to be a lean solution to get a fast and easy access to my personal pictures at home on different devices. It should be a lightweight extention to an existing picture storage and can be used as simple picture organizer, too.</p>
-					<p>With Phobox you get a light HTTP-Server which will be provide your images in your private network and your local device. Moreover it's possible to import new images to storage and let be automatically placed in the correct directory struture.</p>`,
+				background_text: 
+					`<p>I built phobox to solve a problem which I had with all existing tools. I want to keep my photos on my network storage to access them in my local wifi with my tablet in the couch. Moreover it should be possible to browse the files on computer in the file explorer.</p>
+					<p>All existing solutions didn’t fit my requirements or been expensive. So I begun to build a solution to myself and phobox was born. After a couple of years of development and personal usage I decided to make this project public. Phobox solves the origin problems in my daily photo workflow. I think out there are persons with the same problems, too. </p>
+					<p>Phobox is a very special project for me and I will never want to do without it again. But currently the development is completely in my spare time. If you like phobox and you want to support me, please <a href="https://phoboxhq.github.io/">look here.</a></p>
+					`,
 
 				author_and_contact_head: 'Author and Contact',
-				author_and_contact_text: `<p>Author: Nick Müller</p>
-					<p>Contact at <a href="https://github.com/milchreis/phobox">Github</a></p>`,
+				author_and_contact_text: `<p>Author: Nick 'Milchreis' Müller</p>
+					<p>Contact at <a href="https://github.com/phobox/phobox">Github</a></p>`,
+				thirdparty_libs: 'Third-Party Software used by Phobox',
+				thirdparty_lib_more: 'More details here',
 			}
 		},
 
@@ -335,12 +340,16 @@ export default {
 			about: {
 				head: 'Über Phobox',
 				background_head: 'Hintergrund',
-				background_text: `<p>Phobox wurde als privates Projekt gestartet, um eine schlanke Lösung für den schnellen und einfachen Zugriff auf die eigenen Bilder zuhause von verschiedenen Geräten zu erhalten. Es soll eine leichtgewichtige Erweiterung von bereits vorhandenen Bildersammlungen sein und auch als einfacher Bildspeicher-Organizer verwendet werden können.</p>
-								<p>Mit Phobox erhält man einen kleinen HTTP-Server, welcher die Bilder in einem lokalen Netzwerk für alle Geräte bereitstellt. Darüber hinaus ist es möglich neue Bilder in die Sammlung hinzufügen und automatisch in die Verzeichnissturktur einsortieren zu lassen.</p>`,
-
+				background_text: 
+					`<p>Ich habe Phobox gebaut, um ein Problem zu lösen, das ich mit allen vorhandenen Tools hatte. Ich möchte meine Fotos auf meinem Netzwerkspeicher aufbewahren, um auf sie in meinem lokalen WLAN mit meinem Tablett auf der Couch zuzugreifen. Außerdem sollte es möglich sein, die Dateien auf dem Computer im Datei-Explorer zu durchsuchen.</p>
+					<p>Alle vorhandenen Lösungen passten nicht zu meinen Anforderungen oder waren teuer. Also begann ich, eine Lösung für mich selbst zu entwickeln und phobox wurde geboren. Nach ein paar Jahren der Entwicklung und des persönlichen Gebrauchs entschied ich mich, dieses Projekt zu veröffentlichen. Phobox löst die Ursprungsprobleme in meinem täglichen Foto-Workflow. Ich denke, es gibt auch Menschen mit den gleichen Problemen.</p> 
+					<p>Phobox ist für mich ein ganz besonderes Projekt und ich will es nie wieder missen wollen. Aber derzeit ist die Entwicklung komplett in meiner Freizeit. Wenn dir die Phobox gefällt und du mich unterstützen willst, schau bitte <a href="https://phoboxhq.github.io/">hier nach.</a></p>
+					`,
 				author_and_contact_head: 'Autor und Kontakt',
-				author_and_contact_text: `<p>Autor: Nick Müller</p>
-					<p>Kontakt über <a href="https://github.com/milchreis/phobox">Github</a></p>`,
+				author_and_contact_text: `<p>Autor: Nick 'Milchreis' Müller</p>
+					<p>Kontakt über <a href="https://github.com/phoboxhq/phobox">Github</a></p>`,
+				thirdparty_libs: 'Von Phobox verwendete Software von Drittanbietern',
+				thirdparty_lib_more: 'Weitere Details gibt es hier',
 			}
 		},
 	},

@@ -361,8 +361,8 @@ button.close[disabled] {
 .exifBasics {
   padding: 12px;
   border-radius: 0px 0px 5px 5px;
-  background-color: #252525;
-  color: #c3c1c1;
+  background-color: #171717;
+  color: #9c9c9c;
 }
 
 .exifBasics div {
