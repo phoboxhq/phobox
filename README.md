@@ -1,4 +1,6 @@
+# Phobox
 [![Build Status](https://travis-ci.org/phoboxhq/phobox.svg?branch=master)](https://travis-ci.org/phoboxhq/phobox)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TXKR7ZHFQDNMA)
 
 # What is phobox?
 Phobox is a small tool to extend your local picture storage with a bunch of connectivity features. 
