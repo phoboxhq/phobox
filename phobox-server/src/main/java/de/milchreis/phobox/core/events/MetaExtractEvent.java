@@ -77,8 +77,6 @@ public class MetaExtractEvent extends BasicEvent {
 		}
 
 		try {
-			if(item.getCreation() == null || item.getCreation().toString().endsWith("00:00:00.0"))
-				item.setCreation(new Timestamp(ExifHelper.getCreationDate(file).getTime()));
 		} catch(Exception e) {
 			log.warn("Could not read creation information of " + item.getFileName());
 		}
@@ -96,11 +94,15 @@ public class MetaExtractEvent extends BasicEvent {
 			ExifContainer exifData = ExifHelper.getExifDataMap(file);
 
 			if(item.getLens() == null) {
-				item.setLens(exifData.getValueByTagId(ExifIFD0Directory.TAG_LENS_MODEL));
+				item.setLens(exifData.getLens());
 			}
 
 			if(item.getFocalLength() == null) {
 				item.setFocalLength(exifData.getValueByTagId(ExifIFD0Directory.TAG_FOCAL_LENGTH));
+			}
+
+			if(item.getCreation() == null || item.getCreation().toString().endsWith("00:00:00.0")) {
+				item.setCreation(exifData.getCreation());
 			}
 
 		} catch(Exception e) {

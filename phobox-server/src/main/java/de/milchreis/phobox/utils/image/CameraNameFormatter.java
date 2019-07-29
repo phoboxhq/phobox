@@ -20,6 +20,8 @@ public class CameraNameFormatter {
         String maker = cameraMakerAndModelArray[0] == null ? "" : cameraMakerAndModelArray[0];
         String model = cameraMakerAndModelArray[1] == null ? "" : cameraMakerAndModelArray[1];
 
+        maker = maker.replace("CORPORATION", "");
+
         if (maker.isEmpty() && model.isEmpty()) {
             return "Unknown";
         }

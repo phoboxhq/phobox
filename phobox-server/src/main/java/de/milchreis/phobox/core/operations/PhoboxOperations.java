@@ -135,7 +135,10 @@ public class PhoboxOperations {
 	
 	public String getWebPath(String file) {
 		String path = file;
-		path = path.replace(model.getStoragePath(), "");
+
+		if(model.getStoragePath() != null)
+			path = path.replace(model.getStoragePath(), "");
+
 		path = path.replace(File.separatorChar, '/');
 		return path;
 	}
