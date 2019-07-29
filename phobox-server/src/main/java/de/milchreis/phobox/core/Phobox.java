@@ -9,7 +9,7 @@ import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.core.model.ThumbProcessorQueue;
 import de.milchreis.phobox.core.operations.PhoboxOperations;
 import de.milchreis.phobox.core.operations.ThumbnailOperations;
-import de.milchreis.phobox.core.schedules.CopyScheduler;
+import de.milchreis.phobox.core.schedules.WatchDirectoryScheduler;
 import de.milchreis.phobox.core.schedules.ImportScheduler;
 import de.milchreis.phobox.core.schedules.StorageScanScheduler;
 import de.milchreis.phobox.core.storage.StorageScanQueue;
@@ -17,7 +17,6 @@ import de.milchreis.phobox.db.repositories.ItemRepository;
 import de.milchreis.phobox.utils.phobox.BeanUtil;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.context.annotation.Bean;
 
 public class Phobox {
 
@@ -32,7 +31,7 @@ public class Phobox {
 	@Getter @Setter
 	private ImportScheduler importScheduler;
 	@Getter @Setter
-	private CopyScheduler copyScheduler;
+	private WatchDirectoryScheduler watchDirectoryScheduler;
 	@Getter @Setter
 	private StorageScanScheduler storageScanScheduler;
 	@Getter @Setter
@@ -79,12 +78,13 @@ public class Phobox {
 	public static void startSchedules() {
 		Phobox phobox = getInstance();
 		StorageConfiguration config = getModel().getStorageConfiguration();
+		ItemRepository itemRepository = BeanUtil.getBean(ItemRepository.class);
 
 		// Initialize the scheduler for importing and scanning new files
 		phobox.importScheduler = new ImportScheduler(3000, 100);
-		phobox.copyScheduler = new CopyScheduler(3000);
-		phobox.scanQueue = new StorageScanQueue(BeanUtil.getBean(ItemRepository.class));
-		phobox.eventRegistry.setItemRepository(BeanUtil.getBean(ItemRepository.class));
+		phobox.watchDirectoryScheduler = new WatchDirectoryScheduler(5000, itemRepository);
+		phobox.scanQueue = new StorageScanQueue(itemRepository);
+		phobox.eventRegistry.setItemRepository(itemRepository);
 
 		if(config.hasValidStorageScanTime()) {
 			int[] storageScantime = config.getStorageScantime();
@@ -92,7 +92,7 @@ public class Phobox {
 			phobox.storageScanScheduler.start();
 		}
 
-		phobox.copyScheduler.start();
+		phobox.watchDirectoryScheduler.start();
 		phobox.importScheduler.start();
 	}
 	
