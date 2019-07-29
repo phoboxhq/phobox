@@ -14,11 +14,23 @@ or a REST-API. Moreover you can organize your files and create collections of th
  <img src="https://github.com/Milchreis/phobox/raw/master/screenshots/phobox.gif" />
 </p>
 
-## Download
+# Features
+ - Automatic picture organization in the file directory
+ - Browse your pictures on different devices in the same wifi
+ - Tagging your pictures
+ - Searching for pictures by name or TAGs
+ - Creating albums
+ - Statistics
+ - Upload pictures from remote devices in the same wifi
+ - Password saved access
+ - Languages: English and German
+
+# Download
  - Download the latest version from the github [releases page](https://github.com/phoboxhq/phobox/releases).
  - Docker images you get from [docker-hub](https://hub.docker.com/r/milchreis/phobox)
 
-## Graphical interface 
+# Usage
+## Use it with graphical interface 
 1) Start the application with double click on phobox-<version>.jar or `java -jar phobox-<version>.jar` in terminal
 2) Set up the directory to your local pictures
 3) Open a browser on your local machine or maybe a smartphone in the same wifi to the shown ip address
@@ -36,23 +48,12 @@ usage: phobox
  -w,--watchDirectory <arg>    Scans this directory for new files
 ```
 
-## Importing new pictures
+# Importing new pictures
 Phobox reads the `phobox/import/` directory inside your specified picture directory. Each new readable picture will
 be processed. Phobox moves the files to the configured directory (if EXIF data exists) and creates thumbnails for
 a faster display on remote devices. Additionally you can define another watch directory to listen for new files (maybe a remote directory).  
 
 For small number of files you can use a upload function in the phobox front-end or the drag-and-drop area of the phobox window.
-
-# Features
- - Automatic picture organization in the file directory
- - Browse your pictures on different devices in the same wifi
- - Tagging your pictures
- - Searching for pictures by name or TAGs
- - Creating albums
- - Statistics
- - Upload pictures from remote devices in the same wifi
- - Password saved access
- - Languages: English and German
 
 # Requirements
 Phobox is build on Java and just requires a JRE 1.8 or higher. The jar file is a standalone application and runs with `java -jar phobox.jar`. The tool runs on the raspberry pi with the Java ARM version great, too.
