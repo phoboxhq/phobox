@@ -37,7 +37,12 @@ public class ExifContainer {
     }
 
     public String getFocalLength() {
-        return getByTagId(ExifSubIFDDirectory.TAG_FOCAL_LENGTH).getValue();
+        String value = getByTagId(ExifSubIFDDirectory.TAG_FOCAL_LENGTH).getValue();
+
+        if("0 mm".equals(value))
+            return null;
+
+        return value;
     }
 
     public ExifItem getByTagId(String tagId) {
@@ -120,6 +125,10 @@ public class ExifContainer {
                 .map(e -> e.getValue().getValue().toString())
                 .findFirst()
                 .orElse(null);
+
+        // For Sony cameras with unknown lens
+        if(lens != null && lens.startsWith("--"))
+            lens = null;
 
         return lens;
     }

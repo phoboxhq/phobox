@@ -97,7 +97,7 @@ public class MetaExtractEvent extends BasicEvent {
 			}
 
 			if(item.getFocalLength() == null) {
-				item.setFocalLength(exifData.getValueByTagId(ExifIFD0Directory.TAG_FOCAL_LENGTH));
+				item.setFocalLength(exifData.getFocalLength());
 			}
 
 			if(item.getCreation() == null || item.getCreation().toString().endsWith("00:00:00.0")) {
