@@ -1,7 +1,6 @@
 package de.milchreis.phobox.core.events;
 
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.io.File;
 import java.sql.Timestamp;
 
@@ -105,22 +104,22 @@ public class MetaExtractEvent extends BasicEvent {
 				item.setCreation(exifData.getCreation());
 			}
 
+			try {
+				if(item.getWidth() == null || item.getHeight() == null) {
+					Dimension dimension = exifData.getDimension();
+					item.setWidth(dimension.width);
+					item.setHeight(dimension.height);
+				}
+
+			} catch(Exception e) {
+				Image img = Toolkit.getDefaultToolkit().getImage(file.getAbsolutePath());
+				item.setWidth(img.getWidth(null));
+				item.setHeight(img.getHeight(null));
+			}
 		} catch(Exception e) {
 			log.warn("Could not read exif data of " + item.getFileName());
 		}
 
-		try {
-			if(item.getWidth() == null || item.getHeight() == null) {
-				int[] dimension = ExifHelper.getDimension(file);
-				item.setWidth(dimension[0]);
-				item.setHeight(dimension[1]);
-			}
-
-		} catch(Exception e) {
-			Image img = Toolkit.getDefaultToolkit().getImage(file.getAbsolutePath());
-			item.setWidth(img.getWidth(null));
-			item.setHeight(img.getHeight(null));
-		}
 	}
 
 }
