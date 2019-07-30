@@ -27,11 +27,15 @@ public class ImportFormatter {
     public File createPath(File imageFile) throws ImageProcessingException, IOException {
 
         String subpath = "";
+        Date creationDate = null;
 
         for (String element : importFormat.split("/")) {
 
             if (contains(importFormat, Arrays.asList("%Y", "%M", "%D"))) {
-                Date creationDate = ExifHelper.getCreationDate(imageFile);
+
+                if(creationDate == null)
+                    creationDate = ExifHelper.getCreationDate(imageFile);
+
                 element = element.replace("%Y", yearFormatter.format(creationDate));
                 element = element.replace("%M", monthFormatter.format(creationDate));
                 element = element.replace("%D", dayFormatter.format(creationDate));

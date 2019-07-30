@@ -2,13 +2,18 @@ package de.milchreis.phobox.core.events;
 
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
+import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.events.model.EventLoopInfo;
+import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.db.entities.Item;
 import de.milchreis.phobox.helper.SpringDataProviderRunner;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.util.ReflectionUtils;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.File;
 
@@ -24,6 +29,13 @@ public class MetaExtractEventTest {
 
     @Autowired
     private MetaExtractEvent metaExtractEvent;
+
+    @BeforeClass
+    public static void beforeAll() {
+        PhoboxModel model = Phobox.getModel();
+        model.setAutoSave(false);
+        ReflectionTestUtils.setField(model, "storagePath", null);
+    }
 
     @DataProvider
     public static Object[][] getWorkingImages() {
@@ -64,8 +76,6 @@ public class MetaExtractEventTest {
         assertEquals(width,         item.getWidth());
         assertEquals(creation,      item.getCreation().toString());
         assertEquals(camera,        item.getCamera());
-
-
     }
 
 }

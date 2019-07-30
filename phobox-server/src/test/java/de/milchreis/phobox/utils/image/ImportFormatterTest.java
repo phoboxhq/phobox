@@ -31,6 +31,7 @@ public class ImportFormatterTest {
 
         // Arrange
         File relativePathToFile = new File("src/test/resources/example-images/Canon-6D_01.jpg");
+        System.out.println(relativePathToFile.getAbsolutePath());
 
         // Act
         ImportFormatter formatter = new ImportFormatter("/static/path/%Y-%M-%D");

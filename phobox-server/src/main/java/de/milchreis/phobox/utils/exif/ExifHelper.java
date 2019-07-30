@@ -47,7 +47,7 @@ public class ExifHelper {
 		Metadata metadata = ImageMetadataReader.readMetadata(file);
 		ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
 		Date date = directory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL, TimeZone.getDefault());
-		return date == null ? directory.getDate(ExifSubIFDDirectory.TAG_DATETIME, TimeZone.getDefault()) : null;
+		return date == null ? directory.getDate(ExifSubIFDDirectory.TAG_DATETIME, TimeZone.getDefault()) : date;
 	}
 
 	public static int getOrientation(File file) throws ImageProcessingException, IOException, MetadataException {
