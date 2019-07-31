@@ -69,3 +69,6 @@ The project can build with maven:
 Please try it out and leave issues if something goes wrong or you have a feature request. Pull requests are welcome, too 😊
 [Look here](https://phoboxhq.github.io/support/) for more support possibilities
 
+<p align="center">
+  Made with ❤️ by <a href="https://github.com/milchreis">Nick</a>
+</p>
