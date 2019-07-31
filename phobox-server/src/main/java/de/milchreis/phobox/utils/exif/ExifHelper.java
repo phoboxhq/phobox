@@ -75,18 +75,6 @@ public class ExifHelper {
 				directory.getString(ExifIFD0Directory.TAG_MODEL)};
 	}
 	
-	public static ExifContainer getExifDataMap(File file) throws ImageProcessingException, IOException {
-		checkNullFile(file);
-
-		ExifContainer container = new ExifContainer();
-		Metadata metadata = ImageMetadataReader.readMetadata(file);
-		metadata.getDirectories().forEach(directory -> {
-			directory.getTags().forEach(container::add);
-		});
-		
-		return container;
-	}
-
 	private static void checkNullFile(File file) {
 		if(file == null)
 			throw new IllegalArgumentException("No file passed");

@@ -1,17 +1,18 @@
 package de.milchreis.phobox.core.model.exif;
 
 import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
-import de.milchreis.phobox.utils.exif.ExifHelper;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.flywaydb.core.internal.util.StringUtils;
 
 import java.awt.*;
-import java.sql.Date;
-import java.sql.Time;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -139,12 +140,23 @@ public class ExifContainer {
     }
 
     public String getValueByTagId(int tagId) {
-        String hex = "0x" + Integer.toHexString(tagId);
+        String hex = "0x" + StringUtils.leftPad(Integer.toHexString(tagId), 4, '0');
         ExifItem item = items.get(hex);
         return item == null ? null : item.getValue();
     }
 
     public void add(Tag tag) {
         items.put(tag.getTagTypeHex(), new ExifItem(tag.getTagTypeHex(), tag.getTagName(), tag.getDescription()));
+    }
+
+    public static ExifContainer load(File file) throws ImageProcessingException, IOException {
+
+        ExifContainer container = new ExifContainer();
+        Metadata metadata = ImageMetadataReader.readMetadata(file);
+        metadata.getDirectories().forEach(directory -> {
+            directory.getTags().forEach(container::add);
+        });
+
+        return container;
     }
 }

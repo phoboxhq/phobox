@@ -124,7 +124,7 @@ public class ExifHelperTest {
         File file = new File("src/test/resources/example-images/Canon-6D_01.CR2");
 
         // Act
-        ExifContainer exifContainer = ExifHelper.getExifDataMap(file);
+        ExifContainer exifContainer = ExifContainer.load(file);
 
         // Assert
         assertEquals("f/3,2", exifContainer.getFNumber());
@@ -137,13 +137,13 @@ public class ExifHelperTest {
     @Test(expected = IllegalArgumentException.class)
     public void test_getExifDataMap_with_null_input() throws Exception {
         // Act
-        ExifHelper.getExifDataMap(null);
+        ExifContainer.load(null);
     }
 
     @Test(expected = FileNotFoundException.class)
     public void test_getExifDataMap_with_not_existing_file() throws Exception {
         // Act
-        ExifHelper.getExifDataMap(new File("this/doesnt/exists.txt"));
+        ExifContainer.load(new File("this/doesnt/exists.txt"));
     }
 
 }

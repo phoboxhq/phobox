@@ -43,7 +43,7 @@ public class PhotoService implements IPhotoService {
 
 	@Override
 	public ExifContainer getExifData(String webFilePath) throws ImageProcessingException, IOException {
-		return ExifHelper.getExifDataMap(Phobox.getOperations().getPhysicalFile(webFilePath));
+		return ExifContainer.load(Phobox.getOperations().getPhysicalFile(webFilePath));
 	}
 
 	@Override

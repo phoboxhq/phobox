@@ -34,13 +34,13 @@ public class ImportFormatterTest {
         System.out.println(relativePathToFile.getAbsolutePath());
 
         // Act
-        ImportFormatter formatter = new ImportFormatter("/static/path/%Y-%M-%D");
+        ImportFormatter formatter = new ImportFormatter("/static/path/%Y-%M-%D/%CAM/%FILE_TYPE/%ARTIST/%IS_RAW");
         File targetPathWithout = formatter.createPath(relativePathToFile);
 
         // Assert
         assertTrue(formatter.isValid());
         assertNotNull(targetPathWithout);
-        assertEquals(new File("/static/path/2019-06-10").getPath(), targetPathWithout.getPath());
+        assertEquals(new File("/static/path/2019-06-10/Canon EOS 6D/JPG/Nick Mueller/").getPath(), targetPathWithout.getPath());
     }
 
     @Test

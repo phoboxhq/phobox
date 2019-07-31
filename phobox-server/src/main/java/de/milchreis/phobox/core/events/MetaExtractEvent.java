@@ -90,7 +90,7 @@ public class MetaExtractEvent extends BasicEvent {
 		}
 
 		try {
-			ExifContainer exifData = ExifHelper.getExifDataMap(file);
+			ExifContainer exifData = ExifContainer.load(file);
 
 			if(item.getLens() == null) {
 				item.setLens(exifData.getLens());
