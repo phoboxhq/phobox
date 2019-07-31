@@ -140,10 +140,14 @@ export default {
 				import_pattern_description: 'Define a import format for all new incoming files. Use markers and directory separator to configure the format for the target directory. The data will be catched from the EXIF data of the picture.',
 				import_pattern_keywords: `
 					<ul>
-						<li>%Y - Use it for the year of creation of the picture (f.e. 2020)</li>
-						<li>%M - Use it for the month of creation of the picture (f.e. 12)</li>
-						<li>%D - Use it for the day of creation of the picture (f.e. 24)</li>
-						<li> / - Use it for the directory separation, if you want to create subdirectories</li>
+						<li> / - als Verzeichnistrenner, wenn Unterverzeichnisse erzeugt werden sollen</li>
+						<li>%Y - Sets the year from creation date (f.e. 2020)</li>
+						<li>%M - Sets the month from creation date (f.e. 12)</li>
+						<li>%D - Sets the day from creation date (f.e. 24)</li>
+						<li>%CAM - Sets the camera manufacture and model (f.e. Canon EOS 6D)</li>
+						<li>%ARTIST - Sets the author from EXIF data (f.e. Jimmy Johnson)</li>
+						<li>%FILE_TYPE - Sets the file type in upper case (f.e. JPG)</li>
+						<li>%IS_RAW - If its a RAW file it is filled with "RAW", otherwise it's empty (f.e. RAW)</li>
 					</ul>`,
 				import_pattern_formatting: 'Import formatting',
 				import_pattern_save: 'Save pattern',
@@ -316,10 +320,14 @@ export default {
 				import_pattern_description: 'Lege ein Importformat für alle neu hinzugefügten Dateien fest. Mit der Verwendung von Markern und Verzeichnis-Trennern kann die Zielverzeichnisstruktur konfiguriert werden. Die Daten werden aus den EXIF-Informationen der Bilder gelesen.',
 				import_pattern_keywords: `
 					<ul>
-						<li>%Y - Benutze für das Erstellungsjahr des Bildes (z.B. 2020)</li>
-						<li>%M - Benutze für den Erstellungsmonat des Bildes (z.B. 12)</li>
-						<li>%D - Benutze für den Erstellungstag des Bildes (z.B. 24)</li>
-						<li> / - Benutze als Verzeichnistrenner, wenn Unterverzeichnisse erzeugt werden sollen</li>
+						<li> / - als Verzeichnistrenner, wenn Unterverzeichnisse erzeugt werden sollen</li>
+						<li>%Y - Setzt das Erstellungsjahr des Bildes (z.B. 2020)</li>
+						<li>%M - Setzt den Erstellungsmonat des Bildes (z.B. 12)</li>
+						<li>%D - Setzt den Erstellungstag des Bildes (z.B. 24)</li>
+						<li>%CAM - Setzt den Hersteller und das Modell der Kamera (z.B. Canon EOS 6D)</li>
+						<li>%ARTIST - Setzt den Autor des Bildes (z.B. Jimmy Johnson)</li>
+						<li>%FILE_TYPE - Setzt den Bildtyp anhand der Dateiendung (z.B. JPG)</li>
+						<li>%IS_RAW - Erstellt ein "RAW" Verzeichnis, wenn es sich um ein RAW-Bild handelt, sonst nicht (z.B. RAW)</li>
 					</ul>`,
 				import_pattern_formatting: 'Format',
 				import_pattern_save: 'Konfiguration speichern',
