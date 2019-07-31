@@ -2,7 +2,6 @@ language: java
 jdk: openjdk11
 install: true
 script:
-  - cd phobox-server/ && mvn clean package
   - mvn clean package -DskipTests=true
   - cd phobox-server/ && mvn clean package -DskipTests=true project-info-reports:dependencies dependency-check:check versions:display-dependency-updates
   - bash <(curl -s https://codecov.io/bash)
