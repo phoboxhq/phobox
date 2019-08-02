@@ -32,10 +32,10 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
 	@Query("SELECT i FROM Item i JOIN ItemTag t WHERE t.name = :tag ORDER BY creation ASC, file_name ASC")
 	List<Item> findByTag(@Param("tag") String tag);
 
-	@Query("SELECT i FROM Item i LEFT JOIN i.tags t " +
+	@Query("SELECT DISTINCT i FROM Item i LEFT JOIN i.tags t " +
 			"WHERE (t.name LIKE CONCAT('%', :searchString, '%') " +
 			"OR i.path LIKE CONCAT('%', :searchString, '%') " +
-			"OR i.fileName LIKE CONCAT('%', :searchString, '%'))")
+			"OR i.fileName LIKE CONCAT('%', :searchString, '%')) ORDER BY i.creation, i.fileName ASC")
 	Page<Item> findBySearchString(@Param("searchString") String searchString, Pageable pageable);
 
 	@Transactional

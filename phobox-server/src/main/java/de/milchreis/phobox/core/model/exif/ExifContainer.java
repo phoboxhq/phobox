@@ -6,6 +6,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
+import de.milchreis.phobox.utils.image.CameraNameFormatter;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.internal.util.StringUtils;
@@ -40,10 +41,19 @@ public class ExifContainer {
     public String getFocalLength() {
         String value = getByTagId(ExifSubIFDDirectory.TAG_FOCAL_LENGTH).getValue();
 
-        if("0 mm".equals(value))
+        if ("0 mm".equals(value))
             return null;
 
         return value;
+    }
+
+    public String getCamera() {
+        return CameraNameFormatter.getFormattedCameraName(
+                new String[]{
+                        getValueByTagId(ExifIFD0Directory.TAG_MAKE),
+                        getValueByTagId(ExifIFD0Directory.TAG_MODEL)
+                }
+        );
     }
 
     public ExifItem getByTagId(String tagId) {
@@ -55,7 +65,7 @@ public class ExifContainer {
         String width = getValueByTagId(ExifSubIFDDirectory.TAG_EXIF_IMAGE_WIDTH);
         String height = getValueByTagId(ExifSubIFDDirectory.TAG_EXIF_IMAGE_HEIGHT);
 
-        if(width == null) {
+        if (width == null) {
             width = items.entrySet().stream()
                     .filter(e -> e.getValue().getDescription().toLowerCase().contains("width"))
                     .map(e -> e.getValue().getValue().toString())
@@ -63,7 +73,7 @@ public class ExifContainer {
                     .orElse(null);
         }
 
-        if(height == null) {
+        if (height == null) {
             height = items.entrySet().stream()
                     .filter(e -> e.getValue().getDescription().toLowerCase().contains("height"))
                     .map(e -> e.getValue().getValue().toString())
@@ -72,11 +82,11 @@ public class ExifContainer {
         }
 
         try {
-            if(width != null) {
+            if (width != null) {
                 width = width.replace("pixels", "").replace(" ", "");
             }
 
-            if(height != null) {
+            if (height != null) {
                 height = height.replace("pixels", "").replace(" ", "");
             }
 
@@ -91,7 +101,7 @@ public class ExifContainer {
 
         String creation = getValueByTagId(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
 
-        if(creation != null) {
+        if (creation != null) {
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss");
                 return new Timestamp(sdf.parse(creation).getTime());
@@ -106,29 +116,29 @@ public class ExifContainer {
     public String getLens() {
         String lens = getValueByTagId(ExifIFD0Directory.TAG_LENS_MODEL);
 
-        if(lens == null)
-            lens =  items.entrySet().stream()
-                .filter(e -> e.getValue().getDescription().toLowerCase().equals("lens"))
-                .map(e -> e.getValue().getValue().toString())
-                .findFirst()
-                .orElse(null);
+        if (lens == null)
+            lens = items.entrySet().stream()
+                    .filter(e -> e.getValue().getDescription().toLowerCase().equals("lens"))
+                    .map(e -> e.getValue().getValue().toString())
+                    .findFirst()
+                    .orElse(null);
 
-        if(lens == null)
-            lens =  items.entrySet().stream()
-                .filter(e -> e.getValue().getDescription().toLowerCase().contains("lensmodel"))
-                .map(e -> e.getValue().getValue().toString())
-                .findFirst()
-                .orElse(null);
+        if (lens == null)
+            lens = items.entrySet().stream()
+                    .filter(e -> e.getValue().getDescription().toLowerCase().contains("lensmodel"))
+                    .map(e -> e.getValue().getValue().toString())
+                    .findFirst()
+                    .orElse(null);
 
-        if(lens == null)
-            lens =  items.entrySet().stream()
-                .filter(e -> e.getValue().getDescription().toLowerCase().contains("lens type"))
-                .map(e -> e.getValue().getValue().toString())
-                .findFirst()
-                .orElse(null);
+        if (lens == null)
+            lens = items.entrySet().stream()
+                    .filter(e -> e.getValue().getDescription().toLowerCase().contains("lens type"))
+                    .map(e -> e.getValue().getValue().toString())
+                    .findFirst()
+                    .orElse(null);
 
         // For Sony cameras with unknown lens
-        if(lens != null && lens.startsWith("--"))
+        if (lens != null && lens.startsWith("--"))
             lens = null;
 
         return lens;
@@ -150,7 +160,7 @@ public class ExifContainer {
     }
 
     public static ExifContainer load(File file) throws ImageProcessingException, IOException {
-        if(file == null)
+        if (file == null)
             throw new IllegalArgumentException("The given file is null");
 
         ExifContainer container = new ExifContainer();

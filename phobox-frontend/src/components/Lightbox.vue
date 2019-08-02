@@ -24,7 +24,7 @@
 
           <div>
             <!-- Camera model and lens -->
-            <b>{{ selectedItem.exif.items['0x0110'].value + " - " + selectedItem.exif.items['0xa434'].value }}</b>
+            <b>{{ selectedItem.exif.camera + " - " + selectedItem.exif.lens }}</b>
           </div>
           
           <div>

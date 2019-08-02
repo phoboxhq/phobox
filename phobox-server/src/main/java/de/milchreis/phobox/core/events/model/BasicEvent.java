@@ -5,6 +5,7 @@ import java.io.File;
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.db.entities.Item;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,18 +14,17 @@ import de.milchreis.phobox.db.repositories.ConfigRepository;
 import de.milchreis.phobox.db.repositories.ItemRepository;
 import de.milchreis.phobox.db.repositories.ItemTagRepository;
 
+@Slf4j
 @ToString
 @EqualsAndHashCode
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @Component
 public abstract class BasicEvent implements IEvent {
 
-	protected ItemRepository itemRepository;
-	protected AlbumRepository albumRepository;
-	protected ConfigRepository configRepository;
-	protected ItemTagRepository itemTagRepository;
+	@Autowired protected ItemRepository itemRepository;
+	@Autowired protected AlbumRepository albumRepository;
+	@Autowired protected ConfigRepository configRepository;
+	@Autowired protected ItemTagRepository itemTagRepository;
 	
 	@Override
 	public abstract void onCreation();

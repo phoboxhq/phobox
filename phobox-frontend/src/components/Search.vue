@@ -32,7 +32,7 @@
 		</transition>
 
     <!-- Show a button to load more images -->
-    <div v-if="items.length > 0 && items.length === ((page-1)*pageSize)" class="moreImagesContainer">
+    <div v-if="items.length > 0 && items.length === pageSize" class="moreImagesContainer">
         <button type="button" class="btn btn-secondary moreImagesBtn"
             v-on:click="onSearch(false)">
             {{ $t('pictures.load_more') }}
@@ -91,10 +91,11 @@ export default {
       this.page = newSearch ? 1 : this.page;
 
       new ComService().search(this.search, this.page, this.pageSize, (data) => {
-        this.items = newSearch ? data : this.items.concat(data);
+        this.items = data;
         this.lastSearch = this.search;
         this.isLoading = false;
         this.page += 1;
+        window.scrollTo(0, 0);
       });
     },
 
