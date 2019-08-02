@@ -150,6 +150,8 @@ public class ExifContainer {
     }
 
     public static ExifContainer load(File file) throws ImageProcessingException, IOException {
+        if(file == null)
+            throw new IllegalArgumentException("The given file is null");
 
         ExifContainer container = new ExifContainer();
         Metadata metadata = ImageMetadataReader.readMetadata(file);

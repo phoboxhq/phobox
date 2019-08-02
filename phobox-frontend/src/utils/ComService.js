@@ -221,8 +221,13 @@ export default function () {
     });
   };
 
-  this.search = function (searchString, callback) {
-    return $.get(process.env.SERVER_PATH+"api/search/" + searchString).done(callback);
+  this.search = function (searchString, lastItemIndex, amountOfItems, callback) {
+
+    // "&sort=creation&creation.dir=asc")
+
+    return $.get(
+      process.env.SERVER_PATH+"api/search/" + searchString + 
+      "/?page=" + lastItemIndex+"&size="+amountOfItems).done(callback);
   };
 
   this.getCountedItemsByYear = function (year, callback) {

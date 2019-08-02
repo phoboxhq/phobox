@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import javax.persistence.OrderBy;
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -31,11 +32,11 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
 	@Query("SELECT i FROM Item i JOIN ItemTag t WHERE t.name = :tag ORDER BY creation ASC, file_name ASC")
 	List<Item> findByTag(@Param("tag") String tag);
 
-	@Query("SELECT i FROM Item i WHERE i.path LIKE CONCAT('%', :searchString, '%') OR i.fileName LIKE CONCAT('%', :searchString, '%') ORDER BY creation ASC, file_name ASC")
-	List<Item> findBySearchStringInNameAndPath(@Param("searchString") String searchString);
-
-	@Query("SELECT i FROM ItemTag t JOIN t.items i WHERE t.name LIKE CONCAT('%', :searchString, '%') ORDER BY creation ASC, file_name ASC" )
-	List<Item> findBySearchStringInTags(@Param("searchString") String searchString);
+	@Query("SELECT i FROM Item i LEFT JOIN i.tags t " +
+			"WHERE (t.name LIKE CONCAT('%', :searchString, '%') " +
+			"OR i.path LIKE CONCAT('%', :searchString, '%') " +
+			"OR i.fileName LIKE CONCAT('%', :searchString, '%'))")
+	Page<Item> findBySearchString(@Param("searchString") String searchString, Pageable pageable);
 
 	@Transactional
 	@Modifying

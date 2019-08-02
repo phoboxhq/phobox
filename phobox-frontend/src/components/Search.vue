@@ -1,22 +1,17 @@
 <template>
 	<div class="search_panel">
 
-		<!-- Loading image -->
-		<transition name="fade">
-				<img src="img/loading.gif" v-if="isLoading" class="loading" />
-		</transition>
-
 		<!-- Search area -->
 		<div class="input-group">
 			<input id="searchinput"
 					type="text" class="form-control"
 					v-model="search"
-					v-on:keyup.enter="onSearch()"
+					v-on:keyup.enter="onSearch(true)"
 					:placeholder="$t('search.searchbar')">
 
 			<span class="input-group-btn">
 				<button class="btn btn-secondary" type="button"
-					v-on:click="onSearch()">{{ $t('search.search_button') }}</button>
+					v-on:click="onSearch(true)">{{ $t('search.search_button') }}</button>
 			</span>
 		</div>
 
@@ -28,6 +23,21 @@
                 :key="item.path"
                 :selectedItem="selectedItem"></file-item>
 		</div>
+    
+		<!-- Loading image -->
+		<transition name="fade">
+      <div class="moreImagesContainer">
+				<img src="@/assets/loading.gif" v-if="isLoading" class="loading" />
+      </div>
+		</transition>
+
+    <!-- Show a button to load more images -->
+    <div v-if="items.length > 0 && items.length === ((page-1)*pageSize)" class="moreImagesContainer">
+        <button type="button" class="btn btn-secondary moreImagesBtn"
+            v-on:click="onSearch(false)">
+            {{ $t('pictures.load_more') }}
+        </button>
+    </div>
 
 		<!-- Include the lightbox -->
 		<lightbox v-if="items"
@@ -55,7 +65,8 @@ export default {
       items: [],
       lastSearch: null,
       isLoading: false,
-      SERVER_PATH: process.env.SERVER_PATH
+      page: 1,
+      pageSize: 100,
     };
   },
 
@@ -70,14 +81,28 @@ export default {
     }
   },
 
+  created() {
+      this.focusInput('searchinput');
+  },
+
   methods: {
-    onSearch: function() {
+    onSearch(newSearch) {
       this.isLoading = true;
-      new ComService().search(this.search, (data) => {
-        this.items = data;
+      this.page = newSearch ? 1 : this.page;
+
+      new ComService().search(this.search, this.page, this.pageSize, (data) => {
+        this.items = newSearch ? data : this.items.concat(data);
         this.lastSearch = this.search;
         this.isLoading = false;
+        this.page += 1;
       });
+    },
+
+    focusInput(inputRefId) {
+      setTimeout(() =>{
+        if(this.$refs[inputRefId])
+          this.$nextTick(() => this.$refs[inputRefId].focus());
+      }, 100);
     }
   }
 };
@@ -98,11 +123,15 @@ export default {
 img.loading {
   background-color: #ffffff;
   padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border-radius: 3px;
-  z-index: 100;
-  position: fixed;
-  top: 10px;
-  right: 10px;
   transition: all 0.3s;
+  text-align: center;
+}
+
+.moreImagesContainer {
+  clear: both;
+  text-align: center;
 }
 </style>
