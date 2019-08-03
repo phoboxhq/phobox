@@ -44,11 +44,11 @@
 
           <div>
             <!-- Dimension -->
-            <span v-show="selectedItem.exif.items['0xa002'] && selectedItem.exif.items['0xa003']">
+            <span v-if="selectedItem.exif.items['0xa002'] && selectedItem.exif.items['0xa003']">
               <i class="material-icons md-14">photo_size_select_large</i>{{ getDimensionReadable(selectedItem) }}
             </span>
             <!-- Creation -->
-            <span v-show="selectedItem.exif.items['0x0132']">
+            <span v-if="selectedItem.exif.items['0x0132']">
               <i class="material-icons md-14">schedule</i>{{ selectedItem.exif.items['0x0132'].value }}
             </span>
           </div>
@@ -234,9 +234,11 @@ export default {
     },
 
     getDimensionReadable(selectedItem) {
-      const width = selectedItem.exif.items['0xa002'].value.replace(" pixels", "");
-      const height = selectedItem.exif.items['0xa003'].value.replace(" pixels", "");
-      return `${width} x ${height}`;
+      if(selectedItem.exif.items['0xa002'] && selectedItem.exif.items['0xa003']) {
+        const width = selectedItem.exif.items['0xa002'].value.replace(" pixels", "");
+        const height = selectedItem.exif.items['0xa003'].value.replace(" pixels", "");
+        return `${width} x ${height}`;
+      }
     }
   },
 

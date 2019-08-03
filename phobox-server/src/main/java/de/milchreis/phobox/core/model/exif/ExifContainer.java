@@ -27,19 +27,19 @@ public class ExifContainer {
     private Map<String, ExifItem> items = new TreeMap<>();
 
     public String getFNumber() {
-        return getByTagId(ExifSubIFDDirectory.TAG_FNUMBER).getValue();
+        return getValueByTagId(ExifSubIFDDirectory.TAG_FNUMBER);
     }
 
     public String getExposureTime() {
-        return getByTagId(ExifSubIFDDirectory.TAG_EXPOSURE_TIME).getValue();
+        return getValueByTagId(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);
     }
 
     public String getISO() {
-        return getByTagId(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT).getValue();
+        return getValueByTagId(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
     }
 
     public String getFocalLength() {
-        String value = getByTagId(ExifSubIFDDirectory.TAG_FOCAL_LENGTH).getValue();
+        String value = getValueByTagId(ExifSubIFDDirectory.TAG_FOCAL_LENGTH);
 
         if ("0 mm".equals(value))
             return null;
@@ -145,13 +145,12 @@ public class ExifContainer {
     }
 
     public ExifItem getByTagId(int tagId) {
-        String hex = "0x" + Integer.toHexString(tagId);
+        String hex = "0x" + StringUtils.leftPad(Integer.toHexString(tagId), 4, '0');
         return items.get(hex);
     }
 
     public String getValueByTagId(int tagId) {
-        String hex = "0x" + StringUtils.leftPad(Integer.toHexString(tagId), 4, '0');
-        ExifItem item = items.get(hex);
+        ExifItem item = getByTagId(tagId);
         return item == null ? null : item.getValue();
     }
 
