@@ -140,6 +140,7 @@ public class PhoboxOperations {
 			path = path.replace(model.getStoragePath(), "");
 
 		path = path.replace(File.separatorChar, '/');
+		path = path.isEmpty() ? "/" : path;
 		return path;
 	}
 
