@@ -2,8 +2,8 @@ package de.milchreis.phobox;
 
 import de.milchreis.phobox.core.Phobox;
 import de.milchreis.phobox.core.config.StorageConfiguration;
+import de.milchreis.phobox.core.events.*;
 import de.milchreis.phobox.core.events.model.BasicEvent;
-import de.milchreis.phobox.core.events.InitializeEvent;
 import de.milchreis.phobox.core.model.PhoboxModel;
 import de.milchreis.phobox.gui.PhoboxServerGuiApplication;
 import de.milchreis.phobox.gui.StorageAsk;
@@ -24,7 +24,10 @@ import java.util.List;
 public class PhoboxServerApplication implements CommandLineRunner {
 	
 	@Autowired private InitializeEvent initializeEvent;
-	@Autowired private List<BasicEvent> events;
+	@Autowired private HashEvent hashEvent;
+	@Autowired private CheckDuplicateEvent checkDuplicateEvent;
+	@Autowired private MetaExtractEvent metaExtractEvent;
+	@Autowired private ThumbnailEvent thumbnailEvent;
 
 	private static PhoboxServerGuiApplication gui;
 
@@ -90,7 +93,11 @@ public class PhoboxServerApplication implements CommandLineRunner {
 		
 		// Set up the EventRegistry
 		Phobox.getEventRegistry().addEvent(initializeEvent);
-		events.forEach(Phobox.getEventRegistry()::addEvent);
+		Phobox.getEventRegistry().addEvent(hashEvent);
+		Phobox.getEventRegistry().addEvent(checkDuplicateEvent);
+		Phobox.getEventRegistry().addEvent(metaExtractEvent);
+		Phobox.getEventRegistry().addEvent(thumbnailEvent);
+
 
 		Phobox.getEventRegistry().onCreation();
 
