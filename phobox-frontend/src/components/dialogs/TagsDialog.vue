@@ -26,8 +26,13 @@
 				</div>
 			
 				<div class="footer">
-					<button type="button" class="btn btn-default" v-on:click="save()">{{ $t('pictures.rename_dialog_save') }}</button>
-					<button type="button" class="btn btn-default" v-on:click="close()">{{ $t('pictures.rename_dialog_cancel') }}</button>
+          <!-- Loading image -->
+          <transition name="fade">
+              <img src="@/assets/loading.gif" v-if="isLoading" class="loading" />
+          </transition>
+
+					<button type="button" class="btn btn-default" :disabled="isLoading" v-on:click="save()">{{ $t('pictures.rename_dialog_save') }}</button>
+					<button type="button" class="btn btn-default" :disabled="isLoading" v-on:click="close()">{{ $t('pictures.rename_dialog_cancel') }}</button>
 				</div>
 			</div>
 		</div>
@@ -47,6 +52,7 @@ export default {
     return {
       name: this.item !== null ? this.item.name : null,
       status: null,
+      isLoading: false,
       tags: [],
     };
   },
@@ -60,12 +66,15 @@ export default {
 
     save() {
       this.tags = $("#tagsInput").tagsinput("items");
+      this.isLoading = true;
 
       new ComService().setTags(this.item.path, this.tags, (data) => {
+        this.isLoading = false;
         this.status = data.status;
         if (this.status === "OK") {
           this.close();
         }
+
       });
     },
 
@@ -126,6 +135,12 @@ export default {
 .dialog .footer {
   padding: 10px;
   text-align: right;
+}
+
+.dialog .footer .loading {
+  position: initial;
+  padding: 2px;
+  background-color: white;
 }
 
 .tag {
