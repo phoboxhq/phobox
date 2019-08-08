@@ -88,7 +88,7 @@ export default {
   methods: {
     onSearch(newSearch) {
       this.isLoading = true;
-      this.page = newSearch ? 1 : this.page;
+      this.page = newSearch ? 0 : this.page;
 
       new ComService().search(this.search, this.page, this.pageSize, (data) => {
         this.items = data;
