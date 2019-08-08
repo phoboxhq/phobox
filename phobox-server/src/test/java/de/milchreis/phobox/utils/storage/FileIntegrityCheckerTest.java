@@ -19,7 +19,7 @@ public class FileIntegrityCheckerTest {
         doItEvery(TimeUnit.MILLISECONDS, 100,  4, () -> file.setLastModified(System.currentTimeMillis()));
 
         // Act
-        FileIntegrityChecker.checkFile(file, 150);
+        FileIntegrityChecker.waitUntilIsComplete(file, 150);
 
         // Assert
         long end = System.currentTimeMillis();

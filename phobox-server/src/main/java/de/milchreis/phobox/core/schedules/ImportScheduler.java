@@ -1,6 +1,7 @@
 package de.milchreis.phobox.core.schedules;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,7 +40,7 @@ public class ImportScheduler extends TimerTask implements Schedulable {
 			importProcessor.foreachFile(
 					incoming, 
 					PhoboxDefinitions.SUPPORTED_IMPORT_FORMATS, 
-					new FileMoveAction());
+					Arrays.asList(new FileMoveAction()), false, 1500);
 			
 			// TODO: Here remove empty directories
 		}

@@ -72,7 +72,7 @@ public class FileProcessor {
 							currentfile = f.getAbsolutePath();
 
 							if(waiting > 0) {
-								FileIntegrityChecker.checkFile(f, waiting);
+								FileIntegrityChecker.waitUntilIsComplete(f, waiting);
 							}
 
 							actions.stream().forEach(action -> {
