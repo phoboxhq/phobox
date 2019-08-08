@@ -65,7 +65,7 @@ export default {
       items: [],
       lastSearch: null,
       isLoading: false,
-      page: 1,
+      page: 0,
       pageSize: 100,
     };
   },
