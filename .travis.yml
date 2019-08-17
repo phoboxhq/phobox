@@ -3,14 +3,7 @@ jdk: openjdk11
 install: true
 script:
   - mvn clean package -DskipTests=true
-  - cd phobox-server/ && mvn clean package -DskipTests=true project-info-reports:dependencies dependency-check:check versions:display-dependency-updates
-  - bash <(curl -s https://codecov.io/bash)
 cache:
   directories:
   - $HOME/.m2
   - node_modules
-after_success:
-  - cat target/site/dependencies.html
-  - cat target/dependenciey-check-report.html
-after_failure:
-  - cat target/surefire-reports/*.txt
