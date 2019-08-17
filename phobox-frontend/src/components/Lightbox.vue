@@ -157,6 +157,8 @@ export default {
     close() {
       this.$parent.selectedItem = null;
       this.swipe = null;
+      window.onbeforeunload = null;
+
     },
 
     next() {
@@ -249,6 +251,9 @@ export default {
   },
 
   created() {
+
+    window.onhashchange = this.close;
+
     // Add cursor key listeners for navigation
     document.onkeydown = (e) => {
       e = e || window.event;
