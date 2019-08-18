@@ -4,7 +4,7 @@
       <div class="bc_content openDirectories" v-on:click="toggleDirectryList(e.path, $event)">
         <i class="material-icons">expand_more</i>
       </div>
-      <div class="bc_content directoryName" v-on:click="open(e.path)">{{ e.name }}</div>
+      <div class="bc_content directoryName" v-on:click="open(e.path, true)">{{ e.name }}</div>
     </div>
 
     <div>
@@ -13,7 +13,7 @@
           v-for="dir in directories"
           :key="dir.path"
           class="directoryListElement"
-          v-on:click="open(dir.path)"
+          v-on:click="open(dir.path, false)"
         >
           <i class="material-icons">folder</i>
           {{ dir.name }}
@@ -36,7 +36,10 @@ export default {
     };
   },
   methods: {
-    open(path) {
+    open(path, closeDirectoryList) {
+      if(closeDirectoryList)
+        this.closeDirectoryList();
+
       let com = new ComService();
       let encodedUrl = com.encodePath(this.$route.params.path);
       let encodedPath = com.encodePath(path);
@@ -51,8 +54,7 @@ export default {
     },
 
     toggleDirectryList(path, event) {
-      let list = document.getElementById("directoryList");
-      list.style.opacity = "0";
+      this.closeDirectoryList();
 
       if (path === this.lastPath) {
         this.lastPath = null;
@@ -66,11 +68,18 @@ export default {
         let sourceElement = event.srcElement;
         if (sourceElement.className !== "openDirectories")
           sourceElement = sourceElement.parentElement;
-
+        
+        let list = document.getElementById("directoryList");
         list.style.left = sourceElement.getBoundingClientRect().left + "px";
         list.style.opacity = "1";
       });
+    },
+
+    closeDirectoryList() {
+      let list = document.getElementById("directoryList");
+      list.style.opacity = "0";
     }
+
   },
   computed: {
     generateElements() {
@@ -154,7 +163,7 @@ export default {
 
 #directoryList {
   position: absolute;
-  background-color: #292929;
+  background-color: #292929e0;
   top: 44px;
   list-style: none;
   padding-left: 0px;
