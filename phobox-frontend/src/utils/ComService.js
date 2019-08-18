@@ -26,6 +26,13 @@ export default function () {
       .done(callback);
   };
 
+  /** Requests the backend for a given directory */
+  this.getDirectories = function (path, callback) {
+    var p = this.encodePath(path);
+    return $.get(process.env.SERVER_PATH+"api/photos/directories/" + p)
+      .done(callback);
+  };
+
   /** Requests the backend for a given directory with last item as marker for pagination */
   this.loadMore = function (path, lastItemIndex, amountOfItems, callback) {
     var p = this.encodePath(path);

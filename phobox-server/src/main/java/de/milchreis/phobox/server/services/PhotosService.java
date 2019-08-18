@@ -86,7 +86,8 @@ public class PhotosService implements IPhotosService {
         return response;
     }
 
-    private List<StorageItem> getDirectories(File dir, boolean isRoot) {
+    @Override
+    public List<StorageItem> getDirectories(File dir, boolean isRoot) {
         List<StorageItem> items = new ArrayList<>();
 
         try {
@@ -131,4 +132,5 @@ public class PhotosService implements IPhotosService {
         ZipStreamHelper zip = new ZipStreamHelper();
         zip.compressToStream(directory, response.getOutputStream());
     }
+
 }

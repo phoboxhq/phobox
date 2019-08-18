@@ -168,39 +168,6 @@ export default {
 </script>
 
 <style>
-.pbreadcrumb {
-  position: fixed;
-  z-index: 80;
-  top: 46px;
-  background-color: #1b1b1b;
-  width: 100%;
-  height: 45px;
-  padding: 5px;
-  padding-left: 10px;
-  box-shadow: 0 0 8px 6px #151515c7;
-}
-
-.pbreadcrumb .bc_element {
-  float: left;
-  background-color: rgba(66, 66, 66, 0.35);
-  padding: 6px;
-  margin-right: 3px;
-  border-radius: 2px;
-  color: #b5b5b5;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.68, 0.97);
-  cursor: pointer;
-}
-
-.pbreadcrumb .bc_element:first-child {
-  width: 50px;
-  text-align: center;
-}
-
-.pbreadcrumb .bc_element:hover {
-  background-color: rgba(82, 82, 82, 0.35);
-  box-shadow: 0px 0px 0px 4px rgba(41, 41, 41, 0.25);
-}
-
 .items {
   padding: 7px;
 }

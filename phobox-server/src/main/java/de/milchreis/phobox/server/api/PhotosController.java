@@ -1,5 +1,6 @@
 package de.milchreis.phobox.server.api;
 
+import de.milchreis.phobox.core.model.StorageItem;
 import de.milchreis.phobox.core.model.StorageStatus;
 import de.milchreis.phobox.server.services.IPhotosService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -31,7 +33,12 @@ public class PhotosController {
 	public StorageStatus scanDirectory(@PathVariable("dir") String directory, Pageable pageable) {
 		return photosService.getStorageItemsByDirectory(photosService.convertItemPathToFileObject(directory), pageable);
 	}
-	
+
+	@RequestMapping(value = "directories/{dir}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public List<StorageItem> getDirectories(@PathVariable("dir") String directory) {
+		return photosService.getDirectories(photosService.convertItemPathToFileObject(directory), directory.equals("/"));
+	}
+
 	@RequestMapping(value = "download/{path}", method = RequestMethod.GET)
 	public void downloadDirectory(@PathVariable("path") String imagepath, HttpServletResponse response) throws IOException {
 		File directory = photosService.convertItemPathToFileObject(imagepath);
