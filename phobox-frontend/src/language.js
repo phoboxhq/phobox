@@ -13,6 +13,8 @@ export default {
 				upload: 'Upload',
 				settings: 'Settings',
 				about: 'About',
+
+				not_subdirectories: 'not subdirectories',
 			},
 
 			approval: {
@@ -193,6 +195,8 @@ export default {
 				upload: 'Upload',
 				settings: 'Einstellungen',
 				about: 'Über Phobox',
+
+				not_subdirectories: 'Keine Unterordner',
 			},
 
 			approval: {

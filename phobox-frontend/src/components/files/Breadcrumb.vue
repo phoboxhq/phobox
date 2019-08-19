@@ -7,8 +7,8 @@
       <div class="bc_content directoryName" v-on:click="open(e.path, true)">{{ e.name }}</div>
     </div>
 
-    <div>
-      <ul id="directoryList" v-if="directories">
+    <transition name="fade">
+      <ul id="directoryList" v-show="directories" v-click-outside="onClickOutside">
         <li
           v-for="dir in directories"
           :key="dir.path"
@@ -18,8 +18,12 @@
           <i class="material-icons">folder</i>
           {{ dir.name }}
         </li>
+        <li v-show="directories && directories.length === 0" class="directoryListElement">
+          <i class="material-icons">error_outline</i>
+         {{ $t('menu.not_subdirectories') }}
+        </li>
       </ul>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -32,7 +36,7 @@ export default {
   data: function() {
     return {
       lastPath: null,
-      directories: []
+      directories: null
     };
   },
   methods: {
@@ -71,14 +75,18 @@ export default {
         
         let list = document.getElementById("directoryList");
         list.style.left = sourceElement.getBoundingClientRect().left + "px";
-        list.style.opacity = "1";
+        // list.style.opacity = "1";
       });
     },
 
     closeDirectoryList() {
-      let list = document.getElementById("directoryList");
-      list.style.opacity = "0";
-    }
+      this.directories = null
+    },
+
+    onClickOutside() {
+      this.closeDirectoryList();
+      this.lastPath = null;
+    },
 
   },
   computed: {
@@ -167,8 +175,6 @@ export default {
   top: 44px;
   list-style: none;
   padding-left: 0px;
-  opacity: 0;
-  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.68, 0.97);
   box-shadow: 0px 0px 0px 4px rgba(41, 41, 41, 0.25);
   min-width: 110px;
 }

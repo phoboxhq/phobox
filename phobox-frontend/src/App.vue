@@ -41,6 +41,12 @@ body {
   margin-top: 95px;
   font-family: 'Lato', Arial, Helvetica, sans-serif !important;
   height: unset !important;
+
+  /* Prevent text selection */
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  -ms-user-select: none; /* IE10+ */
 }
 
 h1, h2, h3, h4, h5 {
