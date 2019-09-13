@@ -37,9 +37,14 @@ export default {
 				reload: 'Currently the directory will be processed. Please reload',
 
 				rename_dialog_head: 'Rename element',
+				rename_dialog_new_name: 'New name',
 				rename_dialog_save: 'Save',
 				rename_dialog_cancel: 'Cancel',
 				rename_dialog_failed: 'File could not be renamed. Maybe the file already exists.',
+
+				tags_dialog_tags: 'TAGS',
+				tags_dialog_hint: 'Type your TAG as you want and press ENTER to convert the term to TAG.',
+				tags_dialog_failed: 'Could not save TAGS.',
 
 				delete_dialog_head: 'Delete element',
 				delete_dialog_content: 'Do you want to delete the following element?',
@@ -173,7 +178,7 @@ export default {
 				background_text: 
 					`<p>I built phobox to solve a problem which I had with all existing tools. I want to keep my photos on my network storage to access them in my local wifi with my tablet in the couch. Moreover it should be possible to browse the files on computer in the file explorer.</p>
 					<p>All existing solutions didn’t fit my requirements or been expensive. So I begun to build a solution to myself and phobox was born. After a couple of years of development and personal usage I decided to make this project public. Phobox solves the origin problems in my daily photo workflow. I think out there are persons with the same problems, too. </p>
-					<p>Phobox is a very special project for me and I will never want to do without it again. But currently the development is completely in my spare time. If you like phobox and you want to support me, please <a href="https://phoboxhq.github.io/">look here.</a></p>
+					<p>Phobox is a very special project for me and I will never want to do without it again. But currently the development is completely in my spare time. If you like phobox and you want to support me, please <a href="https://phoboxhq.github.io/support">look here.</a></p>
 					`,
 
 				author_and_contact_head: 'Author and Contact',
@@ -219,9 +224,14 @@ export default {
 				reload: 'Aktuell wird das Verzeichnis aufgebaut. Bitte neuladen',
 
 				rename_dialog_head: 'Umbenennen von',
+				rename_dialog_new_name: 'Neuer Name',
 				rename_dialog_save: 'Speichern',
 				rename_dialog_cancel: 'Abbrechen',
 				rename_dialog_failed: 'Datei konnte nicht umbenannt werden. Eventuell existiert die Datei bereits.',
+
+				tags_dialog_tags: 'Schlagworte',
+				tags_dialog_hint: 'Tippe ein Wort oder eine Wortgruppe ein und drücke anschließend ENTER um ein Schlagwort daraus zu machen.',
+				tags_dialog_failed: 'Die Schlagworte konnten nicht gespeichert werden.',
 
 				delete_dialog_head: 'Löschen von',
 				delete_dialog_content: 'Soll das folgende Element wirklich gelöscht werden?',
@@ -355,7 +365,7 @@ export default {
 				background_text: 
 					`<p>Ich habe Phobox gebaut, um ein Problem zu lösen, das ich mit allen vorhandenen Tools hatte. Ich möchte meine Fotos auf meinem Netzwerkspeicher aufbewahren, um auf sie in meinem lokalen WLAN mit meinem Tablett auf der Couch zuzugreifen. Außerdem sollte es möglich sein, die Dateien auf dem Computer im Datei-Explorer zu durchsuchen.</p>
 					<p>Alle vorhandenen Lösungen passten nicht zu meinen Anforderungen oder waren teuer. Also begann ich, eine Lösung für mich selbst zu entwickeln und phobox wurde geboren. Nach ein paar Jahren der Entwicklung und des persönlichen Gebrauchs entschied ich mich, dieses Projekt zu veröffentlichen. Phobox löst die Ursprungsprobleme in meinem täglichen Foto-Workflow. Ich denke, es gibt auch Menschen mit den gleichen Problemen.</p> 
-					<p>Phobox ist für mich ein ganz besonderes Projekt und ich will es nie wieder missen wollen. Aber derzeit ist die Entwicklung komplett in meiner Freizeit. Wenn dir die Phobox gefällt und du mich unterstützen willst, schau bitte <a href="https://phoboxhq.github.io/">hier nach.</a></p>
+					<p>Phobox ist für mich ein ganz besonderes Projekt und ich will es nie wieder missen wollen. Aber derzeit ist die Entwicklung komplett in meiner Freizeit. Wenn dir die Phobox gefällt und du mich unterstützen willst, schau bitte <a href="https://phoboxhq.github.io/support">hier nach.</a></p>
 					`,
 				author_and_contact_head: 'Autor und Kontakt',
 				author_and_contact_text: `<p>Autor: Nick 'Milchreis' Müller</p>

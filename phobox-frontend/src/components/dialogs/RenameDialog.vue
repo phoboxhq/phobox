@@ -14,7 +14,7 @@
 
 				<div class="content">
 					<div class="form-group">
-						<label for="newname">Name:</label>
+						<label for="newname">{{ $t('pictures.rename_dialog_new_name') }}:</label>
 						<input type="text" class="form-control" id="newname" v-model="name">
 					</div>
 

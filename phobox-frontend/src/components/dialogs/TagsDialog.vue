@@ -14,14 +14,17 @@
 
 				<div class="content">
 					<div class="form-group">
-						<label for="newname">Name:</label>
+            {{ $t('pictures.tags_dialog_hint') }}
+            <br />
+            <br />
+						<label for="newname">{{ $t('pictures.tags_dialog_tags') }}:</label>
 						<input id="tagsInput" type="text" data-role="tagsinput" />
 
 					</div>
 
 					<div class="alert alert-danger alert-dismissible" role="alert" v-show="status === 'ERROR'">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close" v-on:click="status = null"><span aria-hidden="true">&times;</span></button>
-						<strong>{{ $t('settings.failed') }}!</strong> {{ $t('pictures.rename_dialog_failed') }}
+						<strong>{{ $t('settings.failed') }}!</strong> {{ $t('pictures.tags_dialog_failed') }}
 					</div>
 				</div>
 			
