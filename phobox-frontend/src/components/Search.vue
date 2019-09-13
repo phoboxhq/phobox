@@ -40,6 +40,8 @@
     </div>
 
     <favoriteDialog :item="favoriteItem" />
+    <renameDialog :item="renameItem"></renameDialog>
+    <deleteConfirmDialog :item="deleteItem"></deleteConfirmDialog>
     <tagsDialog :item="tagsItem"></tagsDialog>
 
 		<!-- Include the lightbox -->
@@ -53,6 +55,8 @@
 <script>
 import Lightbox from '@/components/Lightbox';
 import ComService from '@/utils/ComService';
+import RenameDialog from '@/components/dialogs/RenameDialog';
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog';
 import FavoriteDialog from '@/components/dialogs/FavoriteDialog';
 import TagsDialog from '@/components/dialogs/TagsDialog';
 import FileItem from '@/components/files/FileItem';
@@ -63,6 +67,8 @@ export default {
     Lightbox,
     FavoriteDialog,
     TagsDialog,
+    RenameDialog,
+    DeleteConfirmDialog,
     FileItem
   },
   data() {
@@ -74,6 +80,8 @@ export default {
       isLoading: false,
       tagsItem: null,
       favoriteItem: null,
+      renameItem: null,
+      deleteItem: null,
       page: 0,
       pageSize: 100,
     };

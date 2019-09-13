@@ -56,6 +56,8 @@
         :selectedItem="selectedItem" />
 
     <favoriteDialog :item="favoriteItem" />
+    <renameDialog :item="renameItem"></renameDialog>
+    <deleteConfirmDialog :item="deleteItem"></deleteConfirmDialog>
     <tagsDialog :item="tagsItem"></tagsDialog>
 
     <confirm-dialog 
@@ -73,9 +75,11 @@
 <script>
 import Lightbox from '@/components/Lightbox';
 import FileItem from '@/components/files/FileItem';
+import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
+import RenameDialog from '@/components/dialogs/RenameDialog';
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog';
 import FavoriteDialog from '@/components/dialogs/FavoriteDialog';
 import TagsDialog from '@/components/dialogs/TagsDialog';
-import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import ComService from '@/utils/ComService';
 
 export default {
@@ -86,6 +90,8 @@ export default {
     FavoriteDialog,
     TagsDialog,
     ConfirmDialog,
+    RenameDialog,
+    DeleteConfirmDialog,
     FileItem
   },
   data() {
@@ -95,6 +101,8 @@ export default {
       albumname: null,
       selectedItem: null,
       tagsItem: null,
+      renameItem: null,
+      deleteItem: null,
       favoriteItem: null,
       showAlbumDeletion: false,
       showAlbumRename: false,
