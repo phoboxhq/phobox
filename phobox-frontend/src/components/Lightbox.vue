@@ -241,6 +241,11 @@ export default {
         const height = selectedItem.exif.items['0xa003'].value.replace(" pixels", "");
         return `${width} x ${height}`;
       }
+    },
+
+    hasNoDarkOverlay() {
+      let overlays = document.getElementsByClassName('menuoverlay');
+      return !overlays;
     }
   },
 
@@ -259,12 +264,12 @@ export default {
       e = e || window.event;
 
       // Right/Next
-      if (e.keyCode === 39 && this.hasNext) {
+      if (e.keyCode === 39 && this.hasNext && e.target.nodeName !== 'INPUT') {
         this.next();
       }
 
       // Left/Previous
-      if (e.keyCode === 37 && this.hasPrevious) {
+      if (e.keyCode === 37 && this.hasPrevious && e.target.nodeName !== 'INPUT') {
         this.previous();
       }
     };
