@@ -39,6 +39,9 @@
         </button>
     </div>
 
+    <favoriteDialog :item="favoriteItem" />
+    <tagsDialog :item="tagsItem"></tagsDialog>
+
 		<!-- Include the lightbox -->
 		<lightbox v-if="items"
 				:items="items"
@@ -50,12 +53,16 @@
 <script>
 import Lightbox from '@/components/Lightbox';
 import ComService from '@/utils/ComService';
+import FavoriteDialog from '@/components/dialogs/FavoriteDialog';
+import TagsDialog from '@/components/dialogs/TagsDialog';
 import FileItem from '@/components/files/FileItem';
 
 export default {
   name: "Search",
   components: {
     Lightbox,
+    FavoriteDialog,
+    TagsDialog,
     FileItem
   },
   data() {
@@ -65,6 +72,8 @@ export default {
       items: [],
       lastSearch: null,
       isLoading: false,
+      tagsItem: null,
+      favoriteItem: null,
       page: 0,
       pageSize: 100,
     };
