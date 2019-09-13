@@ -56,6 +56,7 @@
         :selectedItem="selectedItem" />
 
     <favoriteDialog :item="favoriteItem" />
+    <tagsDialog :item="tagsItem"></tagsDialog>
 
     <confirm-dialog 
       v-show="showAlbumDeletion"
@@ -73,6 +74,7 @@
 import Lightbox from '@/components/Lightbox';
 import FileItem from '@/components/files/FileItem';
 import FavoriteDialog from '@/components/dialogs/FavoriteDialog';
+import TagsDialog from '@/components/dialogs/TagsDialog';
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog';
 import ComService from '@/utils/ComService';
 
@@ -82,6 +84,7 @@ export default {
   components: {
     Lightbox,
     FavoriteDialog,
+    TagsDialog,
     ConfirmDialog,
     FileItem
   },
@@ -91,6 +94,7 @@ export default {
       album: {},
       albumname: null,
       selectedItem: null,
+      tagsItem: null,
       favoriteItem: null,
       showAlbumDeletion: false,
       showAlbumRename: false,
