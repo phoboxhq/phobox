@@ -19,6 +19,7 @@ or a REST-API. Moreover you can organize your files and create collections of th
 ## Features
  - Automatic picture organization in the file directory
  - Browse your pictures on different devices in the same wifi
+ - Prevents the import of duplicate images
  - Tagging your pictures
  - Searching for pictures by name or TAGs
  - Creating albums
