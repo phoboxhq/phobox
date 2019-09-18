@@ -1,6 +1,9 @@
 # Phobox
 [![Build Status](https://travis-ci.org/phoboxhq/phobox.svg?branch=master)](https://travis-ci.org/phoboxhq/phobox)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TXKR7ZHFQDNMA)
+
+If you like this project and you want to keep me awake 🤪
+
+<a href="https://www.buymeacoffee.com/milchreis" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ## What is phobox?
 Phobox is a small tool to extend your local picture storage with a bunch of connectivity features. 
@@ -69,7 +72,6 @@ The project can build with maven:
 ## Contribute
 Please try it out and leave issues if something goes wrong or you have a feature request. Pull requests are welcome, too 😊
 [Look here](https://phoboxhq.github.io/support/) for more support possibilities
-
 
 <p align="center">
  <br />
